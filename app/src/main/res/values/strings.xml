@@ -7,4 +7,5 @@
     <string name="password_hint">Password</string>
     <string name="button_login">Login</string>
     <string name="button_signup">Signup</string>
+    <string name="login_error">Please enter all fields before logging in.</string>
 </resources>
