@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Apartmates</string>
     <string name="action_settings">Settings</string>
+
+    <string name="login_activity">Log in with Venmo</string>
+    <string name="username_hint">Username</string>
+    <string name="password_hint">Password</string>
+    <string name="button_login">Login</string>
+    <string name="button_signup">Signup</string>
 </resources>
