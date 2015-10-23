@@ -8,7 +8,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:background="#c693cc">
+        android:background="#943ce6">
 
         <ImageView
             android:layout_width="fill_parent"
@@ -27,7 +27,8 @@
             android:id="@+id/textView"
             android:layout_weight="1"
             android:gravity="center"
-            android:textSize="33dp" />
+            android:textSize="33dp"
+            android:textColor="#ffffff" />
 
         <Button
             android:layout_width="fill_parent"
@@ -37,9 +38,9 @@
             android:id="@+id/textView2"
             android:layout_weight="2"
             android:gravity="center"
-            android:textColor="#831001"
+            android:textColor="#ffffff"
             android:textSize="50dp"
-            android:background="#c693cc" />
+            android:background="#943ce6" />
 
     </LinearLayout>
 
@@ -73,8 +74,8 @@
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:background="#fb7b7b"
-                    android:layout_weight=".04">
+                    android:background="#f54949"
+                    android:layout_weight=".02">
 
                     <TextView
                         android:layout_width="fill_parent"
@@ -127,8 +128,8 @@
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:background="#fff599"
-                    android:layout_weight=".04">
+                    android:background="#ebf9ff4e"
+                    android:layout_weight=".02">
 
                     <TextView
                         android:layout_width="fill_parent"
@@ -179,8 +180,8 @@
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:background="#92cf92"
-                    android:layout_weight=".04">
+                    android:background="#38c438"
+                    android:layout_weight=".02">
 
                     <TextView
                         android:layout_width="fill_parent"
@@ -231,8 +232,8 @@
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:background="#92cf92"
-                    android:layout_weight=".04">
+                    android:background="#38c438"
+                    android:layout_weight=".02">
 
                     <TextView
                         android:layout_width="fill_parent"
@@ -283,8 +284,8 @@
                     android:orientation="horizontal"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:background="#7fa4fb"
-                    android:layout_weight=".04">
+                    android:background="#245ee7"
+                    android:layout_weight=".02">
 
                     <TextView
                         android:layout_width="fill_parent"
@@ -336,7 +337,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:background="#e1e1e1"
-                    android:layout_weight=".04">
+                    android:layout_weight=".02">
 
                     <ImageView
                         android:layout_width="fill_parent"
@@ -387,7 +388,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:background="#e1e1e1"
-                    android:layout_weight=".04">
+                    android:layout_weight=".02">
 
                     <TextView
                         android:layout_width="fill_parent"
@@ -440,7 +441,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:background="#e1e1e1"
-                    android:layout_weight=".04">
+                    android:layout_weight=".02">
 
                     <ImageView
                         android:layout_width="fill_parent"
@@ -491,7 +492,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
                     android:background="#e1e1e1"
-                    android:layout_weight=".04">
+                    android:layout_weight=".02">
 
                     <ImageView
                         android:layout_width="fill_parent"
