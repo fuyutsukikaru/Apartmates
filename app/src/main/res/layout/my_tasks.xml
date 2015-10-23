@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:background="#c693cc">
+
+        <ImageView
+            android:layout_width="56dp"
+            android:layout_height="48dp"
+            android:id="@+id/imageView"
+            android:src="@drawable/top_hat"
+            android:layout_weight="1"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="My Tasks"
+            android:id="@+id/textView"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:textSize="30dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="108"
+            android:id="@+id/textView2"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:textColor="#831001" />
+
+    </LinearLayout>
+</LinearLayout>

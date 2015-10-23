@@ -21,6 +21,11 @@
         android:adjustViewBounds="true"
         android:src="@drawable/venmo"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="HELLO WORLD"/>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
