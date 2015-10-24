@@ -1,0 +1,33 @@
+
+List of stuff to do in apartmates.base
+
+- Task class
+  - still needs description field, get/set functions
+- Member class
+  - long id
+  - int points
+  - account info (don't worry too much about this for now)
+- Apartment class
+  - list of members
+  - contains a RotationTaskManager
+  - points system resolution
+    - a function that decides who owes how much to whom
+    - low priority for now, as it's something we probably don't need to demo this coming week
+- rotate function
+  - when called, simply have the next person in the assignee list be assigned to task
+    - look for current assignee in list and assign next one
+- penalty actions
+  - have a function that checks all tasks for penalty
+    - if in active state but duration exceeds time limit, set to penalty
+    - probably want to use Timer or something to regularly deduct points as long as in penalty state
+  - have a function that is called when someone completes penalty task
+    - if original assignee, do nothing more
+    - if someone else, award that person points
+    - reset state to pending with new assignee
+
+
+Other things to brainstorm / think about
+- there's some duplicate code among different kinds of TaskStates and the interface seems kind of small
+  - is there a cleaner way to do it?
+  - same question with Tasks
+
