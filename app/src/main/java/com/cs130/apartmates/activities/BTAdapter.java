@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cs130.apartmates.R;
@@ -25,6 +26,18 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
     @Override
     public TaskViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.a_bountycard_layout, viewGroup, false);
+        CardView cv = (CardView) v.findViewById(R.id.cv);
+        final LinearLayout details = (LinearLayout) v.findViewById(R.id.details);
+        cv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (details.getVisibility() == View.GONE) {
+                    details.setVisibility(View.VISIBLE);
+                } else {
+                    details.setVisibility(View.GONE);
+                }
+            }
+        });
         return new TaskViewHolder(v);
     }
 

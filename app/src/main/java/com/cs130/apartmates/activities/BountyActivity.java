@@ -39,6 +39,24 @@ public class BountyActivity extends AppCompatActivity {
         List<BountyTask> list = new Vector<BountyTask>();
         list.add(new BountyTask("Vacuum", 10));
         list.add(new BountyTask("Clean the Bathroom", 15));
+        list.add(new BountyTask("Vacuum", 10));
+        list.add(new BountyTask("Clean the Bathroom", 15));
+        list.add(new BountyTask("Vacuum", 10));
+        list.add(new BountyTask("Clean the Bathroom", 15));
+        list.add(new BountyTask("Vacuum", 10));
+        list.add(new BountyTask("Clean the Bathroom", 15));
+        list.add(new BountyTask("Vacuum", 10));
+        list.add(new BountyTask("Clean the Bathroom", 15));
+        list.add(new BountyTask("Vacuum", 10));
+        list.add(new BountyTask("Clean the Bathroom", 15));
+        list.add(new BountyTask("Vacuum", 10));
+        list.add(new BountyTask("Clean the Bathroom", 15));
+        list.add(new BountyTask("Vacuum", 10));
+        list.add(new BountyTask("Clean the Bathroom", 15));
+        list.add(new BountyTask("Vacuum", 10));
+        list.add(new BountyTask("Clean the Bathroom", 15));
+        list.add(new BountyTask("Vacuum", 10));
+        list.add(new BountyTask("Clean the Bathroom", 15));
 
         mAdapter = new BTAdapter(list);
         mRecyclerView.setAdapter(mAdapter);
