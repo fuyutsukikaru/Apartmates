@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="#c693cc">
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/imageView"
+            android:src="@drawable/top_hat"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:padding="12dp" />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Bounty Tasks"
+            android:id="@+id/textView"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="33dp" />
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="+"
+            android:id="@+id/textView2"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:textColor="#831001"
+            android:textSize="50dp"
+            android:background="#c693cc" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="6dp"
+        android:background="#3b3b3b"/>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="800dp"
+        android:id="@+id/scrollView" >
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp">
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="#3b3b3b"
+                    android:layout_weight="1" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="#fb7b7b"
+                    android:layout_weight=".04">
+
+                    <ImageView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:id="@+id/imageView2"
+                        android:src="@drawable/top_hat"
+                        android:padding="12dp"
+                        android:layout_weight="2" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Buy Paper Towels"
+                        android:id="@+id/textView3"
+                        android:layout_weight="1"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:id="@+id/textView4"
+                        android:layout_weight="2" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="#3b3b3b"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp">
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="#3b3b3b"
+                    android:layout_weight="1" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="#e1e1e1"
+                    android:layout_weight=".04">
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:id="@+id/textView4"
+                        android:layout_weight="2" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Buy Bananas"
+                        android:id="@+id/textView3"
+                        android:layout_weight="1"
+                        android:gravity="center" />
+
+                    <ImageView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:id="@+id/imageView2"
+                        android:src="@drawable/green_check"
+                        android:padding="12dp"
+                        android:layout_weight="2" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="#3b3b3b"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp">
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="#3b3b3b"
+                    android:layout_weight="1" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="#e1e1e1"
+                    android:layout_weight=".04">
+
+                    <ImageView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:id="@+id/imageView2"
+                        android:src="@drawable/ghost"
+                        android:padding="12dp"
+                        android:layout_weight="2" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Move Car"
+                        android:id="@+id/textView3"
+                        android:layout_weight="1"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:id="@+id/textView4"
+                        android:layout_weight="2" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="#3b3b3b"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp">
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="#3b3b3b"
+                    android:layout_weight="1" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="#e1e1e1"
+                    android:layout_weight=".04">
+
+                    <ImageView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:id="@+id/imageView2"
+                        android:src="@drawable/red_x"
+                        android:padding="10dp"
+                        android:layout_weight="2" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Wash Shirts"
+                        android:id="@+id/textView3"
+                        android:layout_weight="1"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:id="@+id/textView4"
+                        android:layout_weight="2" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="#3b3b3b"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="fill_parent"
+                android:layout_height="60dp">
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="#3b3b3b"
+                    android:layout_weight="1" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="#e1e1e1"
+                    android:layout_weight=".04">
+
+                    <ImageView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:id="@+id/imageView2"
+                        android:src="@drawable/bomb"
+                        android:padding="12dp"
+                        android:layout_weight="2" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="Pick Up Dry Cleaning"
+                        android:id="@+id/textView3"
+                        android:layout_weight="1"
+                        android:gravity="center" />
+
+                    <TextView
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:id="@+id/textView4"
+                        android:layout_weight="2" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="#3b3b3b"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
