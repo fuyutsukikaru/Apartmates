@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -47,6 +48,7 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
         Integer val = new Integer(bountyTaskList.get(position).taskValue);
         taskViewHolder.taskValue.setText(val.toString());
         taskViewHolder.taskDescription.setText(bountyTaskList.get(position).description);
+        taskViewHolder.action.setText(bountyTaskList.get(position).action);
     }
 
     @Override
@@ -65,6 +67,7 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
         TextView taskName;
         TextView taskValue;
         TextView taskDescription;
+        Button action;
 
 
         TaskViewHolder(View itemView) {
@@ -73,6 +76,7 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
             taskName = (TextView) itemView.findViewById(R.id.task_name);
             taskValue = (TextView) itemView.findViewById(R.id.task_value);
             taskDescription = (TextView) itemView.findViewById(R.id.task_description);
+            action = (Button) itemView.findViewById(R.id.button);
         }
     }
 }

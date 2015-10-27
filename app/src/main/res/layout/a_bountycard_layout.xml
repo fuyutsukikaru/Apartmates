@@ -23,8 +23,8 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="16dp"
-                android:paddingBottom="16dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
                 android:elevation="5dp">
 
                 <LinearLayout
@@ -37,7 +37,6 @@
                     <Button
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="claim"
                         android:id="@+id/button"
                         android:background="#da60e3b0" />
                 </LinearLayout>
@@ -93,6 +92,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/task_description"
                     android:textSize="15sp"
+                    android:padding="3dp"
                     android:layout_weight="1" />
 
             </LinearLayout>
