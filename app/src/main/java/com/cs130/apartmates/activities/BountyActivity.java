@@ -37,7 +37,7 @@ public class BountyActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         List<BountyTask> list = new Vector<BountyTask>();
-        list.add(new BountyTask("Vacuum", 10, "Vacuum the living room carpet and empty the filter",Boolean.TRUE));
+        list.add(new BountyTask("Vacuum upstairs and downstairs and all aroundstairs", 10, "Vacuum the living room carpet and empty the filter",Boolean.TRUE));
         list.add(new BountyTask("Clean the Bathroom", 15, "Scrub the shower, clean out hairs from drain, wipe down sink, scrub bathtub.  We will know if you didn't do a thurough job so don't mess it up you bum.", Boolean.FALSE));
         list.add(new BountyTask("Vacuum", 10, "Vacuum the living room carpet and empty the filter",Boolean.TRUE));
         list.add(new BountyTask("Clean the Bathroom", 15, "Scrub the shower, clean out hairs from drain, wipe down sink, scrub bathtub.  We will know if you didn't do a thurough job so don't mess it up you bum.",Boolean.FALSE));

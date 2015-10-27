@@ -7,4 +7,5 @@
     <string name="login_error">Something went wrong! Please try again later.</string>
 
     <string name="bounty_activity">Bounty Tasks</string>
+    <string name="add_bounty_activity">Add Bounty Task</string>
 </resources>
