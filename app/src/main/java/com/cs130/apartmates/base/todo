@@ -2,14 +2,14 @@
 List of stuff to do in apartmates.base
 
 - Task class
-  - still needs description field, get/set functions
+  ~~- still needs description field, get/set functions~~
 - Member class
-  - long id
-  - int points
+  ~~- long id~~
+  ~~- int points~~
   - account info (don't worry too much about this for now)
 - Apartment class
-  - list of members
-  - contains a RotationTaskManager
+  ~~- list of members~~
+  ~~- contains a RotationTaskManager~~
   - points system resolution
     - a function that decides who owes how much to whom
     - low priority for now, as it's something we probably don't need to demo this coming week

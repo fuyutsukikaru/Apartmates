@@ -15,7 +15,11 @@ public class BountyTask implements Task {
     private ActiveTaskState m_active_state;
     private PenaltyTaskState m_penalty_state;
 
-    public BountyTask(long id, int points, long time_limit, int assignee) {
+    private String m_title;
+    private String m_description;
+
+    public BountyTask(long id, int points, long time_limit, int assignee,
+                      String title, String description) {
         m_id = id;
         m_points = points;
         m_time_limit = time_limit;
@@ -25,6 +29,9 @@ public class BountyTask implements Task {
         m_active_state = new ActiveTaskState();
         m_penalty_state = new PenaltyTaskState();
         m_state = m_pending_state;
+
+        m_title = title;
+        m_description = description;
     }
 
     public long getId() {
@@ -46,6 +53,10 @@ public class BountyTask implements Task {
     public void setAssignee(long assignee) {
         m_assignee = assignee;
     }
+
+    public String getTitle() {return m_title;}
+
+    public String getDescription() {return m_description;}
 
     public TaskState getState() {
         return m_state;

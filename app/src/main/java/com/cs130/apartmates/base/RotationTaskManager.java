@@ -17,13 +17,13 @@ public class RotationTaskManager {
     private long m_id_counter; //contains the next task id to be given, increment each time
 
     public RotationTaskManager() {
-        m_task_list = new ArrayList<>();
-        m_member_list = new ArrayList<>();
+        m_task_list = new ArrayList<RotationTask>();
+        m_member_list = new ArrayList<Long>();
         m_id_counter = 1;
     }
 
-    public void addTask(int points, long time_limit) {
-        m_task_list.add(new RotationTask(m_id_counter, points, time_limit, -1));
+    public void addTask(int points, long time_limit, String title, String description) {
+        m_task_list.add(new RotationTask(m_id_counter, points, time_limit, -1, title, description));
         m_id_counter++;
     }
 
@@ -41,6 +41,26 @@ public class RotationTaskManager {
      */
     public void addMember(long id) {
         m_member_list.add(new Random().nextInt(m_member_list.size() + 1), id);
+    }
+
+    /* Remove a member and unassign all tasks associated with that member
+     *
+     */
+    public void removeMember(long id) {
+        Iterator<Long> iterator =  m_member_list.iterator();
+        while(iterator.hasNext()) {
+            Long user_id = iterator.next();
+            if(user_id == id) {
+                iterator.remove();
+            }
+        }
+
+        for (RotationTask rt : m_task_list) {
+            if (rt.getId() == id) {
+                rt.setStatePending();
+                rt.setAssignee(-1);
+            }
+        }
     }
 
     //assign all tasks that currently have no assignees
