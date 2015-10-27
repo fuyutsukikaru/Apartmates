@@ -31,7 +31,8 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
     @Override
     public void onBindViewHolder(BTAdapter.TaskViewHolder taskViewHolder, int position) {
         taskViewHolder.taskName.setText(bountyTaskList.get(position).taskName);
-        taskViewHolder.taskValue.setText(bountyTaskList.get(position).taskValue);
+        Integer val = new Integer(bountyTaskList.get(position).taskValue);
+        taskViewHolder.taskValue.setText(val.toString());
     }
 
     @Override

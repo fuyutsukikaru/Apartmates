@@ -2,8 +2,6 @@ package com.cs130.apartmates.activities;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
@@ -18,6 +16,7 @@ import java.util.Vector;
 public class BountyActivity extends Activity {
     private RecyclerView mRecyclerView;
     private BTAdapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
 
 
@@ -28,11 +27,14 @@ public class BountyActivity extends Activity {
 
         setContentView(R.layout.bounty_layout);
         mRecyclerView = (RecyclerView) findViewById(R.id.rv);
-
         mRecyclerView.setHasFixedSize(true);
+
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
         List<BountyTask> list = new Vector<BountyTask>();
         list.add(new BountyTask("Vacuum", 10));
-        list.add(new BountyTask("Steely Dan", 15));
+        list.add(new BountyTask("Clean the Bathroom", 15));
 
         mAdapter = new BTAdapter(list);
         mRecyclerView.setAdapter(mAdapter);

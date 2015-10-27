@@ -343,7 +343,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:id="@+id/imageView2"
-                        android:src="@drawable/Circle_Orange"
+                        android:src="@drawable/circle_orange"
                         android:padding="12dp"
                         android:layout_weight="2" />
 
@@ -447,7 +447,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:id="@+id/imageView2"
-                        android:src="@drawable/Circle_Orange"
+                        android:src="@drawable/circle_orange"
                         android:padding="12dp"
                         android:layout_weight="2" />
 
@@ -498,7 +498,7 @@
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:id="@+id/imageView2"
-                        android:src="@drawable/Circle_Orange"
+                        android:src="@drawable/circle_orange"
                         android:padding="12dp"
                         android:layout_weight="2" />
 
