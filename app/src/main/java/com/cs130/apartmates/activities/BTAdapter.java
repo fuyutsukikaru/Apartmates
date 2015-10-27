@@ -46,6 +46,7 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
         taskViewHolder.taskName.setText(bountyTaskList.get(position).taskName);
         Integer val = new Integer(bountyTaskList.get(position).taskValue);
         taskViewHolder.taskValue.setText(val.toString());
+        taskViewHolder.taskDescription.setText(bountyTaskList.get(position).description);
     }
 
     @Override
@@ -63,6 +64,7 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
         CardView cv;
         TextView taskName;
         TextView taskValue;
+        TextView taskDescription;
 
 
         TaskViewHolder(View itemView) {
@@ -70,6 +72,7 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
             cv = (CardView) itemView.findViewById(R.id.cv);
             taskName = (TextView) itemView.findViewById(R.id.task_name);
             taskValue = (TextView) itemView.findViewById(R.id.task_value);
+            taskDescription = (TextView) itemView.findViewById(R.id.task_description);
         }
     }
 }

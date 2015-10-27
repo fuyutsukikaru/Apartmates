@@ -6,10 +6,12 @@ package com.cs130.apartmates.activities;
 public class BountyTask {
     public int taskValue;
     public String taskName;
+    public String description;
 
-    public BountyTask(String n, int val) {
+    public BountyTask(String n, int val, String des) {
         this.taskName = n;
         this.taskValue = val;
+        this.description = des;
     }
 
 }
