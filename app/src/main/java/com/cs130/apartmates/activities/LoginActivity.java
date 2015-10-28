@@ -1,6 +1,9 @@
 package com.cs130.apartmates.activities;
 
 import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -31,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onLoginClick(View v) {
         String url = "https://api.venmo.com/v1/oauth/authorize?client_id=3003&scope=make_payments%20access_profile%20access_email%20access_phone%20access_balance&response_type=code";
-        final String loginEndpoint = "http://backend-apartmates.rhcloud.com/api/login";
+        final String loginEndpoint = "http://backend-apartmates.rhcloud.com/user/login";
 
         final Dialog diag = new Dialog(this);
         diag.setContentView(R.layout.dialog_webview);
@@ -125,7 +128,10 @@ public class LoginActivity extends AppCompatActivity {
                     Snackbar.make(findViewById(R.id.login_fragment), R.string.login_error, Snackbar.LENGTH_LONG)
                             .show();
                 } else {
-                    // Move user to MainActivity
+                    SharedPreferences prefs = getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+                    prefs.edit().putString("userid", result.getString("user_id")).apply();
+                    Intent intent = new Intent(LoginActivity.this, BountyActivity.class);
+                    startActivity(intent);
                 }
             } catch(Exception e) {
                 e.printStackTrace();

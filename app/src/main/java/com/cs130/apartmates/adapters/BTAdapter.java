@@ -1,4 +1,4 @@
-package com.cs130.apartmates.activities;
+package com.cs130.apartmates.adapters;
 
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cs130.apartmates.R;
+import com.cs130.apartmates.activities.BountyTask;
 
 import java.util.List;
 
@@ -20,7 +21,7 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
     private static final String TAG = "BTAdapter";
     private List<BountyTask> bountyTaskList;
 
-    BTAdapter(List<BountyTask> btl) {
+    public BTAdapter(List<BountyTask> btl) {
         bountyTaskList = btl;
     }
 
@@ -80,5 +81,3 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
         }
     }
 }
-
-

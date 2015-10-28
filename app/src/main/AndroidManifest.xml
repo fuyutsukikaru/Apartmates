@@ -24,6 +24,12 @@
             android:label="@string/bounty_activity"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
+        <activity
+            android:name=".activities.AddTaskActivity"
+            android:label="Add New Bounty Task"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:launchMode="singleInstance">
+        </activity>
     </application>
 
 </manifest>
