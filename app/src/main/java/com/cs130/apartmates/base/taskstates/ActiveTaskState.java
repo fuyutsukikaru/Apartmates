@@ -1,23 +1,25 @@
 package com.cs130.apartmates.base.taskstates;
 
-import java.util.Date;
+import com.cs130.apartmates.base.tasks.Task;
 
 public class ActiveTaskState implements TaskState {
-    private long m_time;
+    private Task task;
 
-    public ActiveTaskState() {
-        m_time = -1; //indicating m_time is invalid
+    public ActiveTaskState(Task t) {
+        task = t;
     }
 
-    public void setTime(long time) {
-        m_time = time;
+    public boolean activateTask(){return false;}
+    public boolean setPending(){return false;}
+    public boolean completeTask(){
+        task.awardPoints();
+        task.setState(task.getCompletedState());
+        return true;
     }
-
-    public long getDuration() {
-        if (m_time < 0) {
-            throw new IllegalStateException("ActiveTaskState: Time in current state was never set");
-        }
-        return (new Date().getTime() - m_time);
+    public boolean setPenalty(){
+        task.deductPoints();
+        task.setState(task.getPenaltyState());
+        return true;
     }
 
 }

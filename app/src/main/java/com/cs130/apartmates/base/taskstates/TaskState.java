@@ -2,7 +2,15 @@ package com.cs130.apartmates.base.taskstates;
 
 public interface TaskState {
 
-    void setTime(long time); //set the time at which the state last changed
-    long getDuration(); //get time task has been in state, in ms
+    //Sets a pending task to an activated state and starts the countdown of the time limit.
+    public boolean activateTask();
+
+    //Sets the task as completed, awards points to the Assignee
+    public boolean completeTask();
+
+    //Sets the task to pending state;
+    public boolean setPending();
+
+    public boolean setPenalty();
 
 }

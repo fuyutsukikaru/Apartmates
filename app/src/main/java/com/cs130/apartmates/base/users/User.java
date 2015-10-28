@@ -25,7 +25,8 @@ public class User {
         return m_points;
     }
 
-    public void setPoints(int m_points) {
-        this.m_points = m_points;
+    public void earnPoints(int m_points) {
+        this.m_points += m_points;
     }
+    public void deductPoints(int points) {this.m_points -= points; }
 }

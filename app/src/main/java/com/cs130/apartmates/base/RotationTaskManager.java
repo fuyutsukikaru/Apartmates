@@ -30,7 +30,7 @@ public class RotationTaskManager {
     public void activateTask(long id) {
         for (RotationTask rt : m_task_list) {
             if (rt.getId() == id) {
-                rt.setStateActive();
+                rt.activateTask();
             }
         }
     }
@@ -57,7 +57,7 @@ public class RotationTaskManager {
 
         for (RotationTask rt : m_task_list) {
             if (rt.getId() == id) {
-                rt.setStatePending();
+                rt.completeTask();
                 rt.setAssignee(-1);
             }
         }

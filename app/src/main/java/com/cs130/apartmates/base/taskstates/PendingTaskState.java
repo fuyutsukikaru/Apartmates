@@ -1,24 +1,22 @@
 package com.cs130.apartmates.base.taskstates;
 
-import java.util.Date;
+import com.cs130.apartmates.base.tasks.Task;
 
 public class PendingTaskState implements TaskState {
-    private long m_time;
+   private Task task;
 
-    public PendingTaskState() {
-        m_time = -1; //indicating m_time is invalid
+    public PendingTaskState(Task t) {
+        task = t;
+   }
+
+    //Sets a pending task to an activated state and starts the countdown of the time limit.
+    public boolean activateTask(){
+        task.setState(task.getActivatedState());
+        return true;
     }
+    public boolean completeTask(){return false;}
+    public boolean setPending(){return false;}
+    public boolean setPenalty(){return false;}
 
-    public void setTime(long time) {
-        m_time = time;
-    }
-
-    public long getDuration() {
-        if (m_time < 0) {
-            throw new IllegalStateException("PendingTaskState: Time in current state was never set");
-        }
-
-        return (new Date().getTime() - m_time);
-    }
 
 }
