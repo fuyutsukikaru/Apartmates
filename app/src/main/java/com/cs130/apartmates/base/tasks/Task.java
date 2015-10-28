@@ -1,14 +1,14 @@
 package com.cs130.apartmates.base.tasks;
+
 import com.cs130.apartmates.base.taskstates.TaskState;
 
 /* This can probably be an abstract class instead of an interface
  * if the two types of tasks are really similar
  */
 
-
-public interface Task  {
+public interface Task {
     public long getId();
-    public int getPoints();  //May be used to display points on screen
+    public int getPoints(); //May be used to display points on screen
     public long getAssignee();
     public String getTitle();
     public String getDescription();

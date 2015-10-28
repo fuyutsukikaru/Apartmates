@@ -9,14 +9,12 @@ public class PendingTaskState implements TaskState {
         task = t;
    }
 
-    //Sets a pending task to an activated state and starts the countdown of the time limit.
-    public boolean activateTask(){
+    public boolean activateTask() {
         task.setState(task.getActivatedState());
         return true;
     }
-    public boolean completeTask(){return false;}
-    public boolean setPending(){return false;}
-    public boolean setPenalty(){return false;}
 
-
+    public boolean completeTask() { return false; }
+    public boolean setPending() { return false; }
+    public boolean setPenalty() { return false; }
 }

@@ -1,4 +1,14 @@
 
+Points to bring up
+- Bounty penalty - should probably do a single expiration time; user accepting task needs to complete
+  by expiration time regardless of time of acceptance; penalty will also be one-time only, deducted
+  from acceptor and added to original user
+- Task States - best simplified into a single enum, unless we can take advantage of common behavior
+  of tasks, or if we really just need something to include in our design patterns section of the
+  report
+
+---
+
 List of stuff to do in apartmates.base
 
 - Task class

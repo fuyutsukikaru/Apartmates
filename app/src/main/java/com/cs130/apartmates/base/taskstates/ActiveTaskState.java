@@ -9,17 +9,17 @@ public class ActiveTaskState implements TaskState {
         task = t;
     }
 
-    public boolean activateTask(){return false;}
-    public boolean setPending(){return false;}
-    public boolean completeTask(){
+    public boolean activateTask() { return false; }
+    public boolean setPending() { return false; }
+
+    public boolean completeTask() {
         task.awardPoints();
         task.setState(task.getCompletedState());
         return true;
     }
-    public boolean setPenalty(){
-        task.deductPoints();
+
+    public boolean setPenalty() {
         task.setState(task.getPenaltyState());
         return true;
     }
-
 }
