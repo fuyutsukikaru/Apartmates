@@ -1,5 +1,6 @@
 package com.cs130.apartmates.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -27,7 +28,6 @@ public class BountyActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
     private List<BountyTask> list = new Vector<BountyTask>();
     private MenuItem points;
-    private static int myPoints;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +44,6 @@ public class BountyActivity extends AppCompatActivity {
 
         list.add(new BountyTask("Move my car", 15, "My car is on Roebling and Strathmore. Move it for me before 10am on Thursday so I don't get towed.", Boolean.TRUE));
         list.add(new BountyTask("Pick up bananas", 5, "My smoothies are lacking. I'll appreciate a bunch. BA DUM TSS", Boolean.FALSE));
-
-        mAdapter = new BTAdapter(list);
-        mRecyclerView.setAdapter(mAdapter);
     }
 
     public void addTask(View view) {
@@ -71,17 +68,11 @@ public class BountyActivity extends AppCompatActivity {
         super.onCreateOptionsMenu(menu);
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_tasks, menu);
-        //points = menu.getItem(R.id.point_count);
-        //myPoints = Integer.parseInt(points.getTitle().toString());
+        this.points = menu.findItem(R.id.point_count);
 
+        mAdapter = new BTAdapter(points, list);
+        mRecyclerView.setAdapter(mAdapter);
         return true;
     }
 
-    public static void putPoints(int value) {
-        myPoints += value;
-    }
-
-    public void updatePoints(int value) {
-        points.setTitle(myPoints);
-    }
 }

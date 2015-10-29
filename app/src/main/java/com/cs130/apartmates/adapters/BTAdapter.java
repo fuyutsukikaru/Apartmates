@@ -1,8 +1,10 @@
 package com.cs130.apartmates.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -21,9 +23,11 @@ import java.util.List;
 public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
     private static final String TAG = "BTAdapter";
     private List<BountyTask> bountyTaskList;
+    private MenuItem points;
 
-    public BTAdapter(List<BountyTask> btl) {
+    public BTAdapter(MenuItem points, List<BountyTask> btl) {
         bountyTaskList = btl;
+        this.points = points;
     }
 
     @Override
@@ -52,10 +56,15 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
         taskViewHolder.taskDescription.setText(bountyTaskList.get(position).description);
         taskViewHolder.action.setText(bountyTaskList.get(position).action);
 
+        final int pos = position;
+
         taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //BountyActivity.putPoints(val);
+                int count = Integer.parseInt(points.getTitle().toString());
+                points.setTitle(Integer.toString(count + val));
+                bountyTaskList.remove(pos);
+                notifyItemRemoved(pos);
             }
         });
     }
