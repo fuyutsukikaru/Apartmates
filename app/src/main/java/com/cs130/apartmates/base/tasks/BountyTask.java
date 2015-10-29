@@ -8,7 +8,6 @@ public class BountyTask implements Task {
     //Getters
     private long m_id;
     private int m_points;
-    private long m_assignee;
     private long m_creator;
     private long m_time_started;
     private TaskState m_state;
@@ -33,16 +32,16 @@ public class BountyTask implements Task {
     }
 
     //Getters
-    public long getId() { return m_id;}
-    public int getPoints() { return m_points;}
-    public long getAssignee() {return m_assignee;}
-    public String getTitle() {return m_title;}
-    public String getDescription() {return m_description;}
+    public long getId() { return m_id; }
+    public int getPoints() { return m_points; }
+    public long getCreator() { return m_creator; }
+    public String getTitle() { return m_title; }
+    public String getDescription() { return m_description; }
 
-    public TaskState getPendingState(){return new PendingTaskState(this);}
-    public TaskState getPenaltyState() {return new PenaltyTaskState(this);}
-    public TaskState getActivatedState(){ return m_active_state;}
-    public TaskState getCompletedState(){ return m_completed_state;}
+    public TaskState getPendingState() { return new PendingTaskState(this); }
+    public TaskState getPenaltyState() { return new PenaltyTaskState(this); }
+    public TaskState getActivatedState() { return m_active_state; }
+    public TaskState getCompletedState() { return m_completed_state; }
     public void setState(TaskState s) { m_state = s;}
 
 
@@ -52,9 +51,6 @@ public class BountyTask implements Task {
             throw new IllegalStateException("PendingTaskState: Time in current state was never set");
         }
         return (new Date().getTime() - m_time_started);
-    }
-    public void setAssignee(long assignee) {
-        m_assignee = assignee;
     }
 
     public void awardPoints(){

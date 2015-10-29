@@ -99,7 +99,7 @@ public class AddTaskActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(String... args) {
             try {
-                url = new URL("http://apartmates-backend.rhcloud.com/task/create");
+                url = new URL("http://backend-apartmates.rhcloud.com/task/create");
                 conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(10000);
                 conn.setConnectTimeout(15000);

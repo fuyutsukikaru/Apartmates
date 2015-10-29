@@ -14,6 +14,9 @@ import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import com.cs130.apartmates.R;
+import com.cs130.apartmates.base.ApartmatesHttpClient;
+import com.cs130.apartmates.base.RequestTask;
+
 import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -66,61 +69,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-    private class LoginTask extends AsyncTask<String, String, JSONObject> {
-        private HttpURLConnection conn;
-        private URL url;
-        private OutputStream out;
-        private InputStream in;
-
-        @Override
-        protected JSONObject doInBackground(String... args) {
-            try {
-                url = new URL(args[0]);
-                conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(10000);
-                conn.setConnectTimeout(15000);
-                conn.setRequestMethod("POST");
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-                conn.setRequestProperty("Content-Type", "application/json");
-
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("code", args[1]);
-
-                out = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
-                System.err.println(jsonObject.toString());
-                writer.write(jsonObject.toString());
-                writer.flush();
-                writer.close();
-                out.close();
-
-                conn.connect();
-
-                int status = conn.getResponseCode();
-
-                if (status >= 400) {
-                    in = conn.getErrorStream();
-                } else {
-                    in = conn.getInputStream();
-                }
-                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-                StringBuilder result = new StringBuilder();
-                String line;
-                while((line = reader.readLine()) != null) {
-                    result.append(line);
-                }
-                in.close();
-                System.err.println(result.toString());
-                return new JSONObject(result.toString());
-            } catch(Exception e) {
-                e.printStackTrace();
-            } finally {
-                conn.disconnect();
-            }
-            return null;
-        }
-
+    private class LoginTask extends RequestTask {
         @Override
         public void onPostExecute(JSONObject result) {
             try {

@@ -1,5 +1,7 @@
 package com.cs130.apartmates.adapters;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,19 +12,21 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cs130.apartmates.R;
-import com.cs130.apartmates.activities.BountyTask;
-
-import java.util.List;
+import com.cs130.apartmates.base.ApartmatesHttpClient;
+import com.cs130.apartmates.base.BountyTaskManager;
+import com.cs130.apartmates.base.tasks.BountyTask;
 
 /**
  * Created by bchalabian on 10/26/15.
  */
 public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
     private static final String TAG = "BTAdapter";
-    private List<BountyTask> bountyTaskList;
+    private BountyTaskManager bountyTaskManager;
+    private long mId;
 
-    public BTAdapter(List<BountyTask> btl) {
-        bountyTaskList = btl;
+    public BTAdapter(BountyTaskManager btm, long id) {
+        bountyTaskManager = btm;
+        mId = id;
     }
 
     @Override
@@ -45,11 +49,18 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
 
     @Override
     public void onBindViewHolder(BTAdapter.TaskViewHolder taskViewHolder, int position) {
-        taskViewHolder.taskName.setText(bountyTaskList.get(position).taskName);
-        Integer val = new Integer(bountyTaskList.get(position).taskValue);
+        BountyTask bt = bountyTaskManager.getTask(position);
+        taskViewHolder.taskName.setText(bt.getTitle());
+        Integer val = new Integer(bt.getPoints());
         taskViewHolder.taskValue.setText(val.toString());
-        taskViewHolder.taskDescription.setText(bountyTaskList.get(position).description);
-        taskViewHolder.action.setText(bountyTaskList.get(position).action);
+        taskViewHolder.taskDescription.setText(bt.getDescription());
+
+        long creatorId = bt.getCreator();
+        if (mId == creatorId) {
+            taskViewHolder.action.setText("Drop");
+        } else {
+            taskViewHolder.action.setText("Claim");
+        }
     }
 
     @Override
@@ -60,7 +71,7 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
 
     @Override
     public int getItemCount() {
-        return bountyTaskList.size();
+        return bountyTaskManager.getNumTasks();
     }
 
     public final static class TaskViewHolder extends RecyclerView.ViewHolder {
@@ -69,7 +80,6 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
         TextView taskValue;
         TextView taskDescription;
         Button action;
-
 
         TaskViewHolder(View itemView) {
             super(itemView);

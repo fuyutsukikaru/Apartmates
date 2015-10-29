@@ -1,6 +1,8 @@
 package com.cs130.apartmates.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +15,7 @@ import android.view.View;
 
 import com.cs130.apartmates.R;
 import com.cs130.apartmates.adapters.BTAdapter;
+import com.cs130.apartmates.base.BountyTaskManager;
 
 import java.util.List;
 import java.util.Vector;
@@ -24,7 +27,8 @@ public class BountyActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private BTAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private List<BountyTask> list = new Vector<BountyTask>();
+    private BountyTaskManager mBTManager;
+    private long mId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +43,16 @@ public class BountyActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        list.add(new BountyTask("Vacuum upstairs and downstairs and all aroundstairs", 10, "Vacuum the living room carpet and empty the filter", Boolean.TRUE));
-        list.add(new BountyTask("Clean the Bathroom", 15, "Scrub the shower, clean out hairs from drain, wipe down sink, scrub bathtub.  We will know if you didn't do a thurough job so don't mess it up you bum.", Boolean.FALSE));
-        List<BountyTask> list = new Vector<BountyTask>();
-        list.add(new BountyTask("Vacuum upstairs and downstairs and all around stairs", 10, "Vacuum the living room carpet and empty the filter", Boolean.TRUE));
-        list.add(new BountyTask("Clean the Bathroom", 15, "Scrub the shower, clean out hairs from drain, wipe down sink, scrub bathtub.  We will know if you didn't do a thorough job so don't mess it up you bum.", Boolean.FALSE));
+        SharedPreferences prefs = getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        mId = prefs.getLong("userId", 0);
 
-        mAdapter = new BTAdapter(list);
+        mBTManager = new BountyTaskManager();
+        mBTManager.addTask(mId, 1, 10, "Vacuum upstairs and downstairs and all around stairs",
+                "Vacuum the living room carpet and empty the filter");
+        mBTManager.addTask(mId, 1, 15, "Clean the Bathroom",
+                "Scrub the shower, clean out hairs from drain, wipe down sink, scrub bathtub. We will know if you didn't do a thorough job so don't mess it up you bum.");
+
+        mAdapter = new BTAdapter(mBTManager, mId);
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -61,7 +68,7 @@ public class BountyActivity extends AppCompatActivity {
             String title = intent.getStringExtra("task_title");
             int value = intent.getIntExtra("task_value", 0);
             String details = intent.getStringExtra("task_details");
-            list.add(new BountyTask(title, value, details, true));
+            mBTManager.addTask(mId, 1, value, title, details);
             mAdapter.notifyDataSetChanged();
         }
     }

@@ -9,7 +9,6 @@ import com.cs130.apartmates.base.taskstates.TaskState;
 public interface Task {
     public long getId();
     public int getPoints(); //May be used to display points on screen
-    public long getAssignee();
     public String getTitle();
     public String getDescription();
 
@@ -17,9 +16,9 @@ public interface Task {
     public TaskState getActivatedState();
     public TaskState getCompletedState();
     public TaskState getPenaltyState();
+
     public void setState(TaskState s);
 
-    public void setAssignee(long assignee);
     public void awardPoints();
     public void deductPoints();
     public boolean activateTask();

@@ -1,6 +1,9 @@
 package com.cs130.apartmates.base;
 
+import com.cs130.apartmates.base.tasks.BountyTask;
 import com.cs130.apartmates.base.tasks.RotationTask;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -14,17 +17,28 @@ import java.util.Random;
 public class RotationTaskManager {
     private ArrayList<RotationTask> m_task_list;
     private ArrayList<Long> m_member_list;
-    private long m_id_counter; //contains the next task id to be given, increment each time
 
     public RotationTaskManager() {
         m_task_list = new ArrayList<RotationTask>();
         m_member_list = new ArrayList<Long>();
-        m_id_counter = 1;
     }
 
-    public void addTask(int points, long time_limit, String title, String description) {
-        m_task_list.add(new RotationTask(m_id_counter, points, time_limit, -1, title, description));
-        m_id_counter++;
+    public void addTask(long uid, long gid, int points, long time_limit, String title, String description) {
+        try {
+            /*
+            JSONObject data = new JSONObject();
+            data.put("userId", uid);
+            data.put("groupId", gid);
+            data.put("title", title);
+            data.put("description", description);
+            data.put("value", points);
+            String id = ApartmatesHttpClient.getInstance().sendRequest("/task/create",
+                    data.toString(), "POST");
+            m_task_list.add(new RotationTask(Long.parseLong(id), points, time_limit, -1, title, description));
+            */
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void activateTask(long id) {
