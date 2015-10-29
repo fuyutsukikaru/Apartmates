@@ -69,31 +69,17 @@ public class LoginActivity extends AppCompatActivity {
     private class LoginTask extends AsyncTask<String, String, JSONObject> {
         private HttpURLConnection conn;
         private URL url;
-        private OutputStream out;
         private InputStream in;
 
         @Override
         protected JSONObject doInBackground(String... args) {
             try {
-                url = new URL(args[0]);
+                url = new URL(args[0] + "?code=" + args[1]);
                 conn = (HttpURLConnection) url.openConnection();
                 conn.setReadTimeout(10000);
                 conn.setConnectTimeout(15000);
                 conn.setRequestMethod("POST");
-                conn.setDoInput(true);
                 conn.setDoOutput(true);
-                conn.setRequestProperty("Content-Type", "application/json");
-
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("code", args[1]);
-
-                out = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
-                System.err.println(jsonObject.toString());
-                writer.write(jsonObject.toString());
-                writer.flush();
-                writer.close();
-                out.close();
 
                 conn.connect();
 
@@ -101,6 +87,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (status >= 400) {
                     in = conn.getErrorStream();
+                    return null;
                 } else {
                     in = conn.getInputStream();
                 }
