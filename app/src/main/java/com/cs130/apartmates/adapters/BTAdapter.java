@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cs130.apartmates.R;
+import com.cs130.apartmates.activities.BountyActivity;
 import com.cs130.apartmates.activities.BountyTask;
 
 import java.util.List;
@@ -46,10 +47,17 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
     @Override
     public void onBindViewHolder(BTAdapter.TaskViewHolder taskViewHolder, int position) {
         taskViewHolder.taskName.setText(bountyTaskList.get(position).taskName);
-        Integer val = new Integer(bountyTaskList.get(position).taskValue);
+        final Integer val = new Integer(bountyTaskList.get(position).taskValue);
         taskViewHolder.taskValue.setText(val.toString());
         taskViewHolder.taskDescription.setText(bountyTaskList.get(position).description);
         taskViewHolder.action.setText(bountyTaskList.get(position).action);
+
+        taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //BountyActivity.putPoints(val);
+            }
+        });
     }
 
     @Override

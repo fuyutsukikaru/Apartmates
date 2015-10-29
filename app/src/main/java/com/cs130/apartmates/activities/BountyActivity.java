@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.cs130.apartmates.R;
@@ -25,6 +26,8 @@ public class BountyActivity extends AppCompatActivity {
     private BTAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private List<BountyTask> list = new Vector<BountyTask>();
+    private MenuItem points;
+    private static int myPoints;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +42,8 @@ public class BountyActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        list.add(new BountyTask("Vacuum upstairs and downstairs and all aroundstairs", 10, "Vacuum the living room carpet and empty the filter", Boolean.TRUE));
-        list.add(new BountyTask("Clean the Bathroom", 15, "Scrub the shower, clean out hairs from drain, wipe down sink, scrub bathtub.  We will know if you didn't do a thurough job so don't mess it up you bum.", Boolean.FALSE));
-        List<BountyTask> list = new Vector<BountyTask>();
-        list.add(new BountyTask("Vacuum upstairs and downstairs and all around stairs", 10, "Vacuum the living room carpet and empty the filter", Boolean.TRUE));
-        list.add(new BountyTask("Clean the Bathroom", 15, "Scrub the shower, clean out hairs from drain, wipe down sink, scrub bathtub.  We will know if you didn't do a thorough job so don't mess it up you bum.", Boolean.FALSE));
+        list.add(new BountyTask("Move my car", 15, "My car is on Roebling and Strathmore. Move it for me before 10am on Thursday so I don't get towed.", Boolean.TRUE));
+        list.add(new BountyTask("Pick up bananas", 5, "My smoothies are lacking. I'll appreciate a bunch. BA DUM TSS", Boolean.FALSE));
 
         mAdapter = new BTAdapter(list);
         mRecyclerView.setAdapter(mAdapter);
@@ -71,6 +71,17 @@ public class BountyActivity extends AppCompatActivity {
         super.onCreateOptionsMenu(menu);
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_tasks, menu);
+        //points = menu.getItem(R.id.point_count);
+        //myPoints = Integer.parseInt(points.getTitle().toString());
+
         return true;
+    }
+
+    public static void putPoints(int value) {
+        myPoints += value;
+    }
+
+    public void updatePoints(int value) {
+        points.setTitle(myPoints);
     }
 }
