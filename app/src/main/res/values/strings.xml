@@ -5,4 +5,7 @@
     <string name="login_activity">Log in with Venmo</string>
     <string name="button_login">Connect with Venmo</string>
     <string name="login_error">Something went wrong! Please try again later.</string>
+
+    <string name="bounty_activity">Bounty Tasks</string>
+    <string name="add_bounty_activity">Add A New Bounty Task</string>
 </resources>

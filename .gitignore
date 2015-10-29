@@ -5,3 +5,14 @@
 .DS_Store
 /build
 /captures
+*.apk
+*.ap_
+*.dex
+*.class
+bin/
+gen/
+local.properties
+Thumbs.db
+.iml
+.idea
+obj/
