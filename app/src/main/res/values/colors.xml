@@ -4,8 +4,10 @@
     <color name="colorPrimaryDark">#3a8363</color>
     <color name="colorSuperDark">#131B09</color>
     <color name="colorAccent">#D6BC85</color>
+    <color name="colorBackground">@color/colorSuperDark</color>
     <color name="colorButton">@color/colorPrimary</color>
     <color name="colorButtonClicked">#A9E0A3</color>
     <color name="colorButtonFocused">#C2EBC8</color>
     <color name="colorButtonText">#FAF9F0</color>
+    <color name="colorCard">#F9F8EC</color>
 </resources>

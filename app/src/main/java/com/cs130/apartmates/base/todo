@@ -1,0 +1,11 @@
+
+List of stuff to do in apartmates.base
+
+- Bounty Task Manager / Rotation Task Manager
+  - rotate function
+    - when called, simply have the next person in the assignee list be assigned to task
+    - look for current assignee in list and assign next one
+  - have a function that is called when someone completes penalty task
+    - if original assignee, do nothing more
+    - if someone else, award that person points
+    - reset state to pending with new assignee
