@@ -1,7 +1,6 @@
 
 List of stuff to do in apartmates.base
 
-- Singleton Task ID generator or something (we want unique id to support backend)
 - Bounty Task Manager / Rotation Task Manager
   - rotate function
     - when called, simply have the next person in the assignee list be assigned to task

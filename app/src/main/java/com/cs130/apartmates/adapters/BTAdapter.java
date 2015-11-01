@@ -24,9 +24,13 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
     private BountyTaskManager bountyTaskManager;
     private long mId;
 
-    public BTAdapter(BountyTaskManager btm, long id) {
-        bountyTaskManager = btm;
+    public BTAdapter(long id) {
+        bountyTaskManager = new BountyTaskManager();
         mId = id;
+    }
+
+    public BountyTaskManager getManager() {
+        return bountyTaskManager;
     }
 
     @Override
@@ -48,16 +52,24 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(BTAdapter.TaskViewHolder taskViewHolder, int position) {
+    public void onBindViewHolder(final BTAdapter.TaskViewHolder taskViewHolder, int position) {
         BountyTask bt = bountyTaskManager.getTask(position);
         taskViewHolder.taskName.setText(bt.getTitle());
         Integer val = new Integer(bt.getPoints());
         taskViewHolder.taskValue.setText(val.toString());
         taskViewHolder.taskDescription.setText(bt.getDescription());
 
+        final int fPos = position;
         long creatorId = bt.getCreator();
         if (mId == creatorId) {
             taskViewHolder.action.setText("Drop");
+            taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    bountyTaskManager.dropTask(fPos);
+                    notifyDataSetChanged();
+                }
+            });
         } else {
             taskViewHolder.action.setText("Claim");
         }

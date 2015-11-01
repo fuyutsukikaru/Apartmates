@@ -28,32 +28,39 @@ public class BountyTaskManager {
         return m_task_list.size();
     }
 
+    public void populateTask(long tid, long uid, int points, String title, String description) {
+        m_task_list.add(new BountyTask(tid, points, uid, title, description));
+    }
+
     public void addTask(long uid, long gid, int points, String title, String description) {
         try {
-            /* just to test GET requests
             HashMap<String, String> params = new HashMap<String, String>();
-            params.put("userId", "1");
-            String resp = ApartmatesHttpClient.getInstance().sendRequest("/user/info", params, null, "GET");
-            System.err.println(resp);
-            */
+            params.put("userId", Long.toString(uid));
+            params.put("groupId", Long.toString(gid));
+            params.put("title", title);
+            params.put("description", description);
+            params.put("value", Integer.toString(points));
+            params.put("type", "bounty");
 
-            /* task create not implemented yet
-            JSONObject data = new JSONObject();
-            data.put("userId", uid);
-            data.put("groupId", gid);
-            data.put("title", title);
-            data.put("description", description);
-            data.put("value", points);
-            String id = ApartmatesHttpClient.sendRequest("/task/create",
-                    data.toString(), "POST");
-            System.err.println(id);
-            m_task_list.add(new BountyTask(Long.parseLong(id), points, -1, title, description));
-            */
-
-            //backend currently not up yet, so start by local changes
-            m_task_list.add(new BountyTask(-1, points, -1, title, description));
+            JSONObject resp = ApartmatesHttpClient.sendRequest("/task/create", params,
+                    null, "POST");
+            System.err.println("RESP: " + resp);
+            if (resp.has("task_id")) {
+                m_task_list.add(new BountyTask(resp.getLong("task_id"), points, uid, title, description));
+            }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public boolean dropTask(int index) {
+        try {
+            JSONObject resp = ApartmatesHttpClient.sendRequest("/task?taskId=" + m_task_list.get(index).getId(),
+                    null, null, "DELETE");
+            m_task_list.remove(index);
+            return (resp.has("success") && resp.get("success") == "true");
+        } catch (Exception e) {
+            return false;
         }
     }
 

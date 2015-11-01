@@ -32,7 +32,7 @@ public class RotationTaskManager {
             data.put("title", title);
             data.put("description", description);
             data.put("value", points);
-            String id = ApartmatesHttpClient.getInstance().sendRequest("/task/create",
+            String id = ApartmatesHttpClient.sendRequest("/task/create",
                     data.toString(), "POST");
             m_task_list.add(new RotationTask(Long.parseLong(id), points, time_limit, -1, title, description));
             */

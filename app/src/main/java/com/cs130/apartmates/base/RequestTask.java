@@ -34,9 +34,8 @@ public class RequestTask extends AsyncTask<String, String, JSONObject> {
             conn.setRequestProperty("Content-Type", "application/json");
 
 
-            if (conn.getRequestMethod() == "POST") {
+            if (args[1] != null) {
                 JSONObject jsonObject = new JSONObject(args[1]);
-
                 out = conn.getOutputStream();
                 BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
                 writer.write(jsonObject.toString());

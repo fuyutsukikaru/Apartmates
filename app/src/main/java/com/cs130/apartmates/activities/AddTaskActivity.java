@@ -60,8 +60,9 @@ public class AddTaskActivity extends AppCompatActivity {
                     Snackbar.make(findViewById(R.id.add_task_fragment), "Sending to server...", Snackbar.LENGTH_LONG);
                     Intent intent = new Intent(AddTaskActivity.this, BountyActivity.class);
                     intent.putExtra("task_title", titleText);
-                    intent.putExtra("task_value", Integer.getInteger(valueText));
+                    intent.putExtra("task_value", Integer.parseInt(valueText));
                     intent.putExtra("task_details", descriptionText);
+
                     intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(intent);
                     finish();
