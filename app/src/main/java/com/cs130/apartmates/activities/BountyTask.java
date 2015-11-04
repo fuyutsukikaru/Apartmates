@@ -16,6 +16,8 @@ public class BountyTask {
         this.taskValue = val;
         this.description = des;
         this.mine = my;
+        //We will want to take out this boolean (it is there as a placeholder) and decide on Drop or Claim
+        //by comparing bounty owner id and current user id
         if (mine == Boolean.TRUE)
             this.action = "Drop";
         else
