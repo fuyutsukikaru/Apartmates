@@ -56,6 +56,11 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
         taskViewHolder.taskDescription.setText(bountyTaskList.get(position).description);
         taskViewHolder.action.setText(bountyTaskList.get(position).action);
 
+        if (bountyTaskList.get(position).action == "Claim")
+            taskViewHolder.action.setBackgroundResource(R.color.colorButton);
+        else
+            taskViewHolder.action.setBackgroundResource(R.color.colorButtonNegate);
+
         final int pos = position;
 
         taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
