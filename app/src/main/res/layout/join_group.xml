@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:src="@drawable/logoname"
+        android:layout_gravity="center_horizontal" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp">
+
+        <EditText
+            android:id="@+id/groupId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Group Id" />
+
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp">
+
+        <EditText
+            android:id="@+id/groupPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Group Password" />
+
+    </android.support.design.widget.TextInputLayout>
+</LinearLayout>
