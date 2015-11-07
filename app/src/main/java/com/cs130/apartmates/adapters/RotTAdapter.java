@@ -1,5 +1,6 @@
 package com.cs130.apartmates.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,26 +12,21 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cs130.apartmates.R;
-import com.cs130.apartmates.base.BountyTaskManager;
-import com.cs130.apartmates.base.tasks.BountyTask;
+import com.cs130.apartmates.activities.RotationTask;
+
+import java.util.List;
 
 /**
  * Created by bchalabian on 10/26/15.
  */
-public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
-    private static final String TAG = "BTAdapter";
-    private BountyTaskManager bountyTaskManager;
-    private long mId;
+public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder> {
+    private static final String TAG = "RotTAdapter";
+    private List<RotationTask> rotationTaskList;
     private MenuItem points;
 
-    public BTAdapter(MenuItem points, long id) {
-        bountyTaskManager = new BountyTaskManager();
-        mId = id;
+    public RotTAdapter(MenuItem points, List<RotationTask> rottl) {
+        rotationTaskList = rottl;
         this.points = points;
-    }
-
-    public BountyTaskManager getManager() {
-        return bountyTaskManager;
     }
 
     @Override
@@ -52,39 +48,29 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(final BTAdapter.TaskViewHolder taskViewHolder, int position) {
-        BountyTask bt = bountyTaskManager.getTask(position);
-        taskViewHolder.taskName.setText(bt.getTitle());
-        Integer val = new Integer(bt.getPoints());
+    public void onBindViewHolder(RotTAdapter.TaskViewHolder taskViewHolder, int position) {
+        taskViewHolder.taskName.setText(rotationTaskList.get(position).taskName);
+        final Integer val = new Integer(rotationTaskList.get(position).taskValue);
         taskViewHolder.taskValue.setText(val.toString());
-        taskViewHolder.taskDescription.setText(bt.getDescription());
+        taskViewHolder.taskDescription.setText(rotationTaskList.get(position).description);
+        taskViewHolder.action.setText(rotationTaskList.get(position).action);
 
-        final int fPos = position;
-        long creatorId = bt.getCreator();
-        if (mId == creatorId) {
-            taskViewHolder.action.setText("Drop");
+        if (rotationTaskList.get(position).action == "Claim")
             taskViewHolder.action.setBackgroundResource(R.color.colorButton);
-            taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    bountyTaskManager.dropTask(fPos);
-                    notifyDataSetChanged();
-                }
-            });
-        } else {
-            taskViewHolder.action.setText("Claim");
+        else
             taskViewHolder.action.setBackgroundResource(R.color.colorButtonNegate);
-            taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int count = Integer.parseInt(points.getTitle().toString());
-                    int val = bountyTaskManager.getTask(fPos).getPoints();
-                    points.setTitle(Integer.toString(count + val));
-                    bountyTaskManager.dropTask(fPos);
-                    notifyDataSetChanged();
-                }
-            });
-        }
+
+        final int pos = position;
+
+        taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int count = Integer.parseInt(points.getTitle().toString());
+                points.setTitle(Integer.toString(count + val));
+                rotationTaskList.remove(pos);
+                notifyItemRemoved(pos);
+            }
+        });
     }
 
     @Override
@@ -92,13 +78,10 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
         super.onAttachedToRecyclerView(recyclerView);
     }
 
+
     @Override
     public int getItemCount() {
-        return bountyTaskManager.getNumTasks();
-    }
-
-    public void setPoints(MenuItem points) {
-        this.points = points;
+        return rotationTaskList.size();
     }
 
     public final static class TaskViewHolder extends RecyclerView.ViewHolder {
@@ -107,6 +90,7 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
         TextView taskValue;
         TextView taskDescription;
         Button action;
+
 
         TaskViewHolder(View itemView) {
             super(itemView);

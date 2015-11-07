@@ -26,8 +26,8 @@
         android:layout_gravity="bottom|right"
         android:onClick="addTask"
         app:layout_anchor="@+id/rv"
-        app:backgroundTint="@color/colorButtonFocused"
         app:layout_anchorGravity="bottom|right|end"
-        android:src="@mipmap/ic_add_black_48dp"/>
+        android:src="@mipmap/ic_add_black_48dp"
+        app:backgroundTint="@color/colorPrimary" />
 
 </android.support.design.widget.CoordinatorLayout>

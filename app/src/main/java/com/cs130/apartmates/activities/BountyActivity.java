@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.cs130.apartmates.R;
@@ -31,6 +32,7 @@ public class BountyActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private BTAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private MenuItem points;
     private long mId;
 
     @Override
@@ -48,7 +50,8 @@ public class BountyActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
         mId = prefs.getLong("userId", 1);
-        mAdapter = new BTAdapter(mId);
+
+        mAdapter = new BTAdapter(points, mId);
 
         //maybe we could just pass in the groupId instead of making another request
         JSONObject resp = ApartmatesHttpClient.sendRequest("/user/info?userId=" + mId, null, null, "GET");
@@ -100,6 +103,9 @@ public class BountyActivity extends AppCompatActivity {
         super.onCreateOptionsMenu(menu);
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_tasks, menu);
+
+        mAdapter.setPoints(points);
         return true;
     }
+
 }

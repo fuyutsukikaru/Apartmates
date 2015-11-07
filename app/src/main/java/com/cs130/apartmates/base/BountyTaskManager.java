@@ -1,17 +1,11 @@
 package com.cs130.apartmates.base;
 
-import android.util.JsonWriter;
-
 import com.cs130.apartmates.base.tasks.BountyTask;
-import com.cs130.apartmates.base.tasks.RotationTask;
 
 import org.json.JSONObject;
 
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Random;
 
 public class BountyTaskManager {
     private ArrayList<BountyTask> m_task_list;
