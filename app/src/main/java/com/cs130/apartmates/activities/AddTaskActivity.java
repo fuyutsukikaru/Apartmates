@@ -62,6 +62,7 @@ public class AddTaskActivity extends AppCompatActivity {
                     intent.putExtra("task_title", titleText);
                     intent.putExtra("task_value", Integer.parseInt(valueText));
                     intent.putExtra("task_details", descriptionText);
+
                     intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(intent);
                     finish();

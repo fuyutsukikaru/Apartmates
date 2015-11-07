@@ -2,6 +2,7 @@ package com.cs130.apartmates.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,11 @@ import android.view.View;
 
 import com.cs130.apartmates.R;
 import com.cs130.apartmates.adapters.BTAdapter;
+import com.cs130.apartmates.base.ApartmatesHttpClient;
+import com.cs130.apartmates.base.BountyTaskManager;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.List;
 import java.util.Vector;
@@ -26,8 +32,8 @@ public class BountyActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private BTAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private List<BountyTask> list = new Vector<BountyTask>();
     private MenuItem points;
+    private long mId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +48,37 @@ public class BountyActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        list.add(new BountyTask("Move my car", 15, "My car is on Roebling and Strathmore. Move it for me before 10am on Thursday so I don't get towed.", Boolean.TRUE));
-        list.add(new BountyTask("Pick up bananas", 5, "My smoothies are lacking. I'll appreciate a bunch. BA DUM TSS", Boolean.FALSE));
+        SharedPreferences prefs = getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        mId = prefs.getLong("userId", 1);
+
+        mAdapter = new BTAdapter(points, mId);
+
+        //maybe we could just pass in the groupId instead of making another request
+        JSONObject resp = ApartmatesHttpClient.sendRequest("/user/info?userId=" + mId, null, null, "GET");
+        if (resp.has("group_id")) {
+            try {
+                long gid = resp.getLong("group_id");
+                JSONObject taskresp =
+                        ApartmatesHttpClient.sendRequest("/group?groupId=" + resp.get("group_id"), null, null, "GET");
+                if (taskresp.has("tasks")) {
+                    JSONArray tasklist = taskresp.getJSONArray("tasks");
+                    for (int i = 0; i != tasklist.length(); i++) {
+                        long taskno = tasklist.getLong(i);
+                        JSONObject detailsresp =
+                                ApartmatesHttpClient.sendRequest("/task?taskId=" + Long.toString(taskno),
+                                        null, null, "GET");
+                        if (detailsresp.has("title")) {
+                            mAdapter.getManager().populateTask(taskno, mId, detailsresp.getInt("value"),
+                                    detailsresp.getString("title"), detailsresp.getString("description"));
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     public void addTask(View view) {
@@ -58,7 +93,7 @@ public class BountyActivity extends AppCompatActivity {
             String title = intent.getStringExtra("task_title");
             int value = intent.getIntExtra("task_value", 0);
             String details = intent.getStringExtra("task_details");
-            list.add(new BountyTask(title, value, details, true));
+            mAdapter.getManager().addTask(mId, 2, value, title, details);
             mAdapter.notifyDataSetChanged();
         }
     }
@@ -68,10 +103,8 @@ public class BountyActivity extends AppCompatActivity {
         super.onCreateOptionsMenu(menu);
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_tasks, menu);
-        this.points = menu.findItem(R.id.point_count);
 
-        mAdapter = new BTAdapter(points, list);
-        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setPoints(points);
         return true;
     }
 
