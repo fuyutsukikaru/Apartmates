@@ -2,6 +2,7 @@ package com.cs130.apartmates.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import android.view.View;
 import com.cs130.apartmates.R;
 import com.cs130.apartmates.adapters.BTAdapter;
 import com.cs130.apartmates.adapters.RotTAdapter;
+import com.cs130.apartmates.base.tasks.RotationTask;
 
 import java.util.List;
 import java.util.Vector;
@@ -27,8 +29,8 @@ public class RotationActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private RotTAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private List<RotationTask> list = new Vector<RotationTask>();
     private MenuItem points;
+    private long mId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +45,13 @@ public class RotationActivity extends AppCompatActivity {
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        list.add(new RotationTask("Vacuum", 20, "Vacuum the living room and dining room.  Make sure to get under the furniture.", 0, Boolean.FALSE));
-        list.add(new RotationTask("Unstack Dishwasher", 5, "Please keep lids and bottoms of containers together.  Wipe the bottom of cups.", 1, Boolean.TRUE));
+
+        // I copied this stuff from the bounty activity , I assume it works because I am just
+        // trying to grab the user's id.
+        SharedPreferences prefs = getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        mId = prefs.getLong("userId", 1);
+
+        mAdapter = new RotTAdapter(points, mId);
     }
 
     public void addTask(View view) {
@@ -59,7 +66,10 @@ public class RotationActivity extends AppCompatActivity {
             String title = intent.getStringExtra("task_title");
             int value = intent.getIntExtra("task_value", 0);
             String details = intent.getStringExtra("task_details");
-            list.add(new RotationTask(title, value, details, 0, true));
+
+            // THIS IS INCORRECT. I DON'T KNOW IF THIS IS HOW ROTATION TASKS WOULD BE ADDED.
+            // THIS DEFINITELY NEEDS TO BE CHANGED
+            mAdapter.getManager().addTask(mId, title, value, details);
             mAdapter.notifyDataSetChanged();
         }
     }
@@ -69,10 +79,8 @@ public class RotationActivity extends AppCompatActivity {
         super.onCreateOptionsMenu(menu);
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_tasks, menu);
-        this.points = menu.findItem(R.id.point_count);
 
-        mAdapter = new RotTAdapter(points, list);
-        mRecyclerView.setAdapter(mAdapter);
+        mAdapter = new RotTAdapter(points, mId);
         return true;
     }
 
