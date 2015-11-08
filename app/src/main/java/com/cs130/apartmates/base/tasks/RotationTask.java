@@ -65,14 +65,6 @@ public class RotationTask implements Task{
         m_assignee = assignee;
     }
 
-    public void awardPoints(){
-//        User user = getUserbyId(m_assignee);
-//        user.earnPoints(this.m_points);
-    }
-    public void deductPoints(){
-//        User user = getUserbyId(m_assignee);
-//        user.deductPoints(this.m_points);
-    }
     //Activates the state and records the time started.
     public boolean activateTask(){
         m_time_started = new Date().getTime();

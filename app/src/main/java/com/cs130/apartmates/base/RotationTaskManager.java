@@ -21,20 +21,26 @@ public class RotationTaskManager {
 
     private String createTaskUrl = "/task/create";
     private String dropTaskUrl = "/task?taskId=";
+    private String activateRotationTaskUrl = "/task/activate?taskId=";
+    private String completeTaskUrl = "/task/complete?taskId=";
+    private String rotateTaskUrl = "/task/rotate?taskId=";
+
+    //private String setTaskToBounty =
 
     public RotationTaskManager() {
         m_task_list = new ArrayList<RotationTask>();
         m_member_list = new ArrayList<Long>();
     }
 
-    public void populateTask(long tid, int points, long deadline, String title, String description) {
-        m_task_list.add(new RotationTask(tid, points, deadline, title, description));
+    public void populateTask(long tid, long user_id, int points, long deadline, String title, String description) {
+        m_task_list.add(new RotationTask(tid, points, deadline, user_id, title, description));
     }
 
-    public void addTask(long gid, int points, long deadline, String title, String description) {
+    //Assign a user to the task initially and the rotation will be dependent on the apartment list.
+    public void addTask(long gid, long user_id, int points, long deadline, String title, String description) {
         try {
             HashMap<String, String> params = new HashMap<String, String>();
-            //params.put("userId", Long.toString(uid));
+            params.put("userId", Long.toString(user_id));
             params.put("groupId", Long.toString(gid));
             params.put("title", title);
             params.put("description", description);
@@ -46,32 +52,90 @@ public class RotationTaskManager {
                     null, "POST");
             System.err.println("RESP: " + resp);
             if (resp.has("task_id")) {
-                populateTask(resp.getLong("task_id"), points, deadline, title, description);
+                populateTask(resp.getLong("task_id"),user_id, points, deadline, title, description);
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public boolean dropTask(int index) {
+    public boolean dropTask(int id) {
         try {
-            JSONObject resp = ApartmatesHttpClient.sendRequest(dropTaskUrl + m_task_list.get(index).getId(),
+            JSONObject resp = ApartmatesHttpClient.sendRequest(dropTaskUrl + m_task_list.get(id).getId(),
                     null, null, "DELETE");
-            m_task_list.remove(index);
-            return (resp.has("success") && resp.get("success") == "true");
+           if(resp.has("success") && resp.get("success") == "true") {
+               for (RotationTask rt : m_task_list) {
+                   if (rt.getId() == id) {
+                       m_task_list.remove(rt);
+                   }
+               }
+               return true;
+           }
         } catch (Exception e) {
             return false;
         }
     }
 
-    public void activateTask(long id) {
-        for (RotationTask rt : m_task_list) {
-            if (rt.getId() == id) {
-                rt.activateTask();
+    public boolean activateTask(long id) {
+        try {
+            JSONObject resp = ApartmatesHttpClient.sendRequest(activateRotationTaskUrl + id, null, null, "POST");
+            System.err.println("RESP: " + resp);
+            if (resp.has("success") && resp.get("success") == "true") {
+                for(RotationTask rt : m_task_list){
+                    if(rt.getId() == id){
+                        rt.activateTask();
+                    }
+                }
+                return true;
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
     }
+
+    //Complete task will increment the points of the current users and set the task to complete state.
+    public boolean completeTask(long id) {
+        try {
+            JSONObject resp = ApartmatesHttpClient.sendRequest(completeTaskUrl + id, null, null, "POST");
+            System.err.println("RESP: " + resp);
+            if (resp.has("success") && resp.get("success") == "true") {
+                RotationTask task = null;
+                long currentUser_id = -1;
+                for (RotationTask rt : m_task_list) {
+                    if (rt.getId() == id) {
+                        task = rt;
+                    }
+                }
+                if(task == null)
+                    return false;
+                task.completeTask();
+                int currentUser_index = m_member_list.indexOf(task.getAssignee());
+                long nextUser_id;
+                if(currentUser_index == m_member_list.size() - 1){
+                    nextUser_id = m_member_list.get(0);
+                }
+                else {
+                    nextUser_id = m_member_list.get(currentUser_index + 1);
+                }
+                HashMap<String, String> params = new HashMap<String, String>();
+                params.put("nextUserId", Long.toString(nextUser_id));
+                resp = ApartmatesHttpClient.sendRequest(rotateTaskUrl + id, params, null, "POST");
+                if(resp.has("success") && resp.get("success") == "true"){
+                    task.setAssignee(nextUser_id);
+                    task.setState(task.getPendingState());
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+
+
 
     /*
      * adds member to list at a random location (to make task allocation more fair even when
@@ -100,6 +164,9 @@ public class RotationTaskManager {
             }
         }
     }
+
+
+    //Assigned a user on creation to reduce call to the backend.
 
     //assign all tasks that currently have no assignees
     public void assignAllTasks() {
