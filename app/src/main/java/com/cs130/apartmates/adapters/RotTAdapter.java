@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.cs130.apartmates.R;
 import com.cs130.apartmates.base.RotationTaskManager;
 import com.cs130.apartmates.base.tasks.RotationTask;
+import com.cs130.apartmates.base.taskstates.TaskState;
 
 import java.util.List;
 
@@ -56,11 +57,14 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
     // it is the user's task.
     @Override
     public void onBindViewHolder(RotTAdapter.TaskViewHolder taskViewHolder, int position) {
-        RotationTask rt = rotationTaskManager.getTask(positon);
+        RotationTask rt = rotationTaskManager.getTask(position);
         taskViewHolder.taskName.setText(rt.getTitle());
         final Integer val = new Integer(rt.getPoints());
         taskViewHolder.taskValue.setText(val.toString());
         taskViewHolder.taskDescription.setText(rt.getDescription());
+
+        TaskState curState = rt.getCurrentState();
+        
 
         taskViewHolder.action.setText(rt.action);
 
@@ -71,13 +75,15 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
 
         final int pos = position;
 
-        // THIS FUNCTION NEEDS TO BE CHANGED.
+        // THIS FUNCTION NEEDS TO BE CHANGED. Based on the state of the task it should
+        // have a different action for the onClick. the task may need to be activated,
+        // deactivated, etc.
         taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 int count = Integer.parseInt(points.getTitle().toString());
                 points.setTitle(Integer.toString(count + val));
-                rotationTaskList.remove(pos);
+
                 notifyItemRemoved(pos);
             }
         });

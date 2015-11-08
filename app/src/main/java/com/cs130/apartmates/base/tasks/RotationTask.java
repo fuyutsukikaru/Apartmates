@@ -48,6 +48,7 @@ public class RotationTask implements Task{
     public long getAssignee() {return m_assignee;}
     public String getTitle() {return m_title;}
     public String getDescription() {return m_description;}
+    public TaskState getCurrentState() { return m_state;}
 
     public TaskState getPendingState(){ return m_pending_state;}
     public TaskState getActivatedState(){ return m_active_state;}

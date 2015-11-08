@@ -36,6 +36,14 @@ public class RotationTaskManager {
         m_task_list.add(new RotationTask(tid, points, deadline, user_id, title, description));
     }
 
+    public int getNumTasks() {
+        return m_task_list.size();
+    }
+
+    public RotationTask getTask(int index) {
+        return m_task_list.get(index);
+    }
+
     //Assign a user to the task initially and the rotation will be dependent on the apartment list.
     public void addTask(long gid, long user_id, int points, long deadline, String title, String description) {
         try {
