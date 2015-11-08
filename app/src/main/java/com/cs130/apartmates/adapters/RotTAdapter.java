@@ -1,6 +1,5 @@
 package com.cs130.apartmates.adapters;
 
-import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,7 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cs130.apartmates.R;
-import com.cs130.apartmates.activities.RotationTask;
+import com.cs130.apartmates.base.RotationTaskManager;
+import com.cs130.apartmates.base.tasks.RotationTask;
 
 import java.util.List;
 
@@ -21,13 +21,16 @@ import java.util.List;
  */
 public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder> {
     private static final String TAG = "RotTAdapter";
-    private List<RotationTask> rotationTaskList;
     private MenuItem points;
+    private long mId;
+    private RotationTaskManager rotationTaskManager;
 
-    public RotTAdapter(MenuItem points, List<RotationTask> rottl) {
-        rotationTaskList = rottl;
+    public RotTAdapter(MenuItem points, long id) {
+        rotationTaskManager = new RotationTaskManager();
         this.points = points;
     }
+
+    public RotationTaskManager getManager() { return rotationTaskManager; }
 
     @Override
     public TaskViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -47,21 +50,28 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
         return new TaskViewHolder(v);
     }
 
+
+    // The rotation task class needs to be edited so the state can be gotten and the color of
+    // the task can be shown. (The task color depends on if it is activated and whether or not
+    // it is the user's task.
     @Override
     public void onBindViewHolder(RotTAdapter.TaskViewHolder taskViewHolder, int position) {
-        taskViewHolder.taskName.setText(rotationTaskList.get(position).taskName);
-        final Integer val = new Integer(rotationTaskList.get(position).taskValue);
+        RotationTask rt = rotationTaskManager.getTask(positon);
+        taskViewHolder.taskName.setText(rt.getTitle());
+        final Integer val = new Integer(rt.getPoints());
         taskViewHolder.taskValue.setText(val.toString());
-        taskViewHolder.taskDescription.setText(rotationTaskList.get(position).description);
-        taskViewHolder.action.setText(rotationTaskList.get(position).action);
+        taskViewHolder.taskDescription.setText(rt.getDescription());
 
-        if (rotationTaskList.get(position).action == "Claim")
+        taskViewHolder.action.setText(rt.action);
+
+        if (rt.action == "Claim")
             taskViewHolder.action.setBackgroundResource(R.color.colorButton);
         else
             taskViewHolder.action.setBackgroundResource(R.color.colorButtonNegate);
 
         final int pos = position;
 
+        // THIS FUNCTION NEEDS TO BE CHANGED.
         taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,7 +91,7 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
 
     @Override
     public int getItemCount() {
-        return rotationTaskList.size();
+        return rotationTaskManager.getNumTasks();
     }
 
     public final static class TaskViewHolder extends RecyclerView.ViewHolder {
