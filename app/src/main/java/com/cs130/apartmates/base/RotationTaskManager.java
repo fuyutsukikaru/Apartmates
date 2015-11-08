@@ -6,6 +6,7 @@ import com.cs130.apartmates.base.tasks.RotationTask;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -18,26 +19,49 @@ public class RotationTaskManager {
     private ArrayList<RotationTask> m_task_list;
     private ArrayList<Long> m_member_list;
 
+    private String createTaskUrl = "/task/create";
+    private String dropTaskUrl = "/task?taskId=";
+
     public RotationTaskManager() {
         m_task_list = new ArrayList<RotationTask>();
         m_member_list = new ArrayList<Long>();
     }
 
-    public void addTask(long uid, long gid, int points, long time_limit, String title, String description) {
+    public void populateTask(long tid, int points, long deadline, String title, String description) {
+        m_task_list.add(new RotationTask(tid, points, deadline, title, description));
+    }
+
+    public void addTask(long gid, int points, long deadline, String title, String description) {
         try {
-            /*
-            JSONObject data = new JSONObject();
-            data.put("userId", uid);
-            data.put("groupId", gid);
-            data.put("title", title);
-            data.put("description", description);
-            data.put("value", points);
-            String id = ApartmatesHttpClient.sendRequest("/task/create",
-                    data.toString(), "POST");
-            m_task_list.add(new RotationTask(Long.parseLong(id), points, time_limit, -1, title, description));
-            */
+            HashMap<String, String> params = new HashMap<String, String>();
+            //params.put("userId", Long.toString(uid));
+            params.put("groupId", Long.toString(gid));
+            params.put("title", title);
+            params.put("description", description);
+            params.put("value", Integer.toString(points));
+            params.put("type", "rotation");
+            params.put("deadline", Long.toString(deadline));
+
+            JSONObject resp = ApartmatesHttpClient.sendRequest(createTaskUrl, params,
+                    null, "POST");
+            System.err.println("RESP: " + resp);
+            if (resp.has("task_id")) {
+                populateTask(resp.getLong("task_id"), points, deadline, title, description);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public boolean dropTask(int index) {
+        try {
+            JSONObject resp = ApartmatesHttpClient.sendRequest(dropTaskUrl + m_task_list.get(index).getId(),
+                    null, null, "DELETE");
+            m_task_list.remove(index);
+            return (resp.has("success") && resp.get("success") == "true");
+        } catch (Exception e) {
+            return false;
         }
     }
 

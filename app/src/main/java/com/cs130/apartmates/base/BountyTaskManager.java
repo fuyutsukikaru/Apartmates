@@ -10,6 +10,9 @@ import java.util.HashMap;
 public class BountyTaskManager {
     private ArrayList<BountyTask> m_task_list;
 
+    private String createTaskUrl = "/task/create";
+    private String dropTaskUrl = "/task?taskId=";
+
     public BountyTaskManager() {
         m_task_list = new ArrayList<BountyTask>();
     }
@@ -36,7 +39,7 @@ public class BountyTaskManager {
             params.put("value", Integer.toString(points));
             params.put("type", "bounty");
 
-            JSONObject resp = ApartmatesHttpClient.sendRequest("/task/create", params,
+            JSONObject resp = ApartmatesHttpClient.sendRequest(createTaskUrl, params,
                     null, "POST");
             System.err.println("RESP: " + resp);
             if (resp.has("task_id")) {
@@ -49,7 +52,7 @@ public class BountyTaskManager {
 
     public boolean dropTask(int index) {
         try {
-            JSONObject resp = ApartmatesHttpClient.sendRequest("/task?taskId=" + m_task_list.get(index).getId(),
+            JSONObject resp = ApartmatesHttpClient.sendRequest(dropTaskUrl + m_task_list.get(index).getId(),
                     null, null, "DELETE");
             m_task_list.remove(index);
             return (resp.has("success") && resp.get("success") == "true");

@@ -1,9 +1,12 @@
 package com.cs130.apartmates.base;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import com.cs130.apartmates.base.users.User;
+
+import org.json.JSONObject;
 
 /**
  * Created by Eric Du on 10/26/2015.
@@ -18,6 +21,8 @@ public class Apartment {
     private RotationTaskManager m_manager;
     private long m_apartment_id;
 
+    private String joinGroupUrl = "/group/join";
+
     public Apartment(long apartment_id) {
         m_members = new ArrayList<User>();
         m_manager = new RotationTaskManager();
@@ -28,12 +33,30 @@ public class Apartment {
         return m_members;
     }
 
-    public void addUser(User user) {
-        m_members.add(user);
-        m_manager.addMember(user.getId());
+    public boolean addUser(User user, String password) {
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("userId", Long.toString(user.getId()));
+        params.put("groupId", Long.toString(m_apartment_id));
+        params.put("title", password);
+
+        JSONObject resp = ApartmatesHttpClient.sendRequest(joinGroupUrl, params,
+                null, "POST");
+        System.err.println("RESP: " + resp);
+        if (resp.has("error")) {
+            return false;
+        }
+        else {
+            m_members.add(user);
+            m_manager.addMember(user.getId());
+            return true;
+        }
     }
 
     public void removeUser(long id) {
+        /*
+        Need to make backend call to remove user from a group,
+        but that doesn't exist yet
+        */
         Iterator<User> iterator =  m_members.iterator();
         while(iterator.hasNext()) {
             User user = iterator.next();
@@ -42,6 +65,7 @@ public class Apartment {
                 m_manager.removeMember(id);
             }
         }
+
     }
 
     public RotationTaskManager getManager() {
