@@ -13,6 +13,9 @@ import android.widget.TextView;
 import com.cs130.apartmates.R;
 import com.cs130.apartmates.base.RotationTaskManager;
 import com.cs130.apartmates.base.tasks.RotationTask;
+import com.cs130.apartmates.base.taskstates.ActiveTaskState;
+import com.cs130.apartmates.base.taskstates.PenaltyTaskState;
+import com.cs130.apartmates.base.taskstates.PendingTaskState;
 import com.cs130.apartmates.base.taskstates.TaskState;
 
 import java.util.List;
@@ -28,6 +31,7 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
 
     public RotTAdapter(MenuItem points, long id) {
         rotationTaskManager = new RotationTaskManager();
+        mId = id;
         this.points = points;
     }
 
@@ -64,29 +68,45 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
         taskViewHolder.taskDescription.setText(rt.getDescription());
 
         TaskState curState = rt.getCurrentState();
-        
+        final long tid = rt.getId();
 
-        taskViewHolder.action.setText(rt.action);
-
-        if (rt.action == "Claim")
-            taskViewHolder.action.setBackgroundResource(R.color.colorButton);
-        else
-            taskViewHolder.action.setBackgroundResource(R.color.colorButtonNegate);
-
-        final int pos = position;
-
-        // THIS FUNCTION NEEDS TO BE CHANGED. Based on the state of the task it should
-        // have a different action for the onClick. the task may need to be activated,
-        // deactivated, etc.
-        taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int count = Integer.parseInt(points.getTitle().toString());
-                points.setTitle(Integer.toString(count + val));
-
-                notifyItemRemoved(pos);
+        if (rt.getAssignee() == mId) { //user is assigned to this task
+            if (curState instanceof PendingTaskState) { //task is waiting for someone to say it needs to be done
+                //TODO: some kind of color scheme?
+            } else if (curState instanceof ActiveTaskState) { //task is active; timer is ticking
+                //TODO: color? add some kind of timer interface too?
+            } else if (curState instanceof PenaltyTaskState) { //task is in penalty mode
+                //TODO: color?
             }
-        });
+            //for now, we'll have the following as default
+            taskViewHolder.action.setBackgroundResource(R.color.colorButtonNegate);
+        } else { //user is NOT assigned to this task
+            if (curState instanceof PendingTaskState) { //task is waiting for someone to say it needs to be done
+                //TODO: color?
+            } else if (curState instanceof ActiveTaskState) { //task is active; timer is ticking
+                //TODO: color?
+            } else if (curState instanceof PenaltyTaskState) { //task is in penalty mode
+                taskViewHolder.action.setText("Claim");
+                taskViewHolder.action.setBackgroundResource(R.color.colorButton);
+
+                taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int count = Integer.parseInt(points.getTitle().toString());
+                        points.setTitle(Integer.toString(count + val));
+
+                        //did we already deduct from offending user? if not, we may need to do it here
+                        //let's talk about this
+
+                        rotationTaskManager.completeTask(tid);
+                    }
+                });
+            }
+
+            //default
+            taskViewHolder.action.setBackgroundResource(R.color.colorButtonNegate);
+        }
+
     }
 
     @Override

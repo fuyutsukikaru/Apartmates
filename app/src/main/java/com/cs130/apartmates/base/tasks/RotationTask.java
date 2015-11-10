@@ -94,4 +94,12 @@ public class RotationTask implements Task{
         return false;
     }
 
+    public void awardPoints() {
+        //TODO: stub
+    }
+
+    public void deductPoints() {
+        //TODO: stub
+    }
+
 }

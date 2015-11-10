@@ -55,7 +55,7 @@ public class BountyActivity extends AppCompatActivity {
 
         //maybe we could just pass in the groupId instead of making another request
         JSONObject resp = ApartmatesHttpClient.sendRequest("/user/info?userId=" + mId, null, null, "GET");
-        if (resp.has("group_id")) {
+        if (resp != null && resp.has("group_id")) {
             try {
                 long gid = resp.getLong("group_id");
                 JSONObject taskresp =

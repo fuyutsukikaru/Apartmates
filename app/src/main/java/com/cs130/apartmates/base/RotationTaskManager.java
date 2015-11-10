@@ -71,7 +71,7 @@ public class RotationTaskManager {
         try {
             JSONObject resp = ApartmatesHttpClient.sendRequest(dropTaskUrl + m_task_list.get(id).getId(),
                     null, null, "DELETE");
-           if(resp.has("success") && resp.get("success") == "true") {
+           if (resp.has("success") && resp.get("success") == "true") {
                for (RotationTask rt : m_task_list) {
                    if (rt.getId() == id) {
                        m_task_list.remove(rt);
@@ -80,8 +80,9 @@ public class RotationTaskManager {
                return true;
            }
         } catch (Exception e) {
-            return false;
+            e.printStackTrace();
         }
+        return false;
     }
 
     public boolean activateTask(long id) {
@@ -89,8 +90,8 @@ public class RotationTaskManager {
             JSONObject resp = ApartmatesHttpClient.sendRequest(activateRotationTaskUrl + id, null, null, "POST");
             System.err.println("RESP: " + resp);
             if (resp.has("success") && resp.get("success") == "true") {
-                for(RotationTask rt : m_task_list){
-                    if(rt.getId() == id){
+                for (RotationTask rt : m_task_list){
+                    if (rt.getId() == id) {
                         rt.activateTask();
                     }
                 }
@@ -98,8 +99,8 @@ public class RotationTaskManager {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
         }
+        return false;
     }
 
     //Complete task will increment the points of the current users and set the task to complete state.
@@ -115,12 +116,12 @@ public class RotationTaskManager {
                         task = rt;
                     }
                 }
-                if(task == null)
+                if (task == null)
                     return false;
                 task.completeTask();
                 int currentUser_index = m_member_list.indexOf(task.getAssignee());
                 long nextUser_id;
-                if(currentUser_index == m_member_list.size() - 1){
+                if (currentUser_index == m_member_list.size() - 1){
                     nextUser_id = m_member_list.get(0);
                 }
                 else {
@@ -129,7 +130,7 @@ public class RotationTaskManager {
                 HashMap<String, String> params = new HashMap<String, String>();
                 params.put("nextUserId", Long.toString(nextUser_id));
                 resp = ApartmatesHttpClient.sendRequest(rotateTaskUrl + id, params, null, "POST");
-                if(resp.has("success") && resp.get("success") == "true"){
+                if (resp.has("success") && resp.get("success") == "true"){
                     task.setAssignee(nextUser_id);
                     task.setState(task.getPendingState());
                     return true;
@@ -137,17 +138,13 @@ public class RotationTaskManager {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
         }
+        return false;
     }
 
-
-
-
-
     /*
-     * adds member to list at a random location (to make task allocation more fair even when
-     *  adding new members after tasks have already been assigned
+     * TODO: we're changing this per discussion last week
+     *  order of memberlist will be based on uid order in backend
      */
     public void addMember(long id) {
         m_member_list.add(new Random().nextInt(m_member_list.size() + 1), id);
