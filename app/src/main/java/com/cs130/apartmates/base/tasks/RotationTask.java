@@ -76,19 +76,20 @@ public class RotationTask implements Task{
         m_state.setPenalty();
         return true;
     }
-    /*If returns true,
-        Task was completed and points were awarded.
-        Task expired and points were deducted.
-        Task was not activated and was not completed yet.
-        */
+
+    /* If returns true,
+     * Task was completed and points were awarded.
+     * Task expired and points were deducted.
+     * Task was not activated and was not completed yet.
+     */
     public boolean completeTask(){
         boolean endTurn;
-        if(getDuration() < m_time_limit)
+        if (getDuration() < m_time_limit) {
             endTurn = m_state.completeTask();
-        else {
+        } else {
             endTurn = m_state.setPenalty();
         }
-        if(endTurn){
+        if (endTurn) {
             return m_state.setPending();
         }
         return false;
