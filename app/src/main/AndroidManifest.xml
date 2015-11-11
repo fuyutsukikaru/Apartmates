@@ -14,25 +14,26 @@
             android:name=".activities.LoginActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" >
-<!--            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter> -->
-        </activity>
-        <activity
-            android:name=".activities.BountyActivity"
-            android:label="@string/bounty_activity"
-            android:theme="@style/AppTheme.NoActionBar" >
-            <intent-filter>
+                <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
+            android:name=".activities.BountyActivity"
+            android:label="@string/bounty_activity"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
             android:name=".activities.AddTaskActivity"
             android:label="Add New Bounty Task"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleInstance">
+            android:launchMode="singleInstance"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity android:name=".activities.GroupInfoActivity"
+            android:label="Your Group"
+            android:theme="@style/AppTheme">
         </activity>
     </application>
+
 </manifest>

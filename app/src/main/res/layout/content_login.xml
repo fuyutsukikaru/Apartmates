@@ -8,7 +8,7 @@
     android:paddingRight="20dp"
     android:paddingTop="20dp"
     android:paddingBottom="20dp"
-    android:background="@color/colorSuperDark"
+    android:background="@drawable/loginbg"
     android:orientation="vertical"
     tools:showIn="@layout/activity_login" tools:context=".LoginActivity">
 
@@ -40,7 +40,7 @@
         android:textColor="@color/colorButtonText"
         android:background="@drawable/selector"
         android:onClick="onLoginClick"
-        android:alpha="0.80"/>
+        android:alpha="0.95"/>
 
   </LinearLayout>
 
