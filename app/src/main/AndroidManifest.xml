@@ -20,7 +20,7 @@
             </intent-filter> -->
         </activity>
         <activity
-            android:name=".activities.BountyActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/bounty_activity"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>

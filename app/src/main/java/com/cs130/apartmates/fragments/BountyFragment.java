@@ -1,18 +1,22 @@
-package com.cs130.apartmates.activities;
+package com.cs130.apartmates.fragments;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.cs130.apartmates.R;
 import com.cs130.apartmates.adapters.BTAdapter;
@@ -28,27 +32,26 @@ import java.util.Vector;
 /**
  * Created by bchalabian on 10/26/15.
  */
-public class BountyActivity extends AppCompatActivity {
+public class BountyFragment extends Fragment {
     private RecyclerView mRecyclerView;
+    private LinearLayout mLinearLayout;
     private BTAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private MenuItem points;
     private long mId;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_tasks);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        mRecyclerView = (RecyclerView) findViewById(R.id.rv);
+        mLinearLayout = (LinearLayout) inflater.inflate(R.layout.content_bounty, container, false);
+        mRecyclerView = (RecyclerView) mLinearLayout.findViewById(R.id.rv);
         mRecyclerView.setHasFixedSize(true);
 
-        mLayoutManager = new LinearLayoutManager(this);
+        mLayoutManager = new LinearLayoutManager(getActivity().getBaseContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        SharedPreferences prefs = getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        SharedPreferences prefs = getActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
         mId = prefs.getLong("userId", 1);
 
         mAdapter = new BTAdapter(points, mId);
@@ -79,33 +82,20 @@ public class BountyActivity extends AppCompatActivity {
         }
 
         mRecyclerView.setAdapter(mAdapter);
-    }
 
-    public void addTask(View view) {
-        Intent intent = new Intent(this, AddTaskActivity.class);
-        startActivity(intent);
+        return mLinearLayout;
     }
 
     @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        if (intent != null) {
-            String title = intent.getStringExtra("task_title");
-            int value = intent.getIntExtra("task_value", 0);
-            String details = intent.getStringExtra("task_details");
-            mAdapter.getManager().addTask(mId, 2, value, title, details);
-            mAdapter.notifyDataSetChanged();
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_tasks, menu);
+    public void onCreateOptionsMenu(Menu menu,MenuInflater inflater) {
+        // Do something that differs the Activity's menu here
+        super.onCreateOptionsMenu(menu, inflater);
 
         mAdapter.setPoints(points);
-        return true;
     }
 
+    public void doStuff(String title, int value, String details) {
+        mAdapter.getManager().addTask(mId, 2, value, title, details);
+        mAdapter.notifyDataSetChanged();
+    }
 }
