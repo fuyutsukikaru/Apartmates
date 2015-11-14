@@ -22,10 +22,10 @@
         android:background="#ffffff">
 
         <EditText
-            android:id="@+id/groupId"
+            android:id="@+id/groupName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Group Id"
+            android:hint="Group Name"
             android:background="#ffffff"
             android:paddingLeft="5dp"
             android:paddingBottom="10dp" />
@@ -40,10 +40,10 @@
         android:background="#ffffff">
 
         <EditText
-            android:id="@+id/groupPassword"
+            android:id="@+id/monthlyStakes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Group Password"
+            android:hint="Monthly Stakes ($)"
             android:autoText="false"
             android:background="#ffffff"
             android:paddingBottom="10dp"
@@ -54,57 +54,12 @@
     <Button
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="Join Group"
-        android:id="@+id/join"
+        android:text="Create Group"
+        android:id="@+id/create"
         android:textColor="@color/colorButtonText"
         android:background="@drawable/selector"
         android:textSize="20sp"
         android:layout_marginTop="20dp"
         android:layout_gravity="center_horizontal" />
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_weight="1"
-            android:background="#a9a9a9"
-            android:layout_gravity="center_vertical"></LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="or"
-            android:id="@+id/textView"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:gravity="center_horizontal"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1.5" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_weight="1"
-            android:background="#a9a9a9"
-            android:layout_gravity="center_vertical"></LinearLayout>
-    </LinearLayout>
-
-    <Button
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:text="New Group"
-        android:id="@+id/newGroup"
-        android:textColor="@color/colorButtonText"
-        android:background="@drawable/selector"
-        android:textSize="20sp"
-        android:layout_gravity="center_horizontal"/>
 
 </LinearLayout>

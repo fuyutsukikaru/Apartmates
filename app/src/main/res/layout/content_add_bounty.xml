@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    android:id="@+id/add_task_fragment">
+    android:id="@+id/add_task_fragment"
+    >
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -18,7 +19,8 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Title" />
+            android:hint="Title"
+            android:paddingLeft="5dp" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -34,7 +36,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Description"
-            android:lines="4" />
+            android:lines="4"
+            android:paddingLeft="5dp" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -51,7 +54,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Value"
-            android:inputType="number" />
+            android:inputType="number"
+            android:paddingLeft="5dp" />
 
     </android.support.design.widget.TextInputLayout>
 
