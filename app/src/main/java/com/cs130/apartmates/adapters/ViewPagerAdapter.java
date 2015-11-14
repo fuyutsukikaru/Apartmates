@@ -38,8 +38,4 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         return mFragmentTitleList.get(position);
     }
-
-    public Fragment getFragment(int position) {
-        return mFragmentList.get(position);
-    }
 }
