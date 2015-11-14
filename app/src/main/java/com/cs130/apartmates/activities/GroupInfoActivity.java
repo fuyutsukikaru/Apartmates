@@ -14,12 +14,12 @@ public class GroupInfoActivity extends AppCompatActivity {
         setContentView(R.layout.group_info);
 
         TextView groupName = (TextView) findViewById(R.id.displayGroupName);
-        TextView groupDescription = (TextView) findViewById(R.id.displayGroupDescription);
+        //TextView groupDescription = (TextView) findViewById(R.id.displayGroupDescription);
         TextView groupID = (TextView) findViewById(R.id.displayGroupID);
         TextView memberNames = (TextView) findViewById(R.id.displayMemberNames);
 
         groupName.setText("Apt 306");
-        groupDescription.setText("Lovely people of Cedarwood #306!");
+        //groupDescription.setText("Lovely people of Cedarwood #306!");
         groupID.setText("GroupID: 123456");
         memberNames.setText("Jade\nSarah\nViolet\nJordan"); //can consider adding their Venmo profile pics later
     }

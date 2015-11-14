@@ -18,6 +18,9 @@ import com.cs130.apartmates.R;
 import com.cs130.apartmates.adapters.ViewPagerAdapter;
 import com.cs130.apartmates.fragments.BountyFragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by sjeongus on 11/13/15.
  */
@@ -25,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewPagerAdapter adapter;
     private DrawerLayout mDrawerLayout;
+    private ActionBar ab;
+    private ViewPager mViewPager;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,19 +40,52 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        final ActionBar ab = getSupportActionBar();
-        //ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+        ab = getSupportActionBar();
+        ab.setHomeAsUpIndicator(R.mipmap.ic_menu);
         ab.setDisplayHomeAsUpEnabled(true);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         if (navigationView != null) {
             setupDrawerContent(navigationView);
         }
 
-        ViewPager mViewPager = (ViewPager) findViewById(R.id.view_pager);
+        mViewPager = (ViewPager) findViewById(R.id.view_pager);
         setupViewPager(mViewPager);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                int id = 0;
+                switch(position) {
+                    case 0:
+                        id = R.id.nav_my_tasks;
+                        ab.setTitle(adapter.getPageTitle(0));
+                        break;
+                    case 1:
+                        id = R.id.nav_rotation;
+                        ab.setTitle(adapter.getPageTitle(1));
+                        break;
+                    case 2:
+                        id = R.id.nav_bounty;
+                        ab.setTitle(adapter.getPageTitle(2));
+                        break;
+                    default:
+                        break;
+                }
+                navigationView.setCheckedItem(id);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -63,6 +102,23 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         menuItem.setChecked(true);
+                        switch (menuItem.getItemId()) {
+                            case R.id.nav_my_tasks:
+                                mViewPager.setCurrentItem(0, true);
+                                ab.setTitle(adapter.getPageTitle(0));
+                                break;
+                            case R.id.nav_rotation:
+                                mViewPager.setCurrentItem(1, true);
+                                ab.setTitle(adapter.getPageTitle(1));
+                                break;
+                            case R.id.nav_bounty:
+                                mViewPager.setCurrentItem(2, true);
+                                ab.setTitle(adapter.getPageTitle(2));
+                                break;
+                            default:
+                                break;
+
+                        }
                         mDrawerLayout.closeDrawers();
                         return true;
                     }
@@ -77,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
             int value = intent.getIntExtra("task_value", 0);
             String details = intent.getStringExtra("task_details");
 
-            BountyFragment frag = (BountyFragment) adapter.getFragment(0);
+            BountyFragment frag = (BountyFragment) adapter.getItem(0);
             frag.doStuff(title, value, details);
         }
     }
