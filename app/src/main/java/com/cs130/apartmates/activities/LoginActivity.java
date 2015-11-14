@@ -79,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     SharedPreferences prefs = getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
                     prefs.edit().putString("userid", result.getString("user_id")).apply();
-                    Intent intent = new Intent(LoginActivity.this, BountyActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     startActivity(intent);
                 }
             } catch(Exception e) {
