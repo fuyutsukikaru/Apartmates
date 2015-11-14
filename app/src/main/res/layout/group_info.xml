@@ -3,13 +3,6 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent" android:background="@color/colorSuperDark">
 
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView"
-        android:src="@drawable/logoname"
-        android:layout_gravity="center_horizontal" />
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -18,7 +11,8 @@
         android:background="@color/colorButtonText"
         android:alpha="0.9"
         android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp">
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="30dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -27,22 +21,72 @@
             android:layout_gravity="center"
             android:id="@+id/displayGroupName"
             android:textSize="30dp"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="20dp"
+            android:paddingBottom="8dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Group Description"
-            android:textStyle="italic"
+            android:text="Group ID:"
             android:layout_gravity="center"
-            android:id="@+id/displayGroupDescription" />
+            android:textSize="15dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Group ID"
+            android:text="Actual Group ID"
             android:layout_gravity="center"
-            android:id="@+id/displayGroupID" />
+            android:id="@+id/displayGroupID"
+            android:textStyle="bold"
+            android:textSize="15dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Group Password:"
+            android:layout_gravity="center"
+            android:textSize="15dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Actual Group Password"
+            android:layout_gravity="center"
+            android:id="@+id/displayGroupPwd"
+            android:textStyle="bold"
+            android:textSize="15dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_margin="10dp"
+            android:layout_height="2dp"
+            android:layout_weight="1"
+            android:background="#a9a9a9"
+            android:layout_gravity="center_vertical"></LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Monthly Stakes ($):"
+            android:layout_gravity="center"
+            android:textSize="20dp"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10"
+            android:id="@+id/displayStakes"
+            android:layout_gravity="center"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Click to edit"
+            android:layout_gravity="center"
+            android:textSize="12dp"/>
 
         <LinearLayout
             android:orientation="horizontal"
