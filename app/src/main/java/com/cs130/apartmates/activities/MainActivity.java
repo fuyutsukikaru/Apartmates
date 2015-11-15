@@ -1,14 +1,23 @@
 package com.cs130.apartmates.activities;
 
+import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.telecom.ConnectionRequest;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -17,6 +26,9 @@ import android.view.View;
 import com.cs130.apartmates.R;
 import com.cs130.apartmates.adapters.ViewPagerAdapter;
 import com.cs130.apartmates.fragments.BountyFragment;
+import com.cs130.apartmates.services.RegistrationIntentService;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +43,11 @@ public class MainActivity extends AppCompatActivity {
     private ActionBar ab;
     private ViewPager mViewPager;
     private NavigationView navigationView;
+    private BroadcastReceiver mRegistrationBroadcastReceiver;
+
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    private static final String SENT_TOKEN_TO_SERVER = "sentTokenToServer";
+    private static final String REGISTRATION_COMPLETE = "registrationComplete";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 int id = 0;
-                switch(position) {
+                switch (position) {
                     case 0:
                         id = R.id.nav_my_tasks;
                         ab.setTitle(adapter.getPageTitle(0));
@@ -86,6 +103,51 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        mRegistrationBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                SharedPreferences sharedPreferences =
+                        PreferenceManager.getDefaultSharedPreferences(context);
+                boolean sentToken = sharedPreferences
+                        .getBoolean(SENT_TOKEN_TO_SERVER, false);
+            }
+        };
+
+        if (checkGooglePlayServices()) {
+            // Start IntentService to register this application with GCM.
+            System.err.println("Starting RegistrationIntentService");
+            Intent intent = new Intent(this, RegistrationIntentService.class);
+            startService(intent);
+        }
+    }
+
+    private boolean checkGooglePlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else {
+                finish();
+            }
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LocalBroadcastManager.getInstance(this).registerReceiver(mRegistrationBroadcastReceiver,
+                new IntentFilter(REGISTRATION_COMPLETE));
+    }
+
+    @Override
+    protected void onPause() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mRegistrationBroadcastReceiver);
+        super.onPause();
     }
 
     private void setupViewPager(ViewPager viewPager) {
