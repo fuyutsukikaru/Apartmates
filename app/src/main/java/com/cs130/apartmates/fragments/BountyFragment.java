@@ -57,7 +57,7 @@ public class BountyFragment extends Fragment {
         mAdapter = new BTAdapter(points, mId);
 
         //maybe we could just pass in the groupId instead of making another request
-        JSONObject resp = ApartmatesHttpClient.sendRequest("/user/info?userId=" + mId, null, null, "GET");
+        JSONObject resp = ApartmatesHttpClient.sendRequest("/user?userId=" + mId, null, null, "GET");
         if (resp != null && resp.has("group_id")) {
             try {
                 long gid = resp.getLong("group_id");
