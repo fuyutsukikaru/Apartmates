@@ -11,7 +11,7 @@
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/cv"
+        android:id="@+id/rcv"
         android:elevation="40dp"
         android:alpha="0.8"
         android:background="#FAF7F0"
@@ -61,16 +61,38 @@
                         android:gravity="center"
                         android:textSize="30sp" />
 
-                    <TextView
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:id="@+id/task_value"
-                        android:layout_weight="7"
-                        android:gravity="bottom"
-                        android:textStyle="bold"
-                        android:textSize="15sp"
-                        android:textIsSelectable="false" />
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="7">
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:id="@+id/task_duration"
+                            android:layout_weight="1"
+                            android:gravity="top"
+                            android:textStyle="bold"
+                            android:textSize="15sp"
+                            android:textIsSelectable="false"
+                            android:text="3d"
+                            android:textColor="#f14e4e" />
+
+                        <TextView
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:textAppearance="?android:attr/textAppearanceSmall"
+                            android:id="@+id/task_value"
+                            android:layout_weight="1"
+                            android:gravity="bottom"
+                            android:textStyle="bold"
+                            android:textSize="15sp"
+                            android:textIsSelectable="false"
+                            android:text="15" />
+                    </LinearLayout>
+
                 </LinearLayout>
 
             </LinearLayout>
@@ -80,7 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:visibility="gone">
+               android:visibility="gone">
 
                 <ImageView
                     android:layout_width="fill_parent"
@@ -98,7 +120,8 @@
                     android:textSize="15sp"
                     android:padding="3dp"
                     android:layout_marginBottom="2dp"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:singleLine="true" />
 
             </LinearLayout>
 

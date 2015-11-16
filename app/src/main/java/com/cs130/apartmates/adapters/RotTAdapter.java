@@ -39,8 +39,8 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
 
     @Override
     public TaskViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.a_bountycard_layout, viewGroup, false);
-        CardView cv = (CardView) v.findViewById(R.id.cv);
+        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.rotationcard_layout, viewGroup, false);
+        CardView cv = (CardView) v.findViewById(R.id.rcv);
         final LinearLayout details = (LinearLayout) v.findViewById(R.id.details);
         cv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,6 +64,7 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
         RotationTask rt = rotationTaskManager.getTask(position);
         taskViewHolder.taskName.setText(rt.getTitle());
         final Integer val = new Integer(rt.getPoints());
+        Button button = (Button)taskViewHolder.cv.findViewById(R.id.button);
         taskViewHolder.taskValue.setText(val.toString());
         taskViewHolder.taskDescription.setText(rt.getDescription());
 
@@ -72,18 +73,25 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
 
         if (rt.getAssignee() == mId) { //user is assigned to this task
             if (curState instanceof PendingTaskState) { //task is waiting for someone to say it needs to be done
+                taskViewHolder.action.setText("Activate");
                 //TODO: some kind of color scheme?
             } else if (curState instanceof ActiveTaskState) { //task is active; timer is ticking
+                taskViewHolder.action.setText("Done");
                 //TODO: color? add some kind of timer interface too?
             } else if (curState instanceof PenaltyTaskState) { //task is in penalty mode
+                taskViewHolder.action.setText("Claim");
                 //TODO: color?
             }
             //for now, we'll have the following as default
             taskViewHolder.action.setBackgroundResource(R.color.colorButtonNegate);
         } else { //user is NOT assigned to this task
             if (curState instanceof PendingTaskState) { //task is waiting for someone to say it needs to be done
+                taskViewHolder.action.setText("Activate");
                 //TODO: color?
             } else if (curState instanceof ActiveTaskState) { //task is active; timer is ticking
+                taskViewHolder.action.setText("Active");
+                button.setEnabled(false);
+                taskViewHolder.action.setBackgroundResource(R.color.colorButtonGrey);
                 //TODO: color?
             } else if (curState instanceof PenaltyTaskState) { //task is in penalty mode
                 taskViewHolder.action.setText("Claim");
