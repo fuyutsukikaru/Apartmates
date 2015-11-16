@@ -59,6 +59,24 @@
 
     </android.support.design.widget.TextInputLayout>
 
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp">
+
+        <EditText
+            android:id="@+id/deadline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Deadline"
+            android:inputType="datetime"
+            android:paddingLeft="5dp" />
+
+    </android.support.design.widget.TextInputLayout>
+
     <Button
         android:layout_width="200dp"
         android:layout_height="wrap_content"

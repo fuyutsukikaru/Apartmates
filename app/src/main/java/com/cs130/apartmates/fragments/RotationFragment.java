@@ -15,16 +15,16 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.cs130.apartmates.R;
-import com.cs130.apartmates.adapters.BTAdapter;
+import com.cs130.apartmates.adapters.RotTAdapter;
 import com.cs130.apartmates.base.ApartmatesHttpClient;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class BountyFragment extends Fragment {
+public class RotationFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private LinearLayout mLinearLayout;
-    private BTAdapter mAdapter;
+    private RotTAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private MenuItem points;
     private long mId;
@@ -44,7 +44,7 @@ public class BountyFragment extends Fragment {
         SharedPreferences prefs = getActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
         mId = prefs.getLong("userId", 1);
 
-        mAdapter = new BTAdapter(points, mId);
+        mAdapter = new RotTAdapter(points, mId);
         refresh();
         mRecyclerView.setAdapter(mAdapter);
 
@@ -65,13 +65,12 @@ public class BountyFragment extends Fragment {
                         JSONObject task = tasklist.getJSONObject(i);
 
                         mAdapter.getManager().populateTask(task.getLong("id"), mId, task.getInt("value"),
-                                task.getString("deadline"), task.getString("title"), task.getString("description"));
+                                task.getLong("deadline"), task.getString("title"), task.getString("description"));
                     }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            mAdapter.notifyDataSetChanged();
         }
     }
 
@@ -83,7 +82,7 @@ public class BountyFragment extends Fragment {
         mAdapter.setPoints(points);
     }
 
-    public void addTask(String deadline, String title, int value, String details) {
+    public void addTask(long deadline, String title, int value, String details) {
         mAdapter.getManager().addTask(mId, gId, value, deadline, title, details);
         mAdapter.notifyDataSetChanged();
     }

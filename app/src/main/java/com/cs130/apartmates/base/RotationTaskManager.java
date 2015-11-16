@@ -15,13 +15,12 @@ public class RotationTaskManager {
     private ArrayList<RotationTask> m_task_list;
     private ArrayList<Long> m_member_list;
 
+    //TODO: maybe we can move to a common constants file
     private String createTaskUrl = "/task/create";
     private String dropTaskUrl = "/task?taskId=";
     private String activateRotationTaskUrl = "/task/activate?taskId=";
     private String completeTaskUrl = "/task/complete";
     private String rotateTaskUrl = "/task/rotate?taskId=";
-
-    //private String setTaskToBounty =
 
     public RotationTaskManager() {
         m_task_list = new ArrayList<RotationTask>();
@@ -38,6 +37,10 @@ public class RotationTaskManager {
 
     public RotationTask getTask(int index) {
         return m_task_list.get(index);
+    }
+
+    public void clear() {
+        m_task_list.clear();
     }
 
     //Assign a user to the task initially and the rotation will be dependent on the apartment list.
@@ -194,5 +197,4 @@ public class RotationTaskManager {
             }
         }
     }
-
 }

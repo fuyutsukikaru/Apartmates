@@ -1,6 +1,8 @@
 package com.cs130.apartmates.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,10 +18,11 @@ import android.view.View;
 
 import com.cs130.apartmates.R;
 import com.cs130.apartmates.adapters.ViewPagerAdapter;
+import com.cs130.apartmates.base.ApartmatesHttpClient;
 import com.cs130.apartmates.fragments.BountyFragment;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * Created by sjeongus on 11/13/15.
@@ -31,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private ActionBar ab;
     private ViewPager mViewPager;
     private NavigationView navigationView;
+    private long mId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
         ab = getSupportActionBar();
         ab.setHomeAsUpIndicator(R.mipmap.ic_menu);
         ab.setDisplayHomeAsUpEnabled(true);
+
+        SharedPreferences prefs = getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        mId = prefs.getLong("userId", 1);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -62,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 int id = 0;
-                switch(position) {
+                switch (position) {
                     case 0:
                         id = R.id.nav_my_tasks;
                         ab.setTitle(adapter.getPageTitle(0));
@@ -90,10 +97,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
+
         adapter.addFrag(new BountyFragment(), "My Tasks");
         adapter.addFrag(new BountyFragment(), "Rotation Tasks");
         adapter.addFrag(new BountyFragment(), "Bounty Tasks");
         viewPager.setAdapter(adapter);
+    }
+
+    public void refreshAll() {
+        ((BountyFragment) adapter.getItem(0)).refresh();
+        ((BountyFragment) adapter.getItem(1)).refresh();
+        ((BountyFragment) adapter.getItem(2)).refresh();
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
@@ -117,7 +131,6 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             default:
                                 break;
-
                         }
                         mDrawerLayout.closeDrawers();
                         return true;
@@ -131,10 +144,11 @@ public class MainActivity extends AppCompatActivity {
         if (intent != null) {
             String title = intent.getStringExtra("task_title");
             int value = intent.getIntExtra("task_value", 0);
+            String deadline = intent.getStringExtra("task_deadline");
             String details = intent.getStringExtra("task_details");
 
             BountyFragment frag = (BountyFragment) adapter.getItem(0);
-            frag.doStuff(title, value, details);
+            frag.addTask(deadline, title, value, details);
         }
     }
 

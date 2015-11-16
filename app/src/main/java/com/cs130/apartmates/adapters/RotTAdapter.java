@@ -114,6 +114,9 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
         super.onAttachedToRecyclerView(recyclerView);
     }
 
+    public void setPoints(MenuItem points) {
+        this.points = points;
+    }
 
     @Override
     public int getItemCount() {
@@ -126,7 +129,6 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
         TextView taskValue;
         TextView taskDescription;
         Button action;
-
 
         TaskViewHolder(View itemView) {
             super(itemView);

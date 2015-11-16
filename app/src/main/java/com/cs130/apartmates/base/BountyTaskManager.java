@@ -25,15 +25,16 @@ public class BountyTaskManager {
         return m_task_list.size();
     }
 
-    public void populateTask(long tid, long uid, int points, String title, String description) {
-        m_task_list.add(new BountyTask(tid, points, uid, title, description));
+    public void populateTask(long tid, long uid, int points, String deadline, String title, String description) {
+        m_task_list.add(new BountyTask(tid, points, uid, deadline, title, description));
     }
 
-    public void addTask(long uid, long gid, int points, String title, String description) {
+    public void addTask(long uid, long gid, int points, String deadline, String title, String description) {
         try {
             HashMap<String, String> params = new HashMap<String, String>();
             params.put("userId", Long.toString(uid));
             params.put("groupId", Long.toString(gid));
+            params.put("deadline", deadline);
             params.put("title", title);
             params.put("description", description);
             params.put("value", Integer.toString(points));
@@ -43,7 +44,7 @@ public class BountyTaskManager {
                     null, "POST");
             System.err.println("RESP: " + resp);
             if (resp.has("task_id")) {
-                m_task_list.add(new BountyTask(resp.getLong("task_id"), points, uid, title, description));
+                m_task_list.add(new BountyTask(resp.getLong("task_id"), points, uid, deadline, title, description));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -67,5 +68,9 @@ public class BountyTaskManager {
                 //STUB remove bt and award points
             }
         }
+    }
+
+    public void clear() {
+        m_task_list.clear();
     }
 }
