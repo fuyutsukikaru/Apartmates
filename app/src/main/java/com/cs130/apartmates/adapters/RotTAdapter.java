@@ -116,10 +116,17 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
         }
 
         //Noah is working on this
-        StringBuilder durationBuilder = new StringBuilder();
         long hrsRemaining = rt.getDuration();
         if (hrsRemaining >= 24) {
             long daysRemaining =  hrsRemaining/24;
+            String dur = Long.toString(daysRemaining);
+            dur = dur.concat("d");
+            taskViewHolder.taskDuration.setText(dur);
+        }
+        else {
+            String dur = Long.toString(hrsRemaining);
+            dur = dur.concat("h");
+            taskViewHolder.taskDuration.setText(dur);
         }
 
 
@@ -144,6 +151,7 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
         TextView taskName;
         TextView taskValue;
         TextView taskDescription;
+        TextView taskDuration;
         Button action;
 
         TaskViewHolder(View itemView) {
@@ -152,6 +160,7 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
             taskName = (TextView) itemView.findViewById(R.id.task_name);
             taskValue = (TextView) itemView.findViewById(R.id.task_value);
             taskDescription = (TextView) itemView.findViewById(R.id.task_description);
+            taskDuration = (TextView) itemView.findViewById(R.id.task_duration);
             action = (Button) itemView.findViewById(R.id.button);
         }
     }
