@@ -39,6 +39,34 @@ public class RotationTaskManager {
         return m_task_list.get(index);
     }
 
+    // Returns a task at the virtual index specified given a user's id that specifies their virtual task list
+    public RotationTask getTaskByUser(int index, long user_id) {
+        int userTaskPos = 0;
+        for (int i = 0; i < m_task_list.size(); i++) {
+            if (getTask(i).getId() == user_id) {
+                if (userTaskPos == index)
+                    return getTask(i);
+                else
+                    userTaskPos++;
+            }
+        }
+
+        // Return an invalid entry just in case r
+        return m_task_list.get(m_task_list.size() + 1);
+    }
+
+    // Gets the number of tasks that a user with the user_id currently has
+    public int getNumTasksByUser(long user_id) {
+        int num = 0;
+        for (int i = 0; i < m_task_list.size(); i++) {
+            if (getTask(i).getId() == user_id) {
+                num++;
+            }
+        }
+
+        return num;
+    }
+
     public void clear() {
         m_task_list.clear();
     }
