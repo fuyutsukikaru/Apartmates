@@ -4,12 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -26,7 +26,7 @@ public class RotationFragment extends Fragment {
     private LinearLayout mLinearLayout;
     private RotTAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private MenuItem points;
+    private SwipeRefreshLayout mRefreshLayout;
     private long mId;
     private long gId;
 
@@ -35,6 +35,7 @@ public class RotationFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         mLinearLayout = (LinearLayout) inflater.inflate(R.layout.content_rotation, container, false);
+        mRefreshLayout = (SwipeRefreshLayout) mLinearLayout.findViewById(R.id.swipe_to_refresh);
         mRecyclerView = (RecyclerView) mLinearLayout.findViewById(R.id.rv);
         mRecyclerView.setHasFixedSize(true);
 
@@ -44,9 +45,16 @@ public class RotationFragment extends Fragment {
         SharedPreferences prefs = getActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
         mId = prefs.getLong("userId", 1);
 
-        mAdapter = new RotTAdapter(points, mId);
-        refresh();
+        mAdapter = new RotTAdapter(mId);
         mRecyclerView.setAdapter(mAdapter);
+        refresh();
+
+        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        });
 
         return mLinearLayout;
     }
@@ -72,14 +80,14 @@ public class RotationFragment extends Fragment {
                 e.printStackTrace();
             }
         }
+        mRefreshLayout.setRefreshing(false);
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu,MenuInflater inflater) {
         // Do something that differs the Activity's menu here
         super.onCreateOptionsMenu(menu, inflater);
-
-        mAdapter.setPoints(points);
     }
 
     public void addTask(long deadline, String title, int value, String details) {

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -30,6 +31,7 @@ public class BountyFragment extends Fragment {
     private LinearLayout mLinearLayout;
     private BTAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private SwipeRefreshLayout mRefreshLayout;
     private MenuItem points;
     private long mId;
     private long gId;
@@ -41,6 +43,7 @@ public class BountyFragment extends Fragment {
         setHasOptionsMenu(true);
 
         mLinearLayout = (LinearLayout) inflater.inflate(R.layout.content_bounty, container, false);
+        mRefreshLayout = (SwipeRefreshLayout) mLinearLayout.findViewById(R.id.swipe_to_refresh);
         mRecyclerView = (RecyclerView) mLinearLayout.findViewById(R.id.rv);
         mRecyclerView.setHasFixedSize(true);
 
@@ -51,6 +54,13 @@ public class BountyFragment extends Fragment {
         mId = prefs.getLong("userId", 1);
 
         mAdapter = new BTAdapter(this, mId);
+
+        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        });
 
         return mLinearLayout;
     }
@@ -86,6 +96,7 @@ public class BountyFragment extends Fragment {
                 e.printStackTrace();
             }
         }
+        mRefreshLayout.setRefreshing(false);
         mAdapter.notifyDataSetChanged();
     }
 

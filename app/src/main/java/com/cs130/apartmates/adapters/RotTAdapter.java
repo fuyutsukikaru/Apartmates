@@ -3,7 +3,6 @@ package com.cs130.apartmates.adapters;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -18,21 +17,17 @@ import com.cs130.apartmates.base.taskstates.PenaltyTaskState;
 import com.cs130.apartmates.base.taskstates.PendingTaskState;
 import com.cs130.apartmates.base.taskstates.TaskState;
 
-import java.util.List;
-
 /**
  * Created by bchalabian on 10/26/15.
  */
 public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder> {
     private static final String TAG = "RotTAdapter";
-    private MenuItem points;
     private long mId;
     private RotationTaskManager rotationTaskManager;
 
-    public RotTAdapter(MenuItem points, long id) {
+    public RotTAdapter(long id) {
         rotationTaskManager = new RotationTaskManager();
         mId = id;
-        this.points = points;
     }
 
     public RotationTaskManager getManager() { return rotationTaskManager; }
@@ -103,9 +98,6 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
                 taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        int count = Integer.parseInt(points.getTitle().toString());
-                        points.setTitle(Integer.toString(count + val));
-
                         //did we already deduct from offending user? if not, we may need to do it here
                         //let's talk about this
 
@@ -134,10 +126,6 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-    }
-
-    public void setPoints(MenuItem points) {
-        this.points = points;
     }
 
     @Override
