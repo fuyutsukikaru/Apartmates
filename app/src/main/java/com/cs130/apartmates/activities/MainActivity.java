@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private NavigationView navigationView;
     private long mId;
+    private int mPosition = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,14 +75,17 @@ public class MainActivity extends AppCompatActivity {
                     case 0:
                         id = R.id.nav_my_tasks;
                         ab.setTitle(adapter.getPageTitle(0));
+                        mPosition = 0;
                         break;
                     case 1:
                         id = R.id.nav_rotation;
                         ab.setTitle(adapter.getPageTitle(1));
+                        mPosition = 1;
                         break;
                     case 2:
                         id = R.id.nav_bounty;
                         ab.setTitle(adapter.getPageTitle(2));
+                        mPosition = 2;
                         break;
                     default:
                         break;
@@ -115,14 +119,17 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.nav_my_tasks:
                                 mViewPager.setCurrentItem(0, true);
                                 ab.setTitle(adapter.getPageTitle(0));
+                                mPosition = 0;
                                 break;
                             case R.id.nav_rotation:
                                 mViewPager.setCurrentItem(1, true);
                                 ab.setTitle(adapter.getPageTitle(1));
+                                mPosition = 1;
                                 break;
                             case R.id.nav_bounty:
                                 mViewPager.setCurrentItem(2, true);
                                 ab.setTitle(adapter.getPageTitle(2));
+                                mPosition = 2;
                                 break;
                             default:
                                 break;
@@ -148,8 +155,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addTask(View view) {
-        Intent intent = new Intent(this, AddTaskActivity.class);
+        Intent intent;
+        switch(mPosition) {
+            case 0:
+                intent = new Intent(this, AddTaskActivity.class);
+                break;
+            case 1:
+                intent = new Intent(this, AddRoTaskActivity.class);
+                break;
+            case 2:
+                intent = new Intent(this, AddTaskActivity.class);
+                break;
+            default:
+                intent = new Intent(this, AddTaskActivity.class);
+                break;
+        }
         startActivity(intent);
+
     }
 
     @Override

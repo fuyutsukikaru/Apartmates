@@ -18,6 +18,7 @@
         <activity
             android:name=".activities.MainActivity"
             android:label="My Tasks"
+            android:launchMode="singleInstance"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,7 +28,11 @@
         <activity
             android:name=".activities.AddTaskActivity"
             android:label="Add New Bounty Task"
-            android:launchMode="singleInstance"
+            android:theme="@style/AppTheme.NoActionBar" >
+        </activity>
+        <activity
+            android:name=".activities.AddRoTaskActivity"
+            android:label="Add New Rotation Task"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity android:name=".activities.GroupInfoActivity"
