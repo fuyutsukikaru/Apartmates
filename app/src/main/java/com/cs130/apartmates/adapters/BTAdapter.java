@@ -67,7 +67,7 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
         long creatorId = bt.getCreator();
         if (mId == creatorId) {
             taskViewHolder.action.setText("Drop");
-            taskViewHolder.action.setBackgroundResource(R.color.colorButton);
+            taskViewHolder.action.setBackgroundResource(R.color.colorButtonNegate);
             taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -77,7 +77,7 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
             });
         } else {
             taskViewHolder.action.setText("Claim");
-            taskViewHolder.action.setBackgroundResource(R.color.colorButtonNegate);
+            taskViewHolder.action.setBackgroundResource(R.color.colorButton);
             taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -74,19 +74,22 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
         if (rt.getAssignee() == mId) { //user is assigned to this task
             if (curState instanceof PendingTaskState) { //task is waiting for someone to say it needs to be done
                 taskViewHolder.action.setText("Activate");
+                taskViewHolder.action.setBackgroundResource(R.color.colorButtonClicked);
                 //TODO: some kind of color scheme?
             } else if (curState instanceof ActiveTaskState) { //task is active; timer is ticking
                 taskViewHolder.action.setText("Done");
+                taskViewHolder.action.setBackgroundResource(R.color.colorButton);
                 //TODO: color? add some kind of timer interface too?
             } else if (curState instanceof PenaltyTaskState) { //task is in penalty mode
                 taskViewHolder.action.setText("Claim");
+                taskViewHolder.action.setBackgroundResource(R.color.colorButton);
                 //TODO: color?
             }
-            //for now, we'll have the following as default
-            taskViewHolder.action.setBackgroundResource(R.color.colorButtonNegate);
+
         } else { //user is NOT assigned to this task
             if (curState instanceof PendingTaskState) { //task is waiting for someone to say it needs to be done
                 taskViewHolder.action.setText("Activate");
+                taskViewHolder.action.setBackgroundResource(R.color.colorButtonClicked);
                 //TODO: color?
             } else if (curState instanceof ActiveTaskState) { //task is active; timer is ticking
                 taskViewHolder.action.setText("Active");
@@ -110,12 +113,8 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
                     }
                 });
             }
-
-            //default
-            taskViewHolder.action.setBackgroundResource(R.color.colorButtonNegate);
         }
 
-        //Noah is working on this
         long hrsRemaining = rt.getDuration();
         if (hrsRemaining >= 24) {
             long daysRemaining =  hrsRemaining/24;
