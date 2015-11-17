@@ -26,16 +26,16 @@ public class BountyTaskManager {
         return m_task_list.size();
     }
 
-    public void populateTask(long tid, long uid, int points, String deadline, String title, String description) {
+    public void populateTask(long tid, long uid, int points, long deadline, String title, String description) {
         m_task_list.add(new BountyTask(tid, points, uid, deadline, title, description));
     }
 
-    public void addTask(long uid, long gid, int points, String deadline, String title, String description) {
+    public void addTask(long uid, long gid, int points, long deadline, String title, String description) {
         try {
             HashMap<String, String> params = new HashMap<String, String>();
             params.put("userId", Long.toString(uid));
             params.put("groupId", Long.toString(gid));
-            params.put("deadline", deadline);
+            params.put("deadline", Long.toString(deadline));
             params.put("title", title);
             params.put("description", description);
             params.put("value", Integer.toString(points));

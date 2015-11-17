@@ -9,7 +9,7 @@ public class BountyTask implements Task {
     private long m_id;
     private int m_points;
     private long m_creator;
-    private String m_deadline; //TODO: might want to change to DateTime
+    private long m_deadline; //TODO: might want to change to DateTime
     private long m_time_started;
     private TaskState m_state;
     private ActiveTaskState m_active_state;
@@ -18,7 +18,7 @@ public class BountyTask implements Task {
     private String m_title;
     private String m_description;
 
-    public BountyTask(long id, int points, long creator, String deadline,
+    public BountyTask(long id, int points, long creator, long deadline,
                         String title, String description) {
         m_id = id;
         m_points = points;
@@ -37,7 +37,7 @@ public class BountyTask implements Task {
     public long getId() { return m_id; }
     public int getPoints() { return m_points; }
     public long getCreator() { return m_creator; }
-    public String getDeadline() { return m_deadline; }
+    public long getDeadline() { return m_deadline; }
     public String getTitle() { return m_title; }
     public String getDescription() { return m_description; }
 
