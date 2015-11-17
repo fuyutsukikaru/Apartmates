@@ -71,6 +71,6 @@ public class BountyTaskManager {
     }
 
     public void clear() {
-        m_task_list.clear();
+        m_task_list = new ArrayList<BountyTask>();
     }
 }

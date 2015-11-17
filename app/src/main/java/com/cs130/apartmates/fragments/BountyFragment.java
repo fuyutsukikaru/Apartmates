@@ -3,9 +3,12 @@ package com.cs130.apartmates.fragments;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.cs130.apartmates.R;
+import com.cs130.apartmates.activities.MainActivity;
 import com.cs130.apartmates.adapters.BTAdapter;
 import com.cs130.apartmates.base.ApartmatesHttpClient;
 
@@ -44,14 +48,30 @@ public class BountyFragment extends Fragment {
         SharedPreferences prefs = getActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
         mId = prefs.getLong("userId", 1);
 
-        mAdapter = new BTAdapter(points, mId);
+        points = (MenuItem) mLinearLayout.findViewById(R.id.point_count);
+        mAdapter = new BTAdapter(this, mId);
         refresh();
         mRecyclerView.setAdapter(mAdapter);
 
         return mLinearLayout;
     }
 
-    public void refresh() {
+    public int getPoints() {
+        return Integer.parseInt(((MenuItem) mLinearLayout.findViewById(R.id.point_count)).getTitle().toString());
+    }
+
+    public void addPoints(int pts) {
+        int nPoints = Integer.parseInt(((MenuItem) mLinearLayout.findViewById(R.id.point_count)).getTitle().toString()) + pts;
+        ((MenuItem) mLinearLayout.findViewById(R.id.point_count)).setTitle(Integer.toString(nPoints));
+    }
+
+    private void refresh() {
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                Log.d("UI thread", "REFRESHING");
+            }
+        });
         mAdapter.getManager().clear();
         JSONObject resp = ApartmatesHttpClient.sendRequest("/user?userId=" + mId, null, null, "GET");
         if (resp != null && resp.has("group_id")) {
@@ -64,23 +84,21 @@ public class BountyFragment extends Fragment {
                     for (int i = 0; i != tasklist.length(); i++) {
                         JSONObject task = tasklist.getJSONObject(i);
 
-                        mAdapter.getManager().populateTask(task.getLong("id"), mId, task.getInt("value"),
+                        mAdapter.getManager().populateTask(task.getLong("id"), task.getLong("client_id"), task.getInt("value"),
                                 task.getString("deadline"), task.getString("title"), task.getString("description"));
                     }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            mAdapter.notifyDataSetChanged();
         }
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu,MenuInflater inflater) {
         // Do something that differs the Activity's menu here
         super.onCreateOptionsMenu(menu, inflater);
-
-        mAdapter.setPoints(points);
     }
 
     public void addTask(String deadline, String title, int value, String details) {

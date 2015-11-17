@@ -104,12 +104,6 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
     }
 
-    public void refreshAll() {
-        ((BountyFragment) adapter.getItem(0)).refresh();
-        ((BountyFragment) adapter.getItem(1)).refresh();
-        ((BountyFragment) adapter.getItem(2)).refresh();
-    }
-
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
