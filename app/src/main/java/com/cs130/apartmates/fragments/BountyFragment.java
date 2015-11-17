@@ -56,12 +56,12 @@ public class BountyFragment extends Fragment {
     }
 
     public int getPoints() {
-        return Integer.parseInt(((MenuItem) mLinearLayout.findViewById(R.id.point_count)).getTitle().toString());
+        return Integer.parseInt(points.getTitle().toString());
     }
 
     public void addPoints(int pts) {
-        int nPoints = Integer.parseInt(((MenuItem) mLinearLayout.findViewById(R.id.point_count)).getTitle().toString()) + pts;
-        ((MenuItem) mLinearLayout.findViewById(R.id.point_count)).setTitle(Integer.toString(nPoints));
+        int nPoints = Integer.parseInt(points.getTitle().toString()) + pts;
+        points.setTitle(Integer.toString(nPoints));
     }
 
     private void refresh() {
