@@ -83,7 +83,7 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
                 public void onClick(View v) {
                     final int val = bountyTaskManager.getTask(fPos).getPoints();
                     mBf.addPoints(val);
-                    bountyTaskManager.dropTask(fPos);
+                    bountyTaskManager.claimTask(fPos);
                     notifyDataSetChanged();
                 }
             });

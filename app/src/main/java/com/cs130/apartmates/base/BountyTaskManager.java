@@ -12,6 +12,7 @@ public class BountyTaskManager {
 
     private String createTaskUrl = "/task/create";
     private String dropTaskUrl = "/task?taskId=";
+    private String completeTaskUrl = "/task/complete?taskId=";
 
     public BountyTaskManager() {
         m_task_list = new ArrayList<BountyTask>();
@@ -55,18 +56,31 @@ public class BountyTaskManager {
         try {
             JSONObject resp = ApartmatesHttpClient.sendRequest(dropTaskUrl + m_task_list.get(index).getId(),
                     null, null, "DELETE");
-            m_task_list.remove(index);
-            return (resp.has("success") && resp.get("success") == "true");
+            if (resp.has("success") && resp.get("success") == "true") {
+                m_task_list.remove(index);
+                return true;
+            } else {
+                return false;
+            }
         } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }
 
-    public void claimTask(long id) {
-        for (BountyTask bt : m_task_list) {
-            if (bt.getId() == id) {
-                //STUB remove bt and award points
+    public boolean claimTask(int index) {
+        try {
+            BountyTask bt = m_task_list.get(index);
+            JSONObject resp = ApartmatesHttpClient.sendRequest(completeTaskUrl + bt.getId(), null, null, "POST");
+            if (resp.has("success") && resp.get("success") == "true") {
+                m_task_list.remove(index);
+                return true;
+            } else {
+                return false;
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
         }
     }
 
