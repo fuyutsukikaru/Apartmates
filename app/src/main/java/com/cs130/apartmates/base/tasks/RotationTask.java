@@ -56,6 +56,7 @@ public class RotationTask implements Task{
     public TaskState getPenaltyState() {return m_penalty_state;}
     public void setState(TaskState s){m_state = s;}
 
+    //change to return the number of hours remaining before the task expires
     public long getDuration() {
         if (m_time_started < 0) {
             throw new IllegalStateException("PendingTaskState: Time in current state was never set");
