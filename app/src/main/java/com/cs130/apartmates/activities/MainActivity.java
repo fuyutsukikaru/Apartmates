@@ -20,6 +20,7 @@ import com.cs130.apartmates.R;
 import com.cs130.apartmates.adapters.ViewPagerAdapter;
 import com.cs130.apartmates.base.ApartmatesHttpClient;
 import com.cs130.apartmates.fragments.BountyFragment;
+import com.cs130.apartmates.fragments.RotationFragment;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -99,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
 
         adapter.addFrag(new BountyFragment(), "My Tasks");
-        adapter.addFrag(new BountyFragment(), "Rotation Tasks");
+        adapter.addFrag(new RotationFragment(), "Rotation Tasks");
         adapter.addFrag(new BountyFragment(), "Bounty Tasks");
         viewPager.setAdapter(adapter);
     }

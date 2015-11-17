@@ -34,7 +34,7 @@ public class RotationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mLinearLayout = (LinearLayout) inflater.inflate(R.layout.content_bounty, container, false);
+        mLinearLayout = (LinearLayout) inflater.inflate(R.layout.content_rotation, container, false);
         mRecyclerView = (RecyclerView) mLinearLayout.findViewById(R.id.rv);
         mRecyclerView.setHasFixedSize(true);
 
@@ -59,8 +59,8 @@ public class RotationFragment extends Fragment {
                 gId = resp.getLong("group_id");
                 JSONObject taskresp =
                         ApartmatesHttpClient.sendRequest("/task/viewbygroup?groupId=" + resp.get("group_id"), null, null, "GET");
-                if (taskresp.has("bounty_tasks")) {
-                    JSONArray tasklist = taskresp.getJSONArray("bounty_tasks");
+                if (taskresp.has("rotation_tasks")) {
+                    JSONArray tasklist = taskresp.getJSONArray("rotation_tasks");
                     for (int i = 0; i != tasklist.length(); i++) {
                         JSONObject task = tasklist.getJSONObject(i);
 
