@@ -26,7 +26,7 @@ import com.cs130.apartmates.base.ApartmatesHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class BountyFragment extends Fragment {
+public class BountyFragment extends Fragment implements BaseFragment {
     private RecyclerView mRecyclerView;
     private LinearLayout mLinearLayout;
     private BTAdapter mAdapter;
@@ -89,7 +89,7 @@ public class BountyFragment extends Fragment {
                         JSONObject task = tasklist.getJSONObject(i);
 
                         mAdapter.getManager().populateTask(task.getLong("id"), task.getLong("client_id"), task.getInt("value"),
-                                task.getString("deadline"), task.getString("title"), task.getString("description"));
+                                task.getLong("deadline"), task.getString("title"), task.getString("description"));
                     }
                 }
             } catch (Exception e) {
@@ -111,7 +111,8 @@ public class BountyFragment extends Fragment {
         refresh();
     }
 
-    public void addTask(String deadline, String title, int value, String details) {
+    @Override
+    public void addTask(long deadline, String title, int value, String details) {
         mAdapter.getManager().addTask(mId, gId, value, deadline, title, details);
         mAdapter.notifyDataSetChanged();
     }

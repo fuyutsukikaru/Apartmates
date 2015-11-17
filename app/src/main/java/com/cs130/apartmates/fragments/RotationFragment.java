@@ -21,7 +21,7 @@ import com.cs130.apartmates.base.ApartmatesHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class RotationFragment extends Fragment {
+public class RotationFragment extends Fragment implements BaseFragment {
     private RecyclerView mRecyclerView;
     private LinearLayout mLinearLayout;
     private RotTAdapter mAdapter;
@@ -90,6 +90,7 @@ public class RotationFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    @Override
     public void addTask(long deadline, String title, int value, String details) {
         mAdapter.getManager().addTask(mId, gId, value, deadline, title, details);
         mAdapter.notifyDataSetChanged();

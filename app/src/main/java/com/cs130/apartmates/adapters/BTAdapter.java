@@ -1,11 +1,8 @@
 package com.cs130.apartmates.adapters;
 
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -13,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cs130.apartmates.R;
-import com.cs130.apartmates.activities.MainActivity;
 import com.cs130.apartmates.base.BountyTaskManager;
 import com.cs130.apartmates.base.tasks.BountyTask;
 import com.cs130.apartmates.fragments.BountyFragment;

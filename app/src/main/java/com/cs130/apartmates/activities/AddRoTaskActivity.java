@@ -57,10 +57,10 @@ public class AddRoTaskActivity extends AppCompatActivity {
                 String durationText = duration.getText().toString();
 
                 if (!titleText.isEmpty() && !descriptionText.isEmpty() && !valueText.isEmpty()) {
-                    Snackbar.make(findViewById(R.id.add_task_fragment), "Sending to server...", Snackbar.LENGTH_LONG);
+                    Snackbar.make(findViewById(R.id.add_rotask_fragment), "Sending to server...", Snackbar.LENGTH_LONG);
                     Intent intent = new Intent(AddRoTaskActivity.this, MainActivity.class);
                     intent.putExtra("task_title", titleText);
-                    intent.putExtra("task_duration", durationText);
+                    intent.putExtra("task_deadline", Long.parseLong(durationText));
                     intent.putExtra("task_value", Integer.parseInt(valueText));
                     intent.putExtra("task_details", descriptionText);
 

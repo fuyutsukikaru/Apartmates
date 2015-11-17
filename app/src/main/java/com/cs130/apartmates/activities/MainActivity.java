@@ -19,6 +19,7 @@ import android.view.View;
 import com.cs130.apartmates.R;
 import com.cs130.apartmates.adapters.ViewPagerAdapter;
 import com.cs130.apartmates.base.ApartmatesHttpClient;
+import com.cs130.apartmates.fragments.BaseFragment;
 import com.cs130.apartmates.fragments.BountyFragment;
 import com.cs130.apartmates.fragments.MyTasksFragment;
 import com.cs130.apartmates.fragments.RotationFragment;
@@ -147,10 +148,10 @@ public class MainActivity extends AppCompatActivity {
         if (intent != null) {
             String title = intent.getStringExtra("task_title");
             int value = intent.getIntExtra("task_value", 0);
-            String deadline = intent.getStringExtra("task_deadline");
+            long deadline = intent.getLongExtra("task_deadline", 0);
             String details = intent.getStringExtra("task_details");
 
-            BountyFragment frag = (BountyFragment) adapter.getItem(0);
+            BaseFragment frag = (BaseFragment) adapter.getItem(0);
             frag.addTask(deadline, title, value, details);
         }
     }
