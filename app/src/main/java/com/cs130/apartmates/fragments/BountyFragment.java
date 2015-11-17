@@ -38,6 +38,8 @@ public class BountyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setHasOptionsMenu(true);
+
         mLinearLayout = (LinearLayout) inflater.inflate(R.layout.content_bounty, container, false);
         mRecyclerView = (RecyclerView) mLinearLayout.findViewById(R.id.rv);
         mRecyclerView.setHasFixedSize(true);
@@ -48,10 +50,7 @@ public class BountyFragment extends Fragment {
         SharedPreferences prefs = getActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
         mId = prefs.getLong("userId", 1);
 
-        points = (MenuItem) mLinearLayout.findViewById(R.id.point_count);
         mAdapter = new BTAdapter(this, mId);
-        refresh();
-        mRecyclerView.setAdapter(mAdapter);
 
         return mLinearLayout;
     }
@@ -66,12 +65,7 @@ public class BountyFragment extends Fragment {
     }
 
     private void refresh() {
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                Log.d("UI thread", "REFRESHING");
-            }
-        });
+        System.err.println("REFRESHING");
         mAdapter.getManager().clear();
         JSONObject resp = ApartmatesHttpClient.sendRequest("/user?userId=" + mId, null, null, "GET");
         if (resp != null && resp.has("group_id")) {
@@ -96,9 +90,14 @@ public class BountyFragment extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu,MenuInflater inflater) {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Do something that differs the Activity's menu here
         super.onCreateOptionsMenu(menu, inflater);
+
+        points = menu.findItem(R.id.point_count);
+
+        mRecyclerView.setAdapter(mAdapter);
+        refresh();
     }
 
     public void addTask(String deadline, String title, int value, String details) {
