@@ -115,6 +115,14 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
             taskViewHolder.action.setBackgroundResource(R.color.colorButtonNegate);
         }
 
+        //Noah is working on this
+        StringBuilder durationBuilder = new StringBuilder();
+        long hrsRemaining = rt.getDuration();
+        if (hrsRemaining >= 24) {
+            long daysRemaining =  hrsRemaining/24;
+        }
+
+
     }
 
     @Override
