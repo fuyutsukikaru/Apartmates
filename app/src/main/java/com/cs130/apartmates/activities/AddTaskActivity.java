@@ -57,7 +57,7 @@ public class AddTaskActivity extends AppCompatActivity {
                 String deadlineText = deadline.getText().toString();
 
                 if (!titleText.isEmpty() && !descriptionText.isEmpty() && !valueText.isEmpty()) {
-                    Snackbar.make(findViewById(R.id.add_task_fragment), "Sending to server...", Snackbar.LENGTH_LONG);
+                    Snackbar.make(findViewById(R.id.add_task_fragment), "Sending to server...", Snackbar.LENGTH_LONG).show();
                     Intent intent = new Intent(AddTaskActivity.this, MainActivity.class);
                     intent.putExtra("task_title", titleText);
                     intent.putExtra("task_deadline", Long.parseLong(deadlineText));
@@ -68,7 +68,7 @@ public class AddTaskActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 } else {
-                    Snackbar.make(findViewById(R.id.add_task_fragment), "You did not enter all fields.", Snackbar.LENGTH_LONG);
+                    Snackbar.make(findViewById(R.id.add_task_fragment), "You did not enter all fields.", Snackbar.LENGTH_LONG).show();
                 }
 
             }

@@ -35,6 +35,8 @@ public class MyTasksFragment extends Fragment implements BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        getActivity().setTitle("My Tasks");
+
         mLinearLayout = (LinearLayout) inflater.inflate(R.layout.content_rotation, container, false);
         mRefreshLayout = (SwipeRefreshLayout) mLinearLayout.findViewById(R.id.swipe_to_refresh);
         mRecyclerView = (RecyclerView) mLinearLayout.findViewById(R.id.rv);

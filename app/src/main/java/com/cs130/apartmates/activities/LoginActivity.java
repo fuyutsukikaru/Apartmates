@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
                     String code = uri.getQueryParameter("code");
                     System.err.println("Code is " + code);
                     diag.cancel();
-                    new LoginTask().execute(loginEndpoint, code);
+                    new LoginTask().execute(loginEndpoint + "?code=" + code, null, "POST");
                 }
             }
         });
@@ -73,14 +73,23 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void onPostExecute(JSONObject result) {
             try {
-                if (result == null || result.getString("status").equals("failed")) {
+                if (result == null || !result.has("user_id")) {
                     Snackbar.make(findViewById(R.id.login_fragment), R.string.login_error, Snackbar.LENGTH_LONG)
                             .show();
                 } else {
                     SharedPreferences prefs = getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
-                    prefs.edit().putString("userid", result.getString("user_id")).apply();
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
+                    prefs.edit().putLong("userId", Long.parseLong(result.getString("user_id"))).apply();
+                    if (result.has("group_id") && result.get("group_id") != null) {
+                        prefs.edit().putLong("groupId", Long.parseLong(result.getString("group_id"))).apply();
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        Intent intent = new Intent(LoginActivity.this, GroupCreateActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+
                 }
             } catch(Exception e) {
                 e.printStackTrace();

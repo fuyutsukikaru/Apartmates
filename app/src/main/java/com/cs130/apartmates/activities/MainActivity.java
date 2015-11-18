@@ -44,6 +44,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        SharedPreferences pref = getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        mId = pref.getLong("userId", 0);
+        long groupId = pref.getLong("groupId", 0);
+
+        if (mId == 0) {
+            Intent intent = new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        } else if (groupId == 0) {
+            Intent intent = new Intent(this, GroupCreateActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -51,9 +65,6 @@ public class MainActivity extends AppCompatActivity {
         ab = getSupportActionBar();
         ab.setHomeAsUpIndicator(R.mipmap.ic_menu);
         ab.setDisplayHomeAsUpEnabled(true);
-
-        SharedPreferences prefs = getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
-        mId = prefs.getLong("userId", 1);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
