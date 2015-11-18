@@ -22,7 +22,7 @@ import com.cs130.apartmates.base.ApartmatesHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public class MyTasksFragment extends Fragment {
+public class MyTasksFragment extends Fragment implements BaseFragment {
     private RecyclerView mRecyclerView;
     private LinearLayout mLinearLayout;
     private MTAdapter mAdapter;
@@ -91,6 +91,7 @@ public class MyTasksFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    @Override
     public void addTask(long deadline, String title, int value, String details) {
         mAdapter.getManager().addTask(mId, gId, value, deadline, title, details);
         mAdapter.notifyDataSetChanged();
