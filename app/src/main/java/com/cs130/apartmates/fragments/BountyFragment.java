@@ -53,7 +53,7 @@ public class BountyFragment extends Fragment implements BaseFragment {
         SharedPreferences prefs = getActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
         mId = prefs.getLong("userId", 1);
 
-        mAdapter = new BTAdapter(this, mId);
+        mAdapter = new BTAdapter(this, getContext(),  mId);
 
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

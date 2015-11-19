@@ -1,18 +1,25 @@
 package com.cs130.apartmates.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cs130.apartmates.R;
+import com.cs130.apartmates.base.ApartmatesHttpClient;
 import com.cs130.apartmates.base.BountyTaskManager;
 import com.cs130.apartmates.base.tasks.BountyTask;
 import com.cs130.apartmates.fragments.BountyFragment;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 /**
  * Created by bchalabian on 10/26/15.
@@ -22,15 +29,29 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
     private BountyTaskManager bountyTaskManager;
     private long mId;
     private BountyFragment mBf;
+    private Context context;
 
-    public BTAdapter(BountyFragment bf, long id) {
+    public BTAdapter(BountyFragment bf, Context context, long id) {
         bountyTaskManager = new BountyTaskManager();
         mId = id;
         mBf = bf;
+        this.context = context;
     }
 
     public BountyTaskManager getManager() {
         return bountyTaskManager;
+    }
+
+    public String getProfilePic(long id) {
+        JSONObject resp = ApartmatesHttpClient.sendRequest("/user?userId=" + id, null, null, "GET");
+        if (resp != null && resp.has("picture_url")) {
+            try {
+                return resp.getString("picture_url");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 
     @Override
@@ -54,6 +75,9 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
     @Override
     public void onBindViewHolder(final BTAdapter.TaskViewHolder taskViewHolder, int position) {
         BountyTask bt = bountyTaskManager.getTask(position);
+        long id = bt.getId();
+        String url = getProfilePic(id);
+        Picasso.with(context).load(url).into(taskViewHolder.pic);
         taskViewHolder.taskName.setText(bt.getTitle());
         Integer val = new Integer(bt.getPoints());
         taskViewHolder.taskValue.setText(val.toString());
@@ -102,6 +126,7 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
         TextView taskValue;
         TextView taskDescription;
         Button action;
+        ImageView pic;
 
         TaskViewHolder(View itemView) {
             super(itemView);
@@ -110,6 +135,7 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
             taskValue = (TextView) itemView.findViewById(R.id.task_value);
             taskDescription = (TextView) itemView.findViewById(R.id.task_description);
             action = (Button) itemView.findViewById(R.id.button);
+            pic = (ImageView) itemView.findViewById(R.id.profile_pic);
         }
     }
 }

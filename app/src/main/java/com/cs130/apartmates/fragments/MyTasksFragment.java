@@ -48,7 +48,7 @@ public class MyTasksFragment extends Fragment implements BaseFragment {
         SharedPreferences prefs = getActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
         mId = prefs.getLong("userId", 1);
 
-        mAdapter = new MTAdapter(mId);
+        mAdapter = new MTAdapter(getContext(), mId);
         mRecyclerView.setAdapter(mAdapter);
         refresh();
 

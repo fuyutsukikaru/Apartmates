@@ -111,6 +111,7 @@
                     android:paddingBottom="5dp">
 
                     <ImageView
+                        android:id="@+id/profile_pic"
                         android:layout_width="fill_parent"
                         android:layout_height="50dp"
                         android:src="@drawable/ghost"

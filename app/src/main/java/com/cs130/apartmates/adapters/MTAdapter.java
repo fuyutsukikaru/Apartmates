@@ -1,21 +1,27 @@
 package com.cs130.apartmates.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cs130.apartmates.R;
+import com.cs130.apartmates.base.ApartmatesHttpClient;
 import com.cs130.apartmates.base.RotationTaskManager;
 import com.cs130.apartmates.base.tasks.RotationTask;
 import com.cs130.apartmates.base.taskstates.ActiveTaskState;
 import com.cs130.apartmates.base.taskstates.PenaltyTaskState;
 import com.cs130.apartmates.base.taskstates.PendingTaskState;
 import com.cs130.apartmates.base.taskstates.TaskState;
+import com.squareup.picasso.Picasso;
+
+import org.json.JSONObject;
 
 /**
  * Created by bchalabian on 10/26/15.
@@ -24,13 +30,27 @@ public class MTAdapter extends RecyclerView.Adapter<MTAdapter.TaskViewHolder> {
     private static final String TAG = "MTAdapter";
     private long mId;
     private RotationTaskManager rotationTaskManager;
+    private Context context;
 
-    public MTAdapter(long id) {
+    public MTAdapter(Context context, long id) {
         rotationTaskManager = new RotationTaskManager();
         mId = id;
+        this.context = context;
     }
 
     public RotationTaskManager getManager() { return rotationTaskManager; }
+
+    public String getProfilePic(long id) {
+        JSONObject resp = ApartmatesHttpClient.sendRequest("/user?userId=" + id, null, null, "GET");
+        if (resp != null && resp.has("picture_url")) {
+            try {
+                return resp.getString("picture_url");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
 
     @Override
     public TaskViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -59,6 +79,9 @@ public class MTAdapter extends RecyclerView.Adapter<MTAdapter.TaskViewHolder> {
         RotationTask rt = rotationTaskManager.getTaskByUser(position, mId);
         taskViewHolder.taskName.setText(rt.getTitle());
         final Integer val = new Integer(rt.getPoints());
+        long id = rt.getId();
+        String url = getProfilePic(id);
+        Picasso.with(context).load(url).into(taskViewHolder.pic);
         Button button = (Button)taskViewHolder.cv.findViewById(R.id.button);
         taskViewHolder.taskValue.setText(val.toString());
         taskViewHolder.taskDescription.setText(rt.getDescription());
@@ -115,6 +138,7 @@ public class MTAdapter extends RecyclerView.Adapter<MTAdapter.TaskViewHolder> {
         TextView taskDescription;
         TextView taskDuration;
         Button action;
+        ImageView pic;
 
         TaskViewHolder(View itemView) {
             super(itemView);
@@ -124,6 +148,7 @@ public class MTAdapter extends RecyclerView.Adapter<MTAdapter.TaskViewHolder> {
             taskDescription = (TextView) itemView.findViewById(R.id.task_description);
             taskDuration = (TextView) itemView.findViewById(R.id.task_duration);
             action = (Button) itemView.findViewById(R.id.button);
+            pic = (ImageView) itemView.findViewById(R.id.profile_pic);
         }
     }
 }

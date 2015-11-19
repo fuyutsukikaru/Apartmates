@@ -46,7 +46,7 @@ public class RotationFragment extends Fragment implements BaseFragment {
         mId = prefs.getLong("userId", 0);
         gId = prefs.getLong("groupId", 0);
 
-        mAdapter = new RotTAdapter(mId);
+        mAdapter = new RotTAdapter(getContext(), mId);
         mRecyclerView.setAdapter(mAdapter);
         refresh();
 
