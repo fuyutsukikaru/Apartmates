@@ -1,6 +1,7 @@
 package com.cs130.apartmates.services;
 
 import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -8,11 +9,16 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.cs130.apartmates.R;
+import com.cs130.apartmates.base.ApartmatesHttpClient;
+import com.cs130.apartmates.base.tasks.BountyTask;
 import com.google.android.gms.gcm.GcmPubSub;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 
+import org.json.JSONObject;
+
 import java.io.IOException;
+import java.util.HashMap;
 
 /**
  * Created by sjeongus on 11/15/15.
@@ -77,7 +83,19 @@ public class RegistrationIntentService extends IntentService {
      */
     private void sendRegistrationToServer(String token) {
         // Add custom implementation, as needed.
-        System.err.println("Token ID is " + token);
+        SharedPreferences prefs = getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        long uid = prefs.getLong("userId", 0);
+        try {
+            HashMap<String, String> params = new HashMap<String, String>();
+            params.put("userId", Long.toString(uid));
+            params.put("regId", token);
+
+            JSONObject resp = ApartmatesHttpClient.sendRequest("/user/gcm", params,
+                    null, "POST");
+            System.err.println("RESP: " + resp);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
