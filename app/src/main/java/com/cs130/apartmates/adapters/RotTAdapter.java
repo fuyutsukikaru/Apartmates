@@ -107,18 +107,29 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
             }
         }
 
-        long hrsRemaining = rt.getDuration();
-        if (hrsRemaining >= 24) {
-            long daysRemaining =  hrsRemaining/24;
-            String dur = Long.toString(daysRemaining);
-            dur = dur.concat("d");
-            taskViewHolder.taskDuration.setText(dur);
+        if (curState instanceof ActiveTaskState) {
+            long hrsRemaining = rt.getDuration();
+            if (hrsRemaining >= 24) {
+                long daysRemaining =  hrsRemaining/24;
+                String dur = Long.toString(daysRemaining);
+                dur = dur.concat("d");
+                taskViewHolder.taskDuration.setText(dur);
+            }
+            else {
+                String dur = Long.toString(hrsRemaining);
+                dur = dur.concat("h");
+                taskViewHolder.taskDuration.setText(dur);
+            }
         }
+
+        else if (curState instanceof  PenaltyTaskState) {
+            taskViewHolder.taskDuration.setText("Exp");
+        }
+
         else {
-            String dur = Long.toString(hrsRemaining);
-            dur = dur.concat("h");
-            taskViewHolder.taskDuration.setText(dur);
+            taskViewHolder.taskDuration.setText("");
         }
+
 
 
     }
