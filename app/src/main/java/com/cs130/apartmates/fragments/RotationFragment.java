@@ -43,7 +43,8 @@ public class RotationFragment extends Fragment implements BaseFragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         SharedPreferences prefs = getActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
-        mId = prefs.getLong("userId", 1);
+        mId = prefs.getLong("userId", 0);
+        gId = prefs.getLong("groupId", 0);
 
         mAdapter = new RotTAdapter(mId);
         mRecyclerView.setAdapter(mAdapter);
@@ -64,7 +65,6 @@ public class RotationFragment extends Fragment implements BaseFragment {
         JSONObject resp = ApartmatesHttpClient.sendRequest("/user?userId=" + mId, null, null, "GET");
         if (resp != null && resp.has("group_id")) {
             try {
-                gId = resp.getLong("group_id");
                 JSONObject taskresp =
                         ApartmatesHttpClient.sendRequest("/task/viewbygroup?groupId=" + resp.get("group_id"), null, null, "GET");
                 if (taskresp.has("rotation_tasks")) {
@@ -72,8 +72,8 @@ public class RotationFragment extends Fragment implements BaseFragment {
                     for (int i = 0; i != tasklist.length(); i++) {
                         JSONObject task = tasklist.getJSONObject(i);
 
-                        mAdapter.getManager().populateTask(task.getLong("id"), mId, task.getInt("value"),
-                                task.getLong("deadline"), task.getString("title"), task.getString("description"));
+                        mAdapter.getManager().populateTask(task.getLong("task_id"), mId, task.getInt("value"),
+                                task.getLong("time_limit"), task.getString("title"), task.getString("description"));
                     }
                 }
             } catch (Exception e) {

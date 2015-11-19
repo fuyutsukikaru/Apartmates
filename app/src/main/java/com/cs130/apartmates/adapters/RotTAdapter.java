@@ -59,7 +59,7 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
         RotationTask rt = rotationTaskManager.getTask(position);
         taskViewHolder.taskName.setText(rt.getTitle());
         final Integer val = new Integer(rt.getPoints());
-        Button button = (Button)taskViewHolder.cv.findViewById(R.id.button);
+        Button button = taskViewHolder.action;
         taskViewHolder.taskValue.setText(val.toString());
         taskViewHolder.taskDescription.setText(rt.getDescription());
 

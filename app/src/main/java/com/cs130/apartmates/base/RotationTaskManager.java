@@ -72,7 +72,7 @@ public class RotationTaskManager {
     }
 
     //Assign a user to the task initially and the rotation will be dependent on the apartment list.
-    public void addTask(long gid, long user_id, int points, long deadline, String title, String description) {
+    public void addTask(long user_id, long gid, int points, long deadline, String title, String description) {
         try {
             HashMap<String, String> params = new HashMap<String, String>();
             params.put("userId", Long.toString(user_id));
@@ -81,7 +81,7 @@ public class RotationTaskManager {
             params.put("description", description);
             params.put("value", Integer.toString(points));
             params.put("type", "rotation");
-            params.put("deadline", Long.toString(deadline));
+            params.put("timeLimit", Long.toString(deadline));
 
             JSONObject resp = ApartmatesHttpClient.sendRequest(createTaskUrl, params,
                     null, "POST");

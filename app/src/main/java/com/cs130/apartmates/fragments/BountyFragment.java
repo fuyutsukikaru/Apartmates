@@ -88,7 +88,7 @@ public class BountyFragment extends Fragment implements BaseFragment {
                     for (int i = 0; i != tasklist.length(); i++) {
                         JSONObject task = tasklist.getJSONObject(i);
 
-                        mAdapter.getManager().populateTask(task.getLong("id"), task.getLong("client_id"), task.getInt("value"),
+                        mAdapter.getManager().populateTask(task.getLong("task_id"), task.getLong("client_id"), task.getInt("value"),
                                 task.getLong("deadline"), task.getString("title"), task.getString("description"));
                     }
                 }
