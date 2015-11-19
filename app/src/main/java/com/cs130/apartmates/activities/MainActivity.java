@@ -19,6 +19,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.cs130.apartmates.R;
 import com.cs130.apartmates.adapters.ViewPagerAdapter;
@@ -29,6 +32,7 @@ import com.cs130.apartmates.fragments.RotationFragment;
 import com.cs130.apartmates.services.RegistrationIntentService;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by sjeongus on 11/13/15.
@@ -43,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     private long mId;
     private int mPosition = 0;
     private BroadcastReceiver mRegistrationBroadcastReceiver;
+    private SharedPreferences pref;
 
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private static final String SENT_TOKEN_TO_SERVER = "sentTokenToServer";
@@ -52,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SharedPreferences pref = getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        pref = getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
         mId = pref.getLong("userId", 0);
         long groupId = pref.getLong("groupId", 0);
 
@@ -176,6 +181,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
+        LinearLayout header = (LinearLayout) navigationView.inflateHeaderView(R.layout.drawer_header);
+        TextView name = (TextView) header.findViewById(R.id.name);
+        name.setText(pref.getString("userName", "Username"));
+        TextView groupName = (TextView) header.findViewById(R.id.group_name);
+        groupName.setText(Long.toString(pref.getLong("groupId", 0)));
+        ImageView pic = (ImageView) header.findViewById(R.id.profile_pic);
+        Picasso.with(getBaseContext()).load(pref.getString("userPic", null)).into(pic);
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -197,6 +209,9 @@ public class MainActivity extends AppCompatActivity {
                                 ab.setTitle(adapter.getPageTitle(2));
                                 mPosition = 2;
                                 break;
+                            case R.id.group_page:
+                                Intent intent = new Intent(MainActivity.this, GroupInfoActivity.class);
+                                startActivity(intent);
                             default:
                                 break;
                         }

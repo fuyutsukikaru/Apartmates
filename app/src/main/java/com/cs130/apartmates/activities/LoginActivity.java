@@ -70,6 +70,7 @@ public class LoginActivity extends AppCompatActivity {
                     SharedPreferences prefs = getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
                     prefs.edit().putLong("userId", Long.parseLong(result.getString("user_id"))).apply();
                     prefs.edit().putString("userPic", result.getString("picture_url")).apply();
+                    prefs.edit().putString("userName", result.getString("first_name") + " " + result.getString("last_name")).apply();
                     if (result.has("group_id") && result.get("group_id") != null) {
                         prefs.edit().putLong("groupId", Long.parseLong(result.getString("group_id"))).apply();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);

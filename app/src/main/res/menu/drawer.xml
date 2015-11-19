@@ -16,8 +16,10 @@
     <item android:title="Preferences">
         <menu>
             <item
-                android:title="Settings" />
+                android:id="@+id/group_page"
+                android:title="Group Info" />
             <item
+                android:id="@+id/log_out"
                 android:title="Log Out" />
         </menu>
     </item>

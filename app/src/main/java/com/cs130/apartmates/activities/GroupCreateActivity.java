@@ -106,6 +106,7 @@ public class GroupCreateActivity extends AppCompatActivity {
             System.err.println("RESP: " + resp);
             if (resp.has("group_id")) {
                 pref.edit().putLong("groupId", resp.getLong("group_id")).apply();
+                pref.edit().putString("groupName", name).apply();
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 finish();
