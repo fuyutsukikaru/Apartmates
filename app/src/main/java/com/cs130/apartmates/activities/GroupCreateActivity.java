@@ -57,6 +57,7 @@ public class GroupCreateActivity extends AppCompatActivity {
 
         final EditText nameText = (EditText) findViewById(R.id.groupName);
         final EditText passwordText = (EditText) findViewById(R.id.password);
+        final EditText passwordCreateText = (EditText) findViewById(R.id.passwordCreate);
         final EditText stakesText = (EditText) findViewById(R.id.monthlyStakes);
         final EditText gidText = (EditText) findViewById(R.id.groupId);
 
@@ -66,7 +67,7 @@ public class GroupCreateActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String name = nameText.getText().toString();
-                String password = passwordText.getText().toString();
+                String password = passwordCreateText.getText().toString();
                 String stakes = stakesText.getText().toString();
 
                 if (name.isEmpty() || password.isEmpty() || stakes.isEmpty()) {
