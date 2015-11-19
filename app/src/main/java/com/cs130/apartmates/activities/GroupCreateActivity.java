@@ -36,7 +36,7 @@ public class GroupCreateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         pref = getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
-        long groupId = pref.getInt("groupId", 0);
+        long groupId = pref.getLong("groupId", 0);
 
         if (groupId > 0) {
             Intent intent = new Intent(this, MainActivity.class);
