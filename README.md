@@ -10,14 +10,15 @@ Prerequisites:
 To run the app:
 - Checkout project from Version Control System (VCS)
 - File -> New -> Import Project, and select the ENTIRE project folder, `Apartmates/`.
-- Click the SDK Manager icon on the top bar in Android Studio. Install SDK Platforms versions 5.0, 5.1.0, 6.0 and in SDK Tools install the various SDK tools. View following image for all dependencies
+- Click the SDK Manager icon on the top bar in Android Studio. Install SDK Platforms versions 5.0, 5.1.0, 6.0 and in SDK Tools install the various SDK tools. View following image for all dependencies.
 ![SDK Dependencies](http://i.imgur.com/OXqhOz6.png)
 - Click Genymotion icon on the top bar in Android Studio.
 - A prompt window asking you to input the path where Genymotion is installed will pop up. Find and input the proper location.
 - Select New, which opens a Genymotion window. Sign into Genymotion and create a device of your choosing that's at least on Android 5.0.0.
 - Launch device through Genymotion or Genymotion Plugin.
 - Run app by hitting the green arrow in the toolbar, or Run -> Run 'app'.
+- Select the device to run the app on.
 
 To run a test:
-- Open the tests folder in app -> java -> com.cs130.aparmates (androidTest), and right click on any of the tests.
+- Open the tests folder in app -> java -> com.cs130.apartmates (androidTest), and right click on any of the tests.
 - Hit Run on the dropdown menu to run the specific test.
