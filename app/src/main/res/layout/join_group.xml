@@ -25,7 +25,7 @@
             android:id="@+id/groupId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Group Id"
+            android:hint="Group ID"
             android:background="#ffffff"
             android:paddingLeft="5dp"
             android:paddingBottom="10dp" />
