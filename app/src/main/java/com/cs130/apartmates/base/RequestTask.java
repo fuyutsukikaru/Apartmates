@@ -60,6 +60,7 @@ public class RequestTask extends AsyncTask<String, String, JSONObject> {
                 result.append(line);
             }
             in.close();
+            System.err.println(result.toString());
             return new JSONObject(result.toString());
         } catch (Exception e) {
             e.printStackTrace();

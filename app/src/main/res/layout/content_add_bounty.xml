@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    android:id="@+id/add_task_fragment">
+    android:id="@+id/add_task_fragment"
+    >
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
@@ -18,7 +19,8 @@
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Title" />
+            android:hint="Title"
+            android:paddingLeft="5dp" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -34,7 +36,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Description"
-            android:lines="4" />
+            android:lines="4"
+            android:paddingLeft="5dp" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -51,7 +54,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Value"
-            android:inputType="number" />
+            android:inputType="number"
+            android:paddingLeft="5dp" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="16dp">
+
+        <EditText
+            android:id="@+id/deadline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Deadline"
+            android:inputType="datetime"
+            android:paddingLeft="5dp" />
 
     </android.support.design.widget.TextInputLayout>
 

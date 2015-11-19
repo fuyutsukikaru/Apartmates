@@ -48,6 +48,7 @@ public class RotationTask implements Task{
     public long getAssignee() {return m_assignee;}
     public String getTitle() {return m_title;}
     public String getDescription() {return m_description;}
+    public TaskState getCurrentState() { return m_state;}
 
     public TaskState getPendingState(){ return m_pending_state;}
     public TaskState getActivatedState(){ return m_active_state;}
@@ -55,6 +56,7 @@ public class RotationTask implements Task{
     public TaskState getPenaltyState() {return m_penalty_state;}
     public void setState(TaskState s){m_state = s;}
 
+    //change to return the number of hours remaining before the task expires
     public long getDuration() {
         if (m_time_started < 0) {
             throw new IllegalStateException("PendingTaskState: Time in current state was never set");
@@ -65,14 +67,6 @@ public class RotationTask implements Task{
         m_assignee = assignee;
     }
 
-    public void awardPoints(){
-//        User user = getUserbyId(m_assignee);
-//        user.earnPoints(this.m_points);
-    }
-    public void deductPoints(){
-//        User user = getUserbyId(m_assignee);
-//        user.deductPoints(this.m_points);
-    }
     //Activates the state and records the time started.
     public boolean activateTask(){
         m_time_started = new Date().getTime();
@@ -83,22 +77,31 @@ public class RotationTask implements Task{
         m_state.setPenalty();
         return true;
     }
-    /*If returns true,
-        Task was completed and points were awarded.
-        Task expired and points were deducted.
-        Task was not activated and was not completed yet.
-        */
+
+    /* If returns true,
+     * Task was completed and points were awarded.
+     * Task expired and points were deducted.
+     * Task was not activated and was not completed yet.
+     */
     public boolean completeTask(){
         boolean endTurn;
-        if(getDuration() < m_time_limit)
+        if (getDuration() < m_time_limit) {
             endTurn = m_state.completeTask();
-        else {
+        } else {
             endTurn = m_state.setPenalty();
         }
-        if(endTurn){
+        if (endTurn) {
             return m_state.setPending();
         }
         return false;
+    }
+
+    public void awardPoints() {
+        //TODO: stub
+    }
+
+    public void deductPoints() {
+        //TODO: stub
     }
 
 }

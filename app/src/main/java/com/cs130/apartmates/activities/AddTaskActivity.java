@@ -44,6 +44,7 @@ public class AddTaskActivity extends AppCompatActivity {
         final EditText title = (EditText) findViewById(R.id.title);
         final EditText description = (EditText) findViewById(R.id.description);
         final EditText value = (EditText) findViewById(R.id.value);
+        final EditText deadline = (EditText) findViewById(R.id.deadline);
         create = (Button) findViewById(R.id.create);
         cancel = (Button) findViewById(R.id.cancel);
 
@@ -53,13 +54,13 @@ public class AddTaskActivity extends AppCompatActivity {
                 String titleText = title.getText().toString();
                 String descriptionText = description.getText().toString();
                 String valueText = value.getText().toString();
+                String deadlineText = deadline.getText().toString();
 
                 if (!titleText.isEmpty() && !descriptionText.isEmpty() && !valueText.isEmpty()) {
-                    //new CreateTask().execute(titleText, descriptionText, valueText);
-
-                    Snackbar.make(findViewById(R.id.add_task_fragment), "Sending to server...", Snackbar.LENGTH_LONG);
-                    Intent intent = new Intent(AddTaskActivity.this, BountyActivity.class);
+                    Snackbar.make(findViewById(R.id.add_task_fragment), "Sending to server...", Snackbar.LENGTH_LONG).show();
+                    Intent intent = new Intent(AddTaskActivity.this, MainActivity.class);
                     intent.putExtra("task_title", titleText);
+                    intent.putExtra("task_deadline", Long.parseLong(deadlineText));
                     intent.putExtra("task_value", Integer.parseInt(valueText));
                     intent.putExtra("task_details", descriptionText);
 
@@ -67,7 +68,7 @@ public class AddTaskActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 } else {
-                    Snackbar.make(findViewById(R.id.add_task_fragment), "You did not enter all fields.", Snackbar.LENGTH_LONG);
+                    Snackbar.make(findViewById(R.id.add_task_fragment), "You did not enter all fields.", Snackbar.LENGTH_LONG).show();
                 }
 
             }

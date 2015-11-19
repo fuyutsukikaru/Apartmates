@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:background="@drawable/backrepeat">
 
     <ImageView
         android:layout_width="fill_parent"
@@ -16,13 +18,17 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp">
+        android:layout_marginRight="16dp"
+        android:background="#ffffff">
 
         <EditText
             android:id="@+id/groupId"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Group Id" />
+            android:hint="Group ID"
+            android:background="#ffffff"
+            android:paddingLeft="5dp"
+            android:paddingBottom="10dp" />
 
     </android.support.design.widget.TextInputLayout>
     <android.support.design.widget.TextInputLayout
@@ -30,13 +36,18 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp">
+        android:layout_marginRight="16dp"
+        android:background="#ffffff">
 
         <EditText
             android:id="@+id/groupPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Group Password" />
+            android:hint="Group Password"
+            android:autoText="false"
+            android:background="#ffffff"
+            android:paddingBottom="10dp"
+            android:paddingLeft="5dp" />
 
     </android.support.design.widget.TextInputLayout>
 

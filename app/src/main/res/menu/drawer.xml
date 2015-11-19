@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_my_tasks"
+            android:title="My Tasks" />
+        <item
+            android:id="@+id/nav_rotation"
+            android:title="Rotation Tasks" />
+        <item
+            android:id="@+id/nav_bounty"
+            android:title="Bounty Tasks" />
+    </group>
+
+    <item android:title="Preferences">
+        <menu>
+            <item
+                android:id="@+id/group_page"
+                android:title="Group Info" />
+            <item
+                android:id="@+id/log_out"
+                android:title="Log Out" />
+        </menu>
+    </item>
+
+</menu>

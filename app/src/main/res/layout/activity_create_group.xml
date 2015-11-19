@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:fitsSystemWindows="true"
-    tools:context=".BountyActivity">
+    tools:context=".GroupCreateActivity">
 
     <android.support.design.widget.AppBarLayout android:layout_height="wrap_content"
         android:layout_width="match_parent" android:theme="@style/AppTheme.AppBarOverlay">
@@ -15,19 +15,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_bounty" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/add_task"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        app:fabSize="normal"
-        android:layout_margin="16dp"
-        android:layout_gravity="bottom|right"
-        android:onClick="addTask"
-        app:layout_anchor="@+id/rv"
-        app:layout_anchorGravity="bottom|right|end"
-        android:src="@mipmap/ic_add_black_48dp"
-        app:backgroundTint="@color/colorPrimary" />
+    <include layout="@layout/content_create_group" />
 
 </android.support.design.widget.CoordinatorLayout>

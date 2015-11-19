@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:background="@color/colorSuperDark">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/colorButtonText"
+        android:alpha="0.9"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="30dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Group Name"
+            android:layout_gravity="center"
+            android:id="@+id/displayGroupName"
+            android:textSize="30dp"
+            android:layout_marginTop="20dp"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Group ID:"
+            android:layout_gravity="center"
+            android:textSize="15dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Actual Group ID"
+            android:layout_gravity="center"
+            android:id="@+id/displayGroupID"
+            android:textStyle="bold"
+            android:textSize="15dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Group Password:"
+            android:layout_gravity="center"
+            android:textSize="15dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Actual Group Password"
+            android:layout_gravity="center"
+            android:id="@+id/displayGroupPwd"
+            android:textStyle="bold"
+            android:textSize="15dp" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_margin="10dp"
+            android:layout_height="2dp"
+            android:layout_weight="1"
+            android:background="#a9a9a9"
+            android:layout_gravity="center_vertical"></LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Monthly Stakes ($):"
+            android:layout_gravity="center"
+            android:textSize="20dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10"
+            android:id="@+id/displayStakes"
+            android:inputType="number"
+            android:layout_gravity="center"
+            android:textSize="20dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tap to edit"
+            android:layout_gravity="center"
+            android:textSize="12dp"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_margin="10dp"
+            android:layout_height="2dp"
+            android:layout_weight="1"
+            android:background="#a9a9a9"
+            android:layout_gravity="center_vertical"></LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Members:"
+            android:layout_gravity="center"
+            android:textSize="20dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Member names"
+            android:layout_gravity="center"
+            android:id="@+id/displayMemberNames"
+            android:textSize="15dp"
+            android:layout_marginBottom="25dp" />
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="Leave Group"
+        android:id="@+id/leaveGroup"
+        android:background="@color/colorButtonClicked"
+        android:textColor="@color/colorPrimaryDark"
+        android:layout_margin="40dp"
+        android:textSize="20sp"
+        android:layout_gravity="center_horizontal"/>
+
+</LinearLayout>
