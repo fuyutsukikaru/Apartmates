@@ -100,16 +100,32 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-               android:visibility="gone">
+                android:visibility="gone" >
 
-                <ImageView
-                    android:layout_width="fill_parent"
-                    android:layout_height="50dp"
-                    android:src="@drawable/ghost"
-                    android:longClickable="false"
-                    android:nestedScrollingEnabled="false"
-                    android:layout_weight="5"
-                    android:padding="5dp" />
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:paddingLeft="5dp"
+                    android:paddingBottom="5dp">
+
+                    <ImageView
+                        android:layout_width="fill_parent"
+                        android:layout_height="50dp"
+                        android:src="@drawable/ghost"
+                        android:longClickable="false"
+                        android:nestedScrollingEnabled="false"
+                        android:layout_weight="5"
+                        android:padding="5dp" />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:text="Delete"
+                        android:id="@+id/button2"
+                        android:background="@color/colorButtonNegate" />
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="fill_parent"
