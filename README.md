@@ -24,6 +24,6 @@ To run a test:
 - Hit Run on the dropdown menu to run the specific test.
 
 To run the app on a device:
-- Download the APK at this [link](https://dl.dropboxusercontent.com/u/12858467/apartmates_snapshot.apk).
+- Download the APK at this [link](https://dl.dropboxusercontent.com/u/12858467/apartmates.apk).
 - Move over to device's internal storage via your preferred method.
 - Install using a file manager.
