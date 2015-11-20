@@ -75,7 +75,7 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
     @Override
     public void onBindViewHolder(final BTAdapter.TaskViewHolder taskViewHolder, int position) {
         BountyTask bt = bountyTaskManager.getTask(position);
-        long id = bt.getId();
+        long id = bt.getCreator();
         String url = getProfilePic(id);
         Picasso.with(context).load(url).into(taskViewHolder.pic);
         taskViewHolder.taskName.setText(bt.getTitle());
@@ -91,8 +91,8 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
             taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    bountyTaskManager.dropTask(fPos);
-                    notifyDataSetChanged();
+                    bountyTaskManager.dropTask(mId, fPos);
+                    notifyItemRemoved(fPos);
                 }
             });
         } else {
@@ -101,10 +101,10 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
             taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    final int val = bountyTaskManager.getTask(fPos).getPoints();
-                    mBf.addPoints(val);
+                    //final int val = bountyTaskManager.getTask(fPos).getPoints();
+                    //mBf.addPoints(val);
                     bountyTaskManager.claimTask(fPos);
-                    notifyDataSetChanged();
+                    notifyItemRemoved(fPos);
                 }
             });
         }

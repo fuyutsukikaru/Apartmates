@@ -76,15 +76,23 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
     // it is the user's task.
     @Override
     public void onBindViewHolder(RotTAdapter.TaskViewHolder taskViewHolder, int position) {
+        final int pos = position;
         RotationTask rt = rotationTaskManager.getTask(position);
         taskViewHolder.taskName.setText(rt.getTitle());
         final Integer val = new Integer(rt.getPoints());
-        long id = rt.getId();
+        long id = rt.getAssignee();
         String url = getProfilePic(id);
         Picasso.with(context).load(url).into(taskViewHolder.pic);
         Button button = taskViewHolder.action;
         taskViewHolder.taskValue.setText(val.toString());
         taskViewHolder.taskDescription.setText(rt.getDescription());
+        taskViewHolder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rotationTaskManager.dropTask(mId, rotationTaskManager.getTask(pos).getId(), pos);
+                notifyItemRemoved(pos);
+            }
+        });
 
         TaskState curState = rt.getCurrentState();
         final long tid = rt.getId();
@@ -175,6 +183,7 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
         TextView taskDuration;
         Button action;
         ImageView pic;
+        Button delete;
 
         TaskViewHolder(View itemView) {
             super(itemView);
@@ -185,6 +194,7 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
             taskDuration = (TextView) itemView.findViewById(R.id.task_duration);
             action = (Button) itemView.findViewById(R.id.button);
             pic = (ImageView) itemView.findViewById(R.id.profile_pic);
+            delete = (Button) itemView.findViewById(R.id.delete);
         }
     }
 }

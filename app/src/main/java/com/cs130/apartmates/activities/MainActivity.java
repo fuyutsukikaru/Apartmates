@@ -227,10 +227,10 @@ public class MainActivity extends AppCompatActivity {
         if (intent != null) {
             String title = intent.getStringExtra("task_title");
             int value = intent.getIntExtra("task_value", 0);
-            long deadline = intent.getLongExtra("task_deadline", 0);
+            String deadline = intent.getStringExtra("task_deadline");
             String details = intent.getStringExtra("task_details");
 
-            BaseFragment frag = (BaseFragment) adapter.getItem(0);
+            BaseFragment frag = (BaseFragment) adapter.getItem(mPosition);
             frag.addTask(deadline, title, value, details);
         }
     }

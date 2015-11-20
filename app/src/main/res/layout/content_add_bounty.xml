@@ -71,7 +71,7 @@
             android:id="@+id/deadline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Deadline"
+            android:hint="Deadline (e.g. 2015-11-25)"
             android:inputType="datetime"
             android:paddingLeft="5dp" />
 

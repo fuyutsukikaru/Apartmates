@@ -15,7 +15,7 @@ public class RotationTask implements Task{
     private int m_points;
     private long m_assignee;
     private long m_time_started;
-    private long m_time_limit;
+    private String m_time_limit;
 
     private TaskState m_state;
     private PendingTaskState m_pending_state;
@@ -26,7 +26,7 @@ public class RotationTask implements Task{
     private String m_title;
     private String m_description;
 
-    public RotationTask(long id, int points, long time_limit, long assignee,
+    public RotationTask(long id, int points, String time_limit, long assignee,
                 String title, String description) {
         m_id = id;
         m_points = points;
@@ -85,7 +85,7 @@ public class RotationTask implements Task{
      */
     public boolean completeTask(){
         boolean endTurn;
-        if (getDuration() < m_time_limit) {
+        if (getDuration() < Long.parseLong(m_time_limit)) {
             endTurn = m_state.completeTask();
         } else {
             endTurn = m_state.setPenalty();

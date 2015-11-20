@@ -79,7 +79,7 @@ public class MTAdapter extends RecyclerView.Adapter<MTAdapter.TaskViewHolder> {
         RotationTask rt = rotationTaskManager.getTaskByUser(position, mId);
         taskViewHolder.taskName.setText(rt.getTitle());
         final Integer val = new Integer(rt.getPoints());
-        long id = rt.getId();
+        long id = rt.getAssignee();
         String url = getProfilePic(id);
         Picasso.with(context).load(url).into(taskViewHolder.pic);
         Button button = (Button)taskViewHolder.cv.findViewById(R.id.button);

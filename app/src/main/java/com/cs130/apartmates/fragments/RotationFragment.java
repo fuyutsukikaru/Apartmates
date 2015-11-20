@@ -73,7 +73,7 @@ public class RotationFragment extends Fragment implements BaseFragment {
                         JSONObject task = tasklist.getJSONObject(i);
 
                         mAdapter.getManager().populateTask(task.getLong("task_id"), mId, task.getInt("value"),
-                                task.getLong("time_limit"), task.getString("title"), task.getString("description"));
+                                task.getString("time_limit"), task.getString("title"), task.getString("description"));
                     }
                 }
             } catch (Exception e) {
@@ -91,7 +91,7 @@ public class RotationFragment extends Fragment implements BaseFragment {
     }
 
     @Override
-    public void addTask(long deadline, String title, int value, String details) {
+    public void addTask(String deadline, String title, int value, String details) {
         mAdapter.getManager().addTask(mId, gId, value, deadline, title, details);
         mAdapter.notifyDataSetChanged();
     }

@@ -17,7 +17,7 @@ public class RotationTaskManager {
 
     //TODO: maybe we can move to a common constants file
     private String createTaskUrl = "/task/create";
-    private String dropTaskUrl = "/task?taskId=";
+    private String dropTaskUrl = "/task";
     private String activateRotationTaskUrl = "/task/activate?taskId=";
     private String completeTaskUrl = "/task/complete";
     private String rotateTaskUrl = "/task/rotate?taskId=";
@@ -27,7 +27,7 @@ public class RotationTaskManager {
         m_member_list = new ArrayList<Long>();
     }
 
-    public void populateTask(long tid, long user_id, int points, long deadline, String title, String description) {
+    public void populateTask(long tid, long user_id, int points, String deadline, String title, String description) {
         m_task_list.add(new RotationTask(tid, points, deadline, user_id, title, description));
     }
 
@@ -72,7 +72,7 @@ public class RotationTaskManager {
     }
 
     //Assign a user to the task initially and the rotation will be dependent on the apartment list.
-    public void addTask(long user_id, long gid, int points, long deadline, String title, String description) {
+    public void addTask(long user_id, long gid, int points, String deadline, String title, String description) {
         try {
             HashMap<String, String> params = new HashMap<String, String>();
             params.put("userId", Long.toString(user_id));
@@ -81,7 +81,7 @@ public class RotationTaskManager {
             params.put("description", description);
             params.put("value", Integer.toString(points));
             params.put("type", "rotation");
-            params.put("timeLimit", Long.toString(deadline));
+            params.put("timeLimit", deadline);
 
             JSONObject resp = ApartmatesHttpClient.sendRequest(createTaskUrl, params,
                     null, "POST");
@@ -94,17 +94,15 @@ public class RotationTaskManager {
         }
     }
 
-    public boolean dropTask(int id) {
+    public boolean dropTask(long uid, long id, int position) {
         try {
-            JSONObject resp = ApartmatesHttpClient.sendRequest(dropTaskUrl + m_task_list.get(id).getId(),
-                    null, null, "DELETE");
-           if (resp.has("success") && resp.get("success") == "true") {
-               for (RotationTask rt : m_task_list) {
-                   if (rt.getId() == id) {
-                       m_task_list.remove(rt);
-                       break;
-                   }
-               }
+            HashMap<String, String> params = new HashMap<String, String>();
+            params.put("userId", Long.toString(uid));
+            params.put("taskId", Long.toString(id));
+            JSONObject resp = ApartmatesHttpClient.sendRequest(dropTaskUrl,
+                    params, null, "DELETE");
+           if (!resp.has("error")) {
+               m_task_list.remove(position);
                return true;
            }
         } catch (Exception e) {
@@ -117,7 +115,7 @@ public class RotationTaskManager {
         try {
             JSONObject resp = ApartmatesHttpClient.sendRequest(activateRotationTaskUrl + id, null, null, "POST");
             System.err.println("Activate task RESP: " + resp);
-            if (resp.has("success") && resp.get("success") == "true") {
+            if (!resp.has("error")) {
                 for (RotationTask rt : m_task_list){
                     if (rt.getId() == id) {
                         rt.activateTask();
