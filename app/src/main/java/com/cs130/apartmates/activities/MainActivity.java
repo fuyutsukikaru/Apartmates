@@ -224,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        if (intent != null) {
+        if (intent != null && !intent.hasExtra("left_group")) {
             String title = intent.getStringExtra("task_title");
             int value = intent.getIntExtra("task_value", 0);
             String deadline = intent.getStringExtra("task_deadline");
@@ -232,6 +232,10 @@ public class MainActivity extends AppCompatActivity {
 
             BaseFragment frag = (BaseFragment) adapter.getItem(mPosition);
             frag.addTask(deadline, title, value, details);
+        } else if (intent != null && intent.hasExtra("left_group")) {
+            Intent ni = new Intent(this, GroupCreateActivity.class);
+            startActivity(ni);
+            finish();
         }
     }
 

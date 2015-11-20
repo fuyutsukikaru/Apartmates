@@ -51,7 +51,7 @@
         <activity
             android:name=".activities.GroupCreateActivity"
             android:label="Create Group"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen" >
+            android:theme="@style/AppTheme.NoActionBar" >
         </activity>
         <activity
             android:name=".activities.MainActivity"
@@ -73,9 +73,10 @@
             android:label="Add New Rotation Task"
             android:theme="@style/AppTheme.NoActionBar" >
         </activity>
-        <activity android:name=".activities.GroupInfoActivity"
+        <activity
+            android:name=".activities.GroupInfoActivity"
             android:label="Your Group"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
 
