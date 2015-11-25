@@ -127,6 +127,12 @@ public class GroupCreateActivity extends AppCompatActivity {
             JSONObject resp = ApartmatesHttpClient.sendRequest(joinUrl, params,
                     null, "POST");
             System.err.println("RESP: " + resp);
+
+            if (resp.has("error")) {
+                Snackbar.make(findViewById(R.id.group_create), "The password you entered was incorrect.", Snackbar.LENGTH_LONG).show();
+                return;
+            }
+
             pref.edit().putLong("groupId", Long.parseLong(gid)).apply();
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
