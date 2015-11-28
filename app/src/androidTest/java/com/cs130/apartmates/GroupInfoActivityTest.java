@@ -4,6 +4,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.widget.TextView;
 
 import com.cs130.apartmates.activities.GroupInfoActivity;
+import com.robotium.solo.Solo;
 
 /**
  * Created by Eric Du on 11/18/2015.
@@ -13,6 +14,7 @@ public class GroupInfoActivityTest extends ActivityInstrumentationTestCase2<Grou
     private TextView mGroupName;
     private TextView mGroupID;
     private TextView mMemberNames;
+    private Solo solo;
 
     public GroupInfoActivityTest() {
         super(GroupInfoActivity.class);
@@ -26,7 +28,8 @@ public class GroupInfoActivityTest extends ActivityInstrumentationTestCase2<Grou
         mGroupName = (TextView) mActivity.findViewById(R.id.displayGroupName);
         mGroupID = (TextView) mActivity.findViewById(R.id.displayGroupID);
         mMemberNames = (TextView) mActivity.findViewById(R.id.displayMemberNames);
-        testPreconditions();
+        solo = new Solo(getInstrumentation(), getActivity());
+
     }
 
     public void testPreconditions() {
