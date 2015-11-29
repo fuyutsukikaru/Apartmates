@@ -52,6 +52,8 @@ public class GroupInfoActivityTest extends ActivityInstrumentationTestCase2<Grou
         solo.finishOpenedActivities();
     }
 
+    //Precondition: user is currently in a group
+    //leaves current group and then joins group with id 11 and password password
     public void testLeaveAndJoin() {
         try {
             solo.clickOnButton("Leave Group");
