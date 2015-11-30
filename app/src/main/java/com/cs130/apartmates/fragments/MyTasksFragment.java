@@ -90,7 +90,7 @@ public class MyTasksFragment extends Fragment implements BaseFragment {
 
     @Override
     public void addTask(String deadline, String title, int value, String details, String state) {
-        mAdapter.getManager().addTask(mId, gId, value, deadline, title, details, state);
+        mAdapter.getBountyTaskManager().addTask(mId, gId, value, deadline, title, details);
         mAdapter.notifyDataSetChanged();
     }
 }

@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.cs130.apartmates.R;
 import com.cs130.apartmates.base.ApartmatesHttpClient;
+import com.cs130.apartmates.base.BountyTaskManager;
 import com.cs130.apartmates.base.RotationTaskManager;
 import com.cs130.apartmates.base.tasks.RotationTask;
 import com.cs130.apartmates.base.taskstates.ActiveTaskState;
@@ -31,17 +32,21 @@ public class MTAdapter extends RecyclerView.Adapter<MTAdapter.TaskViewHolder> {
     private static final String TAG = "MTAdapter";
     private long mId;
     private RotationTaskManager rotationTaskManager;
+    private BountyTaskManager bountyTaskManager;
     private Context context;
     private MyTasksFragment frag;
 
     public MTAdapter(Context context, MyTasksFragment frag, long id) {
         rotationTaskManager = new RotationTaskManager();
+        bountyTaskManager = new BountyTaskManager();
         mId = id;
         this.context = context;
         this.frag = frag;
     }
 
     public RotationTaskManager getManager() { return rotationTaskManager; }
+
+    public BountyTaskManager getBountyTaskManager() { return bountyTaskManager; }
 
     public String getProfilePic(long id) {
         JSONObject resp = ApartmatesHttpClient.sendRequest("/user?userId=" + id, null, null, "GET");

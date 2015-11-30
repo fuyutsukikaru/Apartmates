@@ -6,12 +6,15 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.codetroopers.betterpickers.calendardatepicker.CalendarDatePickerDialogFragment;
+import com.codetroopers.betterpickers.datepicker.DatePickerDialogFragment;
 import com.cs130.apartmates.R;
 
 import org.json.JSONObject;
@@ -24,14 +27,18 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * Created by sjeongus on 10/27/15.
  */
-public class AddTaskActivity extends AppCompatActivity {
+public class AddTaskActivity extends AppCompatActivity implements
+        CalendarDatePickerDialogFragment.OnDateSetListener {
 
     private Button create;
     private Button cancel;
+    private EditText deadline;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +51,20 @@ public class AddTaskActivity extends AppCompatActivity {
         final EditText title = (EditText) findViewById(R.id.title);
         final EditText description = (EditText) findViewById(R.id.description);
         final EditText value = (EditText) findViewById(R.id.value);
-        final EditText deadline = (EditText) findViewById(R.id.deadline);
+        Button picker = (Button) findViewById(R.id.picker);
+        picker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fm = getSupportFragmentManager();
+                Calendar now = Calendar.getInstance();
+                CalendarDatePickerDialogFragment calendarDatePickerDialogFragment = CalendarDatePickerDialogFragment
+                        .newInstance(AddTaskActivity.this, now.get(Calendar.YEAR), now.get(Calendar.MONTH),
+                                now.get(Calendar.DAY_OF_MONTH));
+                calendarDatePickerDialogFragment.show(fm, null);
+            }
+        });
+
+        deadline = (EditText) findViewById(R.id.deadline);
         create = (Button) findViewById(R.id.create);
         cancel = (Button) findViewById(R.id.cancel);
 
@@ -83,67 +103,21 @@ public class AddTaskActivity extends AppCompatActivity {
 
     }
 
-    private class CreateTask extends AsyncTask<String, String, Void> {
-        private HttpURLConnection conn;
-        private URL url;
-        private OutputStream out;
-        private InputStream in;
-        private String userId;
-
-        @Override
-        protected void onPreExecute() {
-            create.setClickable(false);
-            cancel.setClickable(false);
-            SharedPreferences prefs = AddTaskActivity.this.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
-            userId = prefs.getString("user_id", null);
+    @Override
+    public void onDateSet(CalendarDatePickerDialogFragment dialog, int year, int monthOfYear, int dayOfMonth) {
+        String day;
+        if (dayOfMonth < 10) {
+            day = "0" + String.valueOf(dayOfMonth);
+        } else {
+            day = String.valueOf(dayOfMonth);
         }
-
-        @Override
-        protected Void doInBackground(String... args) {
-            try {
-                url = new URL("http://backend-apartmates.rhcloud.com/task/create");
-                conn = (HttpURLConnection) url.openConnection();
-                conn.setReadTimeout(10000);
-                conn.setConnectTimeout(15000);
-                conn.setRequestMethod("POST");
-                conn.setDoInput(true);
-                conn.setDoOutput(true);
-                conn.setRequestProperty("Content-Type", "application/json");
-
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("code", args[1]);
-
-                out = conn.getOutputStream();
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
-                System.err.println(jsonObject.toString());
-                writer.write(jsonObject.toString());
-                writer.flush();
-                writer.close();
-                out.close();
-
-                conn.connect();
-
-                int status = conn.getResponseCode();
-
-                if (status >= 400) {
-                    in = conn.getErrorStream();
-                } else {
-                    in = conn.getInputStream();
-                }
-                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-                StringBuilder result = new StringBuilder();
-                String line;
-                while((line = reader.readLine()) != null) {
-                    result.append(line);
-                }
-                in.close();
-                System.err.println(result.toString());
-            } catch(Exception e) {
-                e.printStackTrace();
-            } finally {
-                conn.disconnect();
-            }
-            return null;
+        String month;
+        if (monthOfYear + 1 < 10) {
+            month = "0" + String.valueOf(monthOfYear + 1);
+        } else {
+            month = String.valueOf(monthOfYear + 1);
         }
+        String result = String.valueOf(year) + "-" + month + "-" + day;
+        deadline.setText(result);
     }
 }
