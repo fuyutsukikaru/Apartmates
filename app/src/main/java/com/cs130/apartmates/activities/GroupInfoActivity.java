@@ -54,7 +54,6 @@ public class GroupInfoActivity extends AppCompatActivity {
         if (resp != null && resp.has("name")) {
             try {
                 groupName.setText(resp.getString("name"));
-                prefs.edit().putString("groupName" , resp.getString("name"));
                 //groupDescription.setText("Lovely people of Cedarwood #306!");
                 groupID.setText("GroupID: " + gid);
                 stakes.setText(resp.getString("stakes"));

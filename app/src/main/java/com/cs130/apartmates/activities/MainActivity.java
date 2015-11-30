@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.cs130.apartmates.R;
 import com.cs130.apartmates.adapters.ViewPagerAdapter;
+import com.cs130.apartmates.base.ApartmatesHttpClient;
 import com.cs130.apartmates.fragments.BaseFragment;
 import com.cs130.apartmates.fragments.BountyFragment;
 import com.cs130.apartmates.fragments.MyTasksFragment;
@@ -33,6 +34,10 @@ import com.cs130.apartmates.services.RegistrationIntentService;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.squareup.picasso.Picasso;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by sjeongus on 11/13/15.
@@ -184,8 +189,24 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout header = (LinearLayout) navigationView.inflateHeaderView(R.layout.drawer_header);
         TextView name = (TextView) header.findViewById(R.id.name);
         name.setText(pref.getString("userName", "Username"));
+
         TextView groupName = (TextView) header.findViewById(R.id.group_name);
-        groupName.setText(pref.getString("groupName" , "GroupName"));
+        if(pref.contains("groupName")) {
+            groupName.setText(pref.getString("groupName", "Group Name"));
+        }
+        else {
+            long gid = pref.getLong("groupId", 0);
+            JSONObject resp = ApartmatesHttpClient.sendRequest("/group?groupId=" + gid, null, null, "GET");
+            if (resp != null && resp.has("name")) {
+                try {
+                    groupName.setText(resp.getString("name"));
+                    pref.edit().putString("groupName", resp.getString("name"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
         ImageView pic = (ImageView) header.findViewById(R.id.profile_pic);
         Picasso.with(getBaseContext()).load(pref.getString("userPic", null)).into(pic);
         navigationView.setNavigationItemSelectedListener(
@@ -220,6 +241,7 @@ public class MainActivity extends AppCompatActivity {
                                 pref.edit().remove("groupId").apply();
                                 pref.edit().remove("userPic").apply();
                                 pref.edit().remove("userName").apply();
+                                pref.edit().remove("groupName").apply();
                                 Intent nIntent = new Intent(MainActivity.this, LoginActivity.class);
                                 startActivity(nIntent);
                                 finish();
