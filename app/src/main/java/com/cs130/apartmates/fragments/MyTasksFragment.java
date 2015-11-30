@@ -75,9 +75,9 @@ public class MyTasksFragment extends Fragment implements BaseFragment {
                     for (int i = 0; i != tasklist.length(); i++) {
                         JSONObject task = tasklist.getJSONObject(i);
 
-                        mAdapter.getManager().populateTask(task.getLong("id"), task.getInt("value"), task.getString("time_limit"),
+                        mAdapter.getManager().populateTask(task.getLong("task_id"), task.getInt("value"), task.getString("time_limit"),
                                 task.getString("deadline"), task.getString("title"), task.getString("description"),
-                                task.getString("state"));
+                                task.getString("state"), task.getLong("agent_id"));
                     }
                 }
             } catch (Exception e) {
@@ -90,7 +90,6 @@ public class MyTasksFragment extends Fragment implements BaseFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu,MenuInflater inflater) {
-        // Do something that differs the Activity's menu here
         super.onCreateOptionsMenu(menu, inflater);
     }
 

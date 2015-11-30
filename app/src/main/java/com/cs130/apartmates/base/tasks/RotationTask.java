@@ -33,13 +33,14 @@ public class RotationTask implements Task{
     private String m_current_state;
 
     public RotationTask(long id, int points, String time_limit, String deadline,
-                String title, String description, String state) {
+                String title, String description, String state, long assignee) {
         m_id = id;
         m_points = points;
         m_title = title;
         m_description = description;
         m_time_limit = time_limit;
         m_deadline = deadline;
+        m_assignee = assignee;
 
         m_pending_state = new PendingTaskState(this);
         m_active_state = new ActiveTaskState(this);
@@ -120,11 +121,9 @@ public class RotationTask implements Task{
     }
 
     public void awardPoints() {
-        //TODO: stub
     }
 
     public void deductPoints() {
-        //TODO: stub
     }
 
 }

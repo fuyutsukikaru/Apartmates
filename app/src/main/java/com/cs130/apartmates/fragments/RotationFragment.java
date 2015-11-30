@@ -46,7 +46,7 @@ public class RotationFragment extends Fragment implements BaseFragment {
         mId = prefs.getLong("userId", 0);
         gId = prefs.getLong("groupId", 0);
 
-        mAdapter = new RotTAdapter(getContext(), mId);
+        mAdapter = new RotTAdapter(getContext(), this, mId);
         mRecyclerView.setAdapter(mAdapter);
         refresh();
 
@@ -61,6 +61,7 @@ public class RotationFragment extends Fragment implements BaseFragment {
     }
 
     public void refresh() {
+
         mAdapter.getManager().clear();
         JSONObject resp = ApartmatesHttpClient.sendRequest("/user?userId=" + mId, null, null, "GET");
         if (resp != null && resp.has("group_id")) {
@@ -74,7 +75,7 @@ public class RotationFragment extends Fragment implements BaseFragment {
 
                         mAdapter.getManager().populateTask(task.getLong("task_id"), task.getInt("value"),
                                 task.getString("time_limit"), task.getString("deadline"), task.getString("title"), task.getString("description"),
-                                task.getString("state"));
+                                task.getString("state"), task.getLong("agent_id"));
                     }
                 }
             } catch (Exception e) {

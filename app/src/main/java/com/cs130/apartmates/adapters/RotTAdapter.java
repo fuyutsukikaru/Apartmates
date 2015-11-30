@@ -1,5 +1,6 @@
 package com.cs130.apartmates.adapters;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +20,7 @@ import com.cs130.apartmates.base.taskstates.ActiveTaskState;
 import com.cs130.apartmates.base.taskstates.PenaltyTaskState;
 import com.cs130.apartmates.base.taskstates.PendingTaskState;
 import com.cs130.apartmates.base.taskstates.TaskState;
+import com.cs130.apartmates.fragments.RotationFragment;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
@@ -31,11 +33,13 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
     private long mId;
     private RotationTaskManager rotationTaskManager;
     private Context context;
+    private RotationFragment frag;
 
-    public RotTAdapter(Context context, long id) {
+    public RotTAdapter(Context context, RotationFragment f, long id) {
         rotationTaskManager = new RotationTaskManager();
         mId = id;
         this.context = context;
+        frag = f;
     }
 
     public RotationTaskManager getManager() { return rotationTaskManager; }
@@ -81,7 +85,7 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
             RotationTask rt = rotationTaskManager.getTask(position);
             taskViewHolder.taskName.setText(rt.getTitle());
             final Integer val = new Integer(rt.getPoints());
-            long id = ApartmatesHttpClient.sendRequest("/task?taskId=" + rt.getId(), null, null, "GET").getLong("agent_id");
+            long id = rt.getAssignee();
             String url = getProfilePic(id);
             Picasso.with(context).load(url).into(taskViewHolder.pic);
             Button button = taskViewHolder.action;
@@ -103,7 +107,6 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
                 if (curState.equals("pending")) { //task is waiting for someone to say it needs to be done
                     taskViewHolder.action.setText("Activate");
                     taskViewHolder.action.setBackgroundResource(R.color.colorButtonClicked);
-                    //TODO: some kind of color scheme?
                     taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -114,18 +117,17 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
                 } else if (curState.equals("activated")) { //task is active; timer is ticking
                     taskViewHolder.action.setText("Done");
                     taskViewHolder.action.setBackgroundResource(R.color.colorButton);
-                    //TODO: color? add some kind of timer interface too?
                     taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             rotationTaskManager.completeTask(pos, mId);
                             notifyItemChanged(pos);
+                            frag.refresh();
                         }
                     });
                 } else if (curState.equals("penalty")) { //task is in penalty mode
                     taskViewHolder.action.setText("Claim");
                     taskViewHolder.action.setBackgroundResource(R.color.colorButton);
-                    //TODO: color?
                     taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -139,12 +141,17 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
                 if (curState.equals("pending")) { //task is waiting for someone to say it needs to be done
                     taskViewHolder.action.setText("Activate");
                     taskViewHolder.action.setBackgroundResource(R.color.colorButtonClicked);
-                    //TODO: color?
+                    taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            rotationTaskManager.activateTask(tid);
+                            notifyItemChanged(pos);
+                        }
+                    });
                 } else if (curState.equals("activated")) { //task is active; timer is ticking
                     taskViewHolder.action.setText("Active");
                     button.setEnabled(false);
                     taskViewHolder.action.setBackgroundResource(R.color.colorButtonGrey);
-                    //TODO: color?
                 } else if (curState.equals("penalty")) { //task is in penalty mode
                     taskViewHolder.action.setText("Claim");
                     taskViewHolder.action.setBackgroundResource(R.color.colorButton);
@@ -152,9 +159,6 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
                     taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            //did we already deduct from offending user? if not, we may need to do it here
-                            //let's talk about this
-
                             rotationTaskManager.completeTask(pos, mId);
                             notifyItemChanged(pos);
                         }
