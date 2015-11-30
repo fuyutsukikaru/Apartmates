@@ -19,6 +19,7 @@ import com.cs130.apartmates.base.taskstates.ActiveTaskState;
 import com.cs130.apartmates.base.taskstates.PenaltyTaskState;
 import com.cs130.apartmates.base.taskstates.PendingTaskState;
 import com.cs130.apartmates.base.taskstates.TaskState;
+import com.cs130.apartmates.fragments.MyTasksFragment;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
@@ -31,11 +32,13 @@ public class MTAdapter extends RecyclerView.Adapter<MTAdapter.TaskViewHolder> {
     private long mId;
     private RotationTaskManager rotationTaskManager;
     private Context context;
+    private MyTasksFragment frag;
 
-    public MTAdapter(Context context, long id) {
+    public MTAdapter(Context context, MyTasksFragment frag, long id) {
         rotationTaskManager = new RotationTaskManager();
         mId = id;
         this.context = context;
+        this.frag = frag;
     }
 
     public RotationTaskManager getManager() { return rotationTaskManager; }
@@ -54,6 +57,7 @@ public class MTAdapter extends RecyclerView.Adapter<MTAdapter.TaskViewHolder> {
 
     @Override
     public TaskViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        System.err.println("Created viewholder");
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.rotationcard_layout, viewGroup, false);
         CardView cv = (CardView) v.findViewById(R.id.rcv);
         final LinearLayout details = (LinearLayout) v.findViewById(R.id.details);
@@ -76,48 +80,85 @@ public class MTAdapter extends RecyclerView.Adapter<MTAdapter.TaskViewHolder> {
     // it is the user's task.
     @Override
     public void onBindViewHolder(MTAdapter.TaskViewHolder taskViewHolder, int position) {
-        RotationTask rt = rotationTaskManager.getTaskByUser(position, mId);
+        final int pos = position;
+        RotationTask rt = rotationTaskManager.getTask(position);
         taskViewHolder.taskName.setText(rt.getTitle());
         final Integer val = new Integer(rt.getPoints());
         long id = rt.getAssignee();
+        Button button = taskViewHolder.action;
         String url = getProfilePic(id);
         Picasso.with(context).load(url).into(taskViewHolder.pic);
-        Button button = (Button)taskViewHolder.cv.findViewById(R.id.button);
         taskViewHolder.taskValue.setText(val.toString());
         taskViewHolder.taskDescription.setText(rt.getDescription());
+        taskViewHolder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rotationTaskManager.dropTask(mId, rotationTaskManager.getTask(pos).getId(), pos);
+                notifyItemRemoved(pos);
+                notifyItemRangeChanged(pos, rotationTaskManager.getSize());
+            }
+        });
 
-        TaskState curState = rt.getCurrentState();
+        String curState = rt.getState();
         final long tid = rt.getId();
 
         if (rt.getAssignee() == mId) { //user is assigned to this task
-            if (curState instanceof PendingTaskState) { //task is waiting for someone to say it needs to be done
+            if (curState.equals("pending")) { //task is waiting for someone to say it needs to be done
                 taskViewHolder.action.setText("Activate");
+                button.setEnabled(true);
                 taskViewHolder.action.setBackgroundResource(R.color.colorButtonClicked);
-                //TODO: some kind of color scheme?
-            } else if (curState instanceof ActiveTaskState) { //task is active; timer is ticking
+                taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        rotationTaskManager.activateTask(tid);
+                        notifyItemChanged(pos);
+                        frag.refresh();
+                    }
+                });
+            } else if (curState.equals("activated")) { //task is active; timer is ticking
                 taskViewHolder.action.setText("Done");
+                button.setEnabled(true);
                 taskViewHolder.action.setBackgroundResource(R.color.colorButton);
-                //TODO: color? add some kind of timer interface too?
-            } else if (curState instanceof PenaltyTaskState) { //task is in penalty mode
+                taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        rotationTaskManager.completeTask(pos, mId);
+                        notifyItemChanged(pos);
+                        frag.refresh();
+                    }
+                });
+            } else if (curState.equals("penalty")) { //task is in penalty mode
                 taskViewHolder.action.setText("Claim");
+                button.setEnabled(true);
                 taskViewHolder.action.setBackgroundResource(R.color.colorButton);
-                //TODO: color?
+                taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        rotationTaskManager.completeTask(pos, mId);
+                        notifyItemChanged(pos);
+                        frag.refresh();
+                    }
+                });
             }
         }
 
-        long hrsRemaining = rt.getDuration();
-        if (hrsRemaining >= 24) {
-            long daysRemaining =  hrsRemaining/24;
-            String dur = Long.toString(daysRemaining);
-            dur = dur.concat("d");
-            taskViewHolder.taskDuration.setText(dur);
+        if (curState.equals("activated")) {
+            long hrsRemaining = rt.getDuration();
+            if (hrsRemaining >= 24) {
+                long daysRemaining = hrsRemaining / 24;
+                String dur = Long.toString(daysRemaining);
+                dur = dur.concat("d");
+                taskViewHolder.taskDuration.setText(dur);
+            } else {
+                String dur = Long.toString(hrsRemaining);
+                dur = dur.concat("h");
+                taskViewHolder.taskDuration.setText(dur);
+            }
+        } else if (curState.equals("penalty")) {
+            taskViewHolder.taskDuration.setText("Exp");
+        } else {
+            taskViewHolder.taskDuration.setText("");
         }
-        else {
-            String dur = Long.toString(hrsRemaining);
-            dur = dur.concat("h");
-            taskViewHolder.taskDuration.setText(dur);
-        }
-
 
     }
 
@@ -128,7 +169,7 @@ public class MTAdapter extends RecyclerView.Adapter<MTAdapter.TaskViewHolder> {
 
     @Override
     public int getItemCount() {
-        return rotationTaskManager.getNumTasksByUser(mId);
+        return rotationTaskManager.getSize();
     }
 
     public final static class TaskViewHolder extends RecyclerView.ViewHolder {
@@ -139,6 +180,7 @@ public class MTAdapter extends RecyclerView.Adapter<MTAdapter.TaskViewHolder> {
         TextView taskDuration;
         Button action;
         ImageView pic;
+        Button delete;
 
         TaskViewHolder(View itemView) {
             super(itemView);
@@ -149,6 +191,7 @@ public class MTAdapter extends RecyclerView.Adapter<MTAdapter.TaskViewHolder> {
             taskDuration = (TextView) itemView.findViewById(R.id.task_duration);
             action = (Button) itemView.findViewById(R.id.button);
             pic = (ImageView) itemView.findViewById(R.id.profile_pic);
+            delete = (Button) itemView.findViewById(R.id.delete);
         }
     }
 }

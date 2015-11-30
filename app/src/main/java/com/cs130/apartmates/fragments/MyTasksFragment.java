@@ -46,9 +46,9 @@ public class MyTasksFragment extends Fragment implements BaseFragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         SharedPreferences prefs = getActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
-        mId = prefs.getLong("userId", 1);
+        mId = prefs.getLong("userId", 0);
 
-        mAdapter = new MTAdapter(getContext(), mId);
+        mAdapter = new MTAdapter(getContext(), this, mId);
         mRecyclerView.setAdapter(mAdapter);
         refresh();
 
@@ -64,25 +64,20 @@ public class MyTasksFragment extends Fragment implements BaseFragment {
 
     public void refresh() {
         mAdapter.getManager().clear();
-        JSONObject resp = ApartmatesHttpClient.sendRequest("/user?userId=" + mId, null, null, "GET");
-        if (resp != null && resp.has("group_id")) {
-            try {
-                gId = resp.getLong("group_id");
-                JSONObject taskresp =
-                        ApartmatesHttpClient.sendRequest("/task/viewbygroup?groupId=" + resp.get("group_id"), null, null, "GET");
-                if (taskresp.has("rotation_tasks")) {
-                    JSONArray tasklist = taskresp.getJSONArray("rotation_tasks");
-                    for (int i = 0; i != tasklist.length(); i++) {
-                        JSONObject task = tasklist.getJSONObject(i);
+        JSONObject resp = ApartmatesHttpClient.sendRequest("/task/viewbyuser?userId=" + mId, null, null, "GET");
+        try {
+            if (resp.has("rotation_tasks")) {
+                JSONArray tasklist = resp.getJSONArray("rotation_tasks");
+                for (int i = 0; i < tasklist.length(); i++) {
+                    JSONObject task = tasklist.getJSONObject(i);
 
-                        mAdapter.getManager().populateTask(task.getLong("task_id"), task.getInt("value"), task.getString("time_limit"),
-                                task.getString("deadline"), task.getString("title"), task.getString("description"),
-                                task.getString("state"), task.getLong("agent_id"));
-                    }
+                    mAdapter.getManager().populateTask(task.getLong("task_id"), task.getInt("value"), task.getString("time_limit"),
+                            task.getString("deadline"), task.getString("title"), task.getString("description"),
+                            task.getString("state"), task.getLong("agent_id"));
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         mRefreshLayout.setRefreshing(false);
         mAdapter.notifyDataSetChanged();
