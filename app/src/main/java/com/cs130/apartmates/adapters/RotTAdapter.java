@@ -112,6 +112,7 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
                         public void onClick(View v) {
                             rotationTaskManager.activateTask(tid);
                             notifyItemChanged(pos);
+                            frag.refresh();
                         }
                     });
                 } else if (curState.equals("activated")) { //task is active; timer is ticking
