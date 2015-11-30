@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -27,6 +28,8 @@ public class RotationFragment extends Fragment implements BaseFragment {
     private RotTAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private SwipeRefreshLayout mRefreshLayout;
+    private SharedPreferences prefs;
+    private MenuItem points;
     private long mId;
     private long gId;
 
@@ -42,7 +45,7 @@ public class RotationFragment extends Fragment implements BaseFragment {
         mLayoutManager = new LinearLayoutManager(getActivity().getBaseContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        SharedPreferences prefs = getActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        prefs = getActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
         mId = prefs.getLong("userId", 0);
         gId = prefs.getLong("groupId", 0);
 
@@ -61,7 +64,9 @@ public class RotationFragment extends Fragment implements BaseFragment {
     }
 
     public void refresh() {
-
+        if (points != null) {
+            points.setTitle(String.valueOf(prefs.getInt("userPoints", 100)));
+        }
         mAdapter.getManager().clear();
         JSONObject resp = ApartmatesHttpClient.sendRequest("/user?userId=" + mId, null, null, "GET");
         if (resp != null && resp.has("group_id")) {
@@ -87,9 +92,11 @@ public class RotationFragment extends Fragment implements BaseFragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu,MenuInflater inflater) {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Do something that differs the Activity's menu here
         super.onCreateOptionsMenu(menu, inflater);
+
+        points = menu.findItem(R.id.point_count);
     }
 
     @Override

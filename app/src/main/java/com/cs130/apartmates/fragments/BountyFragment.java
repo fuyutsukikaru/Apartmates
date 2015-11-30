@@ -32,6 +32,7 @@ public class BountyFragment extends Fragment implements BaseFragment {
     private BTAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private SwipeRefreshLayout mRefreshLayout;
+    private SharedPreferences prefs;
     private MenuItem points;
     private long mId;
     private long gId;
@@ -50,7 +51,7 @@ public class BountyFragment extends Fragment implements BaseFragment {
         mLayoutManager = new LinearLayoutManager(getActivity().getBaseContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        SharedPreferences prefs = getActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
+        prefs = getActivity().getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
         mId = prefs.getLong("userId", 1);
 
         mAdapter = new BTAdapter(this, getContext(),  mId);
@@ -76,9 +77,12 @@ public class BountyFragment extends Fragment implements BaseFragment {
         points.setTitle(Integer.toString(nPoints));
     }
 
-    private void refresh() {
+    public void refresh() {
         System.err.println("REFRESHING");
         mAdapter.getManager().clear();
+        if (points != null) {
+            points.setTitle(String.valueOf(prefs.getInt("userPoints", 100)));
+        }
         JSONObject resp = ApartmatesHttpClient.sendRequest("/user?userId=" + mId, null, null, "GET");
         if (resp != null && resp.has("group_id")) {
             try {

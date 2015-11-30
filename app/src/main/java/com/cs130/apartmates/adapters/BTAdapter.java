@@ -113,6 +113,7 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
                     }
                     notifyItemRemoved(fPos);
                     notifyItemRangeChanged(fPos, bountyTaskManager.getSize());
+                    mBf.refresh();
                 }
             });
         }
