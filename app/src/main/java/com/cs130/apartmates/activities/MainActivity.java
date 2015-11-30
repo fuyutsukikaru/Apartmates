@@ -185,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
         TextView name = (TextView) header.findViewById(R.id.name);
         name.setText(pref.getString("userName", "Username"));
         TextView groupName = (TextView) header.findViewById(R.id.group_name);
-        groupName.setText(Long.toString(pref.getLong("groupId", 0)));
+        groupName.setText(pref.getString("groupName" , "GroupName"));
         ImageView pic = (ImageView) header.findViewById(R.id.profile_pic);
         Picasso.with(getBaseContext()).load(pref.getString("userPic", null)).into(pic);
         navigationView.setNavigationItemSelectedListener(
