@@ -5,6 +5,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.cs130.apartmates.activities.AddTaskActivity;
+import com.robotium.solo.Solo;
 
 /**
  * Created by sjeongus on 10/29/15.
@@ -15,9 +16,10 @@ public class AddTaskActivityTest extends ActivityInstrumentationTestCase2<AddTas
     private EditText mTitle;
     private EditText mDescription;
     private EditText mValue;
-    private EditText mDuration;
+    private EditText mDeadline;
     private Button mCreateButton;
     private Button mCancelButton;
+    private Solo solo;
 
     public AddTaskActivityTest() {
         super(AddTaskActivity.class);
@@ -31,11 +33,10 @@ public class AddTaskActivityTest extends ActivityInstrumentationTestCase2<AddTas
         mTitle = (EditText) mActivity.findViewById(R.id.title);
         mDescription = (EditText) mActivity.findViewById(R.id.description);
         mValue = (EditText)mActivity.findViewById(R.id.value);
-        mDuration = (EditText) mActivity.findViewById(R.id.duration);
+        mDeadline = (EditText) mActivity.findViewById(R.id.deadline);
         mCreateButton = (Button) mActivity.findViewById(R.id.create);
         mCancelButton = (Button) mActivity.findViewById(R.id.cancel);
-
-        testPreconditions();
+        solo = new Solo(getInstrumentation(), getActivity());
     }
 
     public void testPreconditions() {
@@ -43,8 +44,16 @@ public class AddTaskActivityTest extends ActivityInstrumentationTestCase2<AddTas
         assertNotNull("mTitle is null", mTitle);
         assertNotNull("mDescription is null", mDescription);
         assertNotNull("mValue is null", mValue);
-        assertNotNull("mDuration is null", mDuration);
         assertNotNull("mCreateButton is null", mCreateButton);
         assertNotNull("mCancelButton is null", mCancelButton);
     }
+
+    public void testCreateTask() {
+        solo.enterText(mTitle, "Test task");
+        solo.enterText(mDescription, "Test description");
+        solo.enterText(mValue, "5");
+        solo.enterText(mDeadline, "2016-11-25");
+        solo.clickOnText("Create");
+    }
+
 }
