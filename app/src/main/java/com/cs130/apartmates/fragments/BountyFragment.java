@@ -112,7 +112,7 @@ public class BountyFragment extends Fragment implements BaseFragment {
     }
 
     @Override
-    public void addTask(String deadline, String title, int value, String details) {
+    public void addTask(String deadline, String title, int value, String details, String state) {
         mAdapter.getManager().addTask(mId, gId, value, deadline, title, details);
         mAdapter.notifyDataSetChanged();
     }

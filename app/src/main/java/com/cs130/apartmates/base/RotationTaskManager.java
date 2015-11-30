@@ -27,8 +27,9 @@ public class RotationTaskManager {
         m_member_list = new ArrayList<Long>();
     }
 
-    public void populateTask(long tid, long user_id, int points, String deadline, String title, String description) {
-        m_task_list.add(new RotationTask(tid, points, deadline, user_id, title, description));
+    public void populateTask(long tid, long user_id, int points, String deadline,
+                             String title, String description, String state) {
+        m_task_list.add(new RotationTask(tid, points, deadline, user_id, title, description, state));
     }
 
     public int getNumTasks() {
@@ -37,6 +38,14 @@ public class RotationTaskManager {
 
     public RotationTask getTask(int index) {
         return m_task_list.get(index);
+    }
+
+    public int getSize() {
+        return m_task_list.size();
+    }
+
+    public void setState(String state, int position) {
+        m_task_list.get(position).setState(state);
     }
 
     // Returns a task at the virtual index specified given a user's id that specifies their virtual task list
@@ -72,7 +81,8 @@ public class RotationTaskManager {
     }
 
     //Assign a user to the task initially and the rotation will be dependent on the apartment list.
-    public void addTask(long user_id, long gid, int points, String deadline, String title, String description) {
+    public void addTask(long user_id, long gid, int points, String deadline, String title,
+                        String description, String state) {
         try {
             HashMap<String, String> params = new HashMap<String, String>();
             params.put("userId", Long.toString(user_id));
@@ -87,7 +97,8 @@ public class RotationTaskManager {
                     null, "POST");
             System.err.println("Create task RESP: " + resp);
             if (resp.has("task_id")) {
-                populateTask(resp.getLong("task_id"),user_id, points, deadline, title, description);
+                populateTask(resp.getLong("task_id"),user_id, points, deadline, title,
+                        description, state);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -119,6 +130,7 @@ public class RotationTaskManager {
                 for (RotationTask rt : m_task_list){
                     if (rt.getId() == id) {
                         rt.activateTask();
+                        rt.setState("activated");
                         break;
                     }
                 }
@@ -131,12 +143,16 @@ public class RotationTaskManager {
     }
 
     //Complete task will increment the points of the current users and set the task to complete state.
-    public boolean completeTask(long tid) {
+    public boolean completeTask(int index, long uid) {
         try {
-            JSONObject resp = ApartmatesHttpClient.sendRequest(completeTaskUrl + tid, null, null, "POST");
+            HashMap<String, String> params = new HashMap<String, String>();
+            params.put("userId", Long.toString(uid));
+            params.put("taskId", Long.toString(m_task_list.get(index).getId()));
+            JSONObject resp = ApartmatesHttpClient.sendRequest(completeTaskUrl, params, null, "POST");
             System.err.println("Complete task RESP: " + resp);
-            if (resp.has("success") && resp.get("success") == "true") {
-                return rotate(tid);
+            if (resp.has("points")) {
+                m_task_list.get(index).setState("pending");
+                return true;
             }
         } catch (Exception e) {
             e.printStackTrace();

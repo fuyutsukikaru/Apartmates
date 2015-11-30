@@ -192,19 +192,21 @@ public class MainActivity extends AppCompatActivity {
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        menuItem.setChecked(true);
                         switch (menuItem.getItemId()) {
                             case R.id.nav_my_tasks:
+                                menuItem.setChecked(true);
                                 mViewPager.setCurrentItem(0, true);
                                 ab.setTitle(adapter.getPageTitle(0));
                                 mPosition = 0;
                                 break;
                             case R.id.nav_rotation:
+                                menuItem.setChecked(true);
                                 mViewPager.setCurrentItem(1, true);
                                 ab.setTitle(adapter.getPageTitle(1));
                                 mPosition = 1;
                                 break;
                             case R.id.nav_bounty:
+                                menuItem.setChecked(true);
                                 mViewPager.setCurrentItem(2, true);
                                 ab.setTitle(adapter.getPageTitle(2));
                                 mPosition = 2;
@@ -212,6 +214,16 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.group_page:
                                 Intent intent = new Intent(MainActivity.this, GroupInfoActivity.class);
                                 startActivity(intent);
+                                break;
+                            case R.id.log_out:
+                                pref.edit().remove("userId").apply();
+                                pref.edit().remove("groupId").apply();
+                                pref.edit().remove("userPic").apply();
+                                pref.edit().remove("userName").apply();
+                                Intent nIntent = new Intent(MainActivity.this, LoginActivity.class);
+                                startActivity(nIntent);
+                                finish();
+                                break;
                             default:
                                 break;
                         }
@@ -231,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
             String details = intent.getStringExtra("task_details");
 
             BaseFragment frag = (BaseFragment) adapter.getItem(mPosition);
-            frag.addTask(deadline, title, value, details);
+            frag.addTask(deadline, title, value, details, "pending");
         } else if (intent != null && intent.hasExtra("left_group")) {
             Intent ni = new Intent(this, GroupCreateActivity.class);
             startActivity(ni);

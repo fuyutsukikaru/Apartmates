@@ -25,9 +25,10 @@ public class RotationTask implements Task{
 
     private String m_title;
     private String m_description;
+    private String m_current_state;
 
     public RotationTask(long id, int points, String time_limit, long assignee,
-                String title, String description) {
+                String title, String description, String state) {
         m_id = id;
         m_points = points;
         m_title = title;
@@ -40,6 +41,8 @@ public class RotationTask implements Task{
         m_penalty_state = new PenaltyTaskState(this);
         m_completed_state = new CompletedTaskState(this);
         m_state = m_pending_state;
+
+        m_current_state = state;
     }
 
     //Getters
@@ -49,6 +52,7 @@ public class RotationTask implements Task{
     public String getTitle() {return m_title;}
     public String getDescription() {return m_description;}
     public TaskState getCurrentState() { return m_state;}
+    public String getState() { return m_current_state; }
 
     public TaskState getPendingState(){ return m_pending_state;}
     public TaskState getActivatedState(){ return m_active_state;}
@@ -68,9 +72,13 @@ public class RotationTask implements Task{
     }
 
     //Activates the state and records the time started.
-    public boolean activateTask(){
+    public boolean activateTask() {
         m_time_started = new Date().getTime();
-        return m_state.activateTask();
+        return true;
+    }
+
+    public void setState(String state) {
+        m_current_state = state;
     }
 
     public boolean setToBounty(){

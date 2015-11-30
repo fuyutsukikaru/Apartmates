@@ -1,7 +1,10 @@
 package com.cs130.apartmates.base.tasks;
 
+import java.text.DateFormat;
+
 import com.cs130.apartmates.base.taskstates.*;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class BountyTask implements Task {
@@ -37,7 +40,19 @@ public class BountyTask implements Task {
     public long getId() { return m_id; }
     public int getPoints() { return m_points; }
     public long getCreator() { return m_creator; }
-    public String getDeadline() { return m_deadline; }
+    public String getDeadline() {
+        String deadline;
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date date = format.parse(m_deadline);
+            SimpleDateFormat nf = new SimpleDateFormat("MM/dd");
+            deadline = nf.format(date);
+        } catch(Exception e) {
+            deadline = null;
+        }
+        System.err.println(deadline);
+        return deadline;
+    }
     public String getTitle() { return m_title; }
     public String getDescription() { return m_description; }
 

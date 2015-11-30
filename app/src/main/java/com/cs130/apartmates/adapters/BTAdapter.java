@@ -82,10 +82,10 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
         Integer val = new Integer(bt.getPoints());
         taskViewHolder.taskValue.setText(val.toString());
         taskViewHolder.taskDescription.setText(bt.getDescription());
+        taskViewHolder.taskDeadline.setText(bt.getDeadline());
 
         final int fPos = position;
-        long creatorId = bt.getCreator();
-        if (mId == creatorId) {
+        if (mId == id) {
             taskViewHolder.action.setText("Drop");
             taskViewHolder.action.setBackgroundResource(R.color.colorButtonNegate);
             taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
@@ -93,6 +93,7 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
                 public void onClick(View v) {
                     bountyTaskManager.dropTask(mId, fPos);
                     notifyItemRemoved(fPos);
+                    notifyItemRangeChanged(fPos, bountyTaskManager.getSize());
                 }
             });
         } else {
@@ -103,8 +104,9 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
                 public void onClick(View v) {
                     //final int val = bountyTaskManager.getTask(fPos).getPoints();
                     //mBf.addPoints(val);
-                    bountyTaskManager.claimTask(fPos);
+                    bountyTaskManager.claimTask(mId, fPos);
                     notifyItemRemoved(fPos);
+                    notifyItemRangeChanged(fPos, bountyTaskManager.getSize());
                 }
             });
         }
@@ -125,6 +127,7 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
         TextView taskName;
         TextView taskValue;
         TextView taskDescription;
+        TextView taskDeadline;
         Button action;
         ImageView pic;
 
@@ -136,6 +139,7 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
             taskDescription = (TextView) itemView.findViewById(R.id.task_description);
             action = (Button) itemView.findViewById(R.id.button);
             pic = (ImageView) itemView.findViewById(R.id.profile_pic);
+            taskDeadline = (TextView ) itemView.findViewById(R.id.task_duration);
         }
     }
 }

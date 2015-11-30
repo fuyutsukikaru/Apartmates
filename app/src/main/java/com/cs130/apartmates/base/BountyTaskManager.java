@@ -12,7 +12,7 @@ public class BountyTaskManager {
 
     private String createTaskUrl = "/task/create";
     private String dropTaskUrl = "/task";
-    private String completeTaskUrl = "/task/complete?taskId=";
+    private String completeTaskUrl = "/task/complete";
 
     public BountyTaskManager() {
         m_task_list = new ArrayList<BountyTask>();
@@ -23,6 +23,10 @@ public class BountyTaskManager {
     }
 
     public int getNumTasks() {
+        return m_task_list.size();
+    }
+
+    public int getSize() {
         return m_task_list.size();
     }
 
@@ -71,11 +75,13 @@ public class BountyTaskManager {
         }
     }
 
-    public boolean claimTask(int index) {
+    public boolean claimTask(long uid, int index) {
         try {
-            BountyTask bt = m_task_list.get(index);
-            JSONObject resp = ApartmatesHttpClient.sendRequest(completeTaskUrl + bt.getId(), null, null, "POST");
-            if (resp.has("user_id")) {
+            HashMap<String, String> params = new HashMap<String, String>();
+            params.put("userId", Long.toString(uid));
+            params.put("taskId", Long.toString(m_task_list.get(index).getId()));
+            JSONObject resp = ApartmatesHttpClient.sendRequest(completeTaskUrl, params, null, "POST");
+            if (resp.has("points")) {
                 m_task_list.remove(index);
                 return true;
             } else {
