@@ -38,7 +38,6 @@ public class RotationTask implements Task{
         m_points = points;
         m_title = title;
         m_description = description;
-        m_assignee = assignee;
         m_time_limit = time_limit;
         m_deadline = deadline;
 
