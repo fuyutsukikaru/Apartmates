@@ -49,8 +49,6 @@ public class GroupCreateActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
-        ab.setDisplayShowHomeEnabled(true);
 
         Button create = (Button) findViewById(R.id.create);
         Button join = (Button) findViewById(R.id.join);
