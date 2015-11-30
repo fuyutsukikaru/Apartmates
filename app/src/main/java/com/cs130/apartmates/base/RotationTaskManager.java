@@ -27,9 +27,9 @@ public class RotationTaskManager {
         m_member_list = new ArrayList<Long>();
     }
 
-    public void populateTask(long tid, long user_id, int points, String time_limit, String deadline,
+    public void populateTask(long tid, int points, String time_limit, String deadline,
                              String title, String description, String state) {
-        m_task_list.add(new RotationTask(tid, points, time_limit, deadline, user_id, title, description, state));
+        m_task_list.add(new RotationTask(tid, points, time_limit, deadline, title, description, state));
     }
 
     public int getNumTasks() {
@@ -97,7 +97,7 @@ public class RotationTaskManager {
                     null, "POST");
             System.err.println("Create task RESP: " + resp);
             if (resp.has("task_id")) {
-                populateTask(resp.getLong("task_id"),user_id, points, null, deadline, title,
+                populateTask(resp.getLong("task_id"), points, null, deadline, title,
                         description, state);
             }
         } catch (Exception e) {

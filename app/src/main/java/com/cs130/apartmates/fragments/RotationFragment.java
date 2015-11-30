@@ -72,8 +72,8 @@ public class RotationFragment extends Fragment implements BaseFragment {
                     for (int i = 0; i != tasklist.length(); i++) {
                         JSONObject task = tasklist.getJSONObject(i);
 
-                        mAdapter.getManager().populateTask(task.getLong("task_id"), mId, task.getInt("value"),
-                                task.getString("time_limit"), task.getString("deadline"), task.getString("title"), task.getString("description"),
+                        mAdapter.getManager().populateTask(task.getLong("task_id"), task.getInt("value"),
+                                task.getString("time_limit"), task.getString("title"), task.getString("description"),
                                 task.getString("state"));
                     }
                 }

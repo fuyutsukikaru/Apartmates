@@ -32,7 +32,7 @@ public class RotationTask implements Task{
     private String m_description;
     private String m_current_state;
 
-    public RotationTask(long id, int points, String time_limit, String deadline, long assignee,
+    public RotationTask(long id, int points, String time_limit, String deadline,
                 String title, String description, String state) {
         m_id = id;
         m_points = points;
