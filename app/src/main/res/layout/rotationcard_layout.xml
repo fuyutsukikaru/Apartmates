@@ -113,7 +113,7 @@
                     <ImageView
                         android:id="@+id/profile_pic"
                         android:layout_width="fill_parent"
-                        android:layout_height="50dp"
+                        android:layout_height="0dp"
                         android:src="@drawable/ghost"
                         android:longClickable="false"
                         android:nestedScrollingEnabled="false"
@@ -132,6 +132,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
                     android:layout_weight="1">
 
                     <TextView

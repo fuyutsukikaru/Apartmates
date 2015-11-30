@@ -99,12 +99,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:layout_marginEnd="8dp"
                 android:visibility="gone">
 
                 <ImageView
                     android:id="@+id/profile_pic"
-                    android:layout_width="fill_parent"
-                    android:layout_height="50dp"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:src="@drawable/ghost"
                     android:longClickable="false"
                     android:nestedScrollingEnabled="false"
