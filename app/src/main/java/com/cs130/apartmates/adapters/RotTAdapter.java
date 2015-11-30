@@ -106,6 +106,7 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
             if (rt.getAssignee() == mId) { //user is assigned to this task
                 if (curState.equals("pending")) { //task is waiting for someone to say it needs to be done
                     taskViewHolder.action.setText("Activate");
+                    button.setEnabled(true);
                     taskViewHolder.action.setBackgroundResource(R.color.colorButtonClicked);
                     taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -117,6 +118,7 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
                     });
                 } else if (curState.equals("activated")) { //task is active; timer is ticking
                     taskViewHolder.action.setText("Done");
+                    button.setEnabled(true);
                     taskViewHolder.action.setBackgroundResource(R.color.colorButton);
                     taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -128,6 +130,7 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
                     });
                 } else if (curState.equals("penalty")) { //task is in penalty mode
                     taskViewHolder.action.setText("Claim");
+                    button.setEnabled(true);
                     taskViewHolder.action.setBackgroundResource(R.color.colorButton);
                     taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -142,6 +145,7 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
             } else { //user is NOT assigned to this task
                 if (curState.equals("pending")) { //task is waiting for someone to say it needs to be done
                     taskViewHolder.action.setText("Activate");
+                    button.setEnabled(true);
                     taskViewHolder.action.setBackgroundResource(R.color.colorButtonClicked);
                     taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -156,6 +160,7 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
                     taskViewHolder.action.setBackgroundResource(R.color.colorButtonGrey);
                 } else if (curState.equals("penalty")) { //task is in penalty mode
                     taskViewHolder.action.setText("Claim");
+                    button.setEnabled(true);
                     taskViewHolder.action.setBackgroundResource(R.color.colorButton);
 
                     taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
