@@ -76,116 +76,113 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
     // it is the user's task.
     @Override
     public void onBindViewHolder(final RotTAdapter.TaskViewHolder taskViewHolder, int position) {
-        final int pos = position;
-        RotationTask rt = rotationTaskManager.getTask(position);
-        taskViewHolder.taskName.setText(rt.getTitle());
-        final Integer val = new Integer(rt.getPoints());
-        long id = rt.getAssignee();
-        String url = getProfilePic(id);
-        Picasso.with(context).load(url).into(taskViewHolder.pic);
-        Button button = taskViewHolder.action;
-        taskViewHolder.taskValue.setText(val.toString());
-        taskViewHolder.taskDescription.setText(rt.getDescription());
-        taskViewHolder.delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                rotationTaskManager.dropTask(mId, rotationTaskManager.getTask(pos).getId(), pos);
-                notifyItemRemoved(pos);
-                notifyItemRangeChanged(pos, rotationTaskManager.getSize());
+        try {
+            final int pos = position;
+            RotationTask rt = rotationTaskManager.getTask(position);
+            taskViewHolder.taskName.setText(rt.getTitle());
+            final Integer val = new Integer(rt.getPoints());
+            long id = ApartmatesHttpClient.sendRequest("/task?taskId=" + rt.getId(), null, null, "GET").getLong("agent_id");
+            String url = getProfilePic(id);
+            Picasso.with(context).load(url).into(taskViewHolder.pic);
+            Button button = taskViewHolder.action;
+            taskViewHolder.taskValue.setText(val.toString());
+            taskViewHolder.taskDescription.setText(rt.getDescription());
+            taskViewHolder.delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    rotationTaskManager.dropTask(mId, rotationTaskManager.getTask(pos).getId(), pos);
+                    notifyItemRemoved(pos);
+                    notifyItemRangeChanged(pos, rotationTaskManager.getSize());
+                }
+            });
+
+            String curState = rt.getState();
+            final long tid = rt.getId();
+
+            if (rt.getAssignee() == mId) { //user is assigned to this task
+                if (curState.equals("pending")) { //task is waiting for someone to say it needs to be done
+                    taskViewHolder.action.setText("Activate");
+                    taskViewHolder.action.setBackgroundResource(R.color.colorButtonClicked);
+                    //TODO: some kind of color scheme?
+                    taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            rotationTaskManager.activateTask(tid);
+                            notifyItemChanged(pos);
+                        }
+                    });
+                } else if (curState.equals("activated")) { //task is active; timer is ticking
+                    taskViewHolder.action.setText("Done");
+                    taskViewHolder.action.setBackgroundResource(R.color.colorButton);
+                    //TODO: color? add some kind of timer interface too?
+                    taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            rotationTaskManager.completeTask(pos, mId);
+                            notifyItemChanged(pos);
+                        }
+                    });
+                } else if (curState.equals("penalty")) { //task is in penalty mode
+                    taskViewHolder.action.setText("Claim");
+                    taskViewHolder.action.setBackgroundResource(R.color.colorButton);
+                    //TODO: color?
+                    taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            rotationTaskManager.completeTask(pos, mId);
+                            notifyItemChanged(pos);
+                        }
+                    });
+                }
+
+            } else { //user is NOT assigned to this task
+                if (curState.equals("pending")) { //task is waiting for someone to say it needs to be done
+                    taskViewHolder.action.setText("Activate");
+                    taskViewHolder.action.setBackgroundResource(R.color.colorButtonClicked);
+                    //TODO: color?
+                } else if (curState.equals("activated")) { //task is active; timer is ticking
+                    taskViewHolder.action.setText("Active");
+                    button.setEnabled(false);
+                    taskViewHolder.action.setBackgroundResource(R.color.colorButtonGrey);
+                    //TODO: color?
+                } else if (curState.equals("penalty")) { //task is in penalty mode
+                    taskViewHolder.action.setText("Claim");
+                    taskViewHolder.action.setBackgroundResource(R.color.colorButton);
+
+                    taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            //did we already deduct from offending user? if not, we may need to do it here
+                            //let's talk about this
+
+                            rotationTaskManager.completeTask(pos, mId);
+                            notifyItemChanged(pos);
+                        }
+                    });
+                }
             }
-        });
 
-        String curState = rt.getState();
-        final long tid = rt.getId();
-
-        if (rt.getAssignee() == mId) { //user is assigned to this task
-            if (curState.equals("pending")) { //task is waiting for someone to say it needs to be done
-                taskViewHolder.action.setText("Activate");
-                taskViewHolder.action.setBackgroundResource(R.color.colorButtonClicked);
-                //TODO: some kind of color scheme?
-                taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        rotationTaskManager.activateTask(tid);
-                        notifyItemChanged(pos);
-                    }
-                });
-            } else if (curState.equals("activated")) { //task is active; timer is ticking
-                taskViewHolder.action.setText("Done");
-                taskViewHolder.action.setBackgroundResource(R.color.colorButton);
-                //TODO: color? add some kind of timer interface too?
-                taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        rotationTaskManager.completeTask(pos, mId);
-                        notifyItemChanged(pos);
-                    }
-                });
-            } else if (curState.equals("penalty")) { //task is in penalty mode
-                taskViewHolder.action.setText("Claim");
-                taskViewHolder.action.setBackgroundResource(R.color.colorButton);
-                //TODO: color?
-                taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        rotationTaskManager.completeTask(pos, mId);
-                        notifyItemChanged(pos);
-                    }
-                });
+            if (curState.equals("activated")) {
+                long hrsRemaining = rt.getDuration();
+                if (hrsRemaining >= 24) {
+                    long daysRemaining = hrsRemaining / 24;
+                    String dur = Long.toString(daysRemaining);
+                    dur = dur.concat("d");
+                    taskViewHolder.taskDuration.setText(dur);
+                } else {
+                    String dur = Long.toString(hrsRemaining);
+                    dur = dur.concat("h");
+                    taskViewHolder.taskDuration.setText(dur);
+                }
+            } else if (curState.equals("penalty")) {
+                taskViewHolder.taskDuration.setText("Exp");
+            } else {
+                taskViewHolder.taskDuration.setText("");
             }
 
-        } else { //user is NOT assigned to this task
-            if (curState.equals("pending")) { //task is waiting for someone to say it needs to be done
-                taskViewHolder.action.setText("Activate");
-                taskViewHolder.action.setBackgroundResource(R.color.colorButtonClicked);
-                //TODO: color?
-            } else if (curState.equals("activated")) { //task is active; timer is ticking
-                taskViewHolder.action.setText("Active");
-                button.setEnabled(false);
-                taskViewHolder.action.setBackgroundResource(R.color.colorButtonGrey);
-                //TODO: color?
-            } else if (curState.equals("penalty")) { //task is in penalty mode
-                taskViewHolder.action.setText("Claim");
-                taskViewHolder.action.setBackgroundResource(R.color.colorButton);
-
-                taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        //did we already deduct from offending user? if not, we may need to do it here
-                        //let's talk about this
-
-                        rotationTaskManager.completeTask(pos, mId);
-                        notifyItemChanged(pos);
-                    }
-                });
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-
-        if (curState.equals("activated")) {
-            long hrsRemaining = rt.getDuration();
-            if (hrsRemaining >= 24) {
-                long daysRemaining =  hrsRemaining/24;
-                String dur = Long.toString(daysRemaining);
-                dur = dur.concat("d");
-                taskViewHolder.taskDuration.setText(dur);
-            }
-            else {
-                String dur = Long.toString(hrsRemaining);
-                dur = dur.concat("h");
-                taskViewHolder.taskDuration.setText(dur);
-            }
-        }
-
-        else if (curState.equals("penalty")) {
-            taskViewHolder.taskDuration.setText("Exp");
-        }
-
-        else {
-            taskViewHolder.taskDuration.setText("");
-        }
-
-
-
     }
 
     @Override

@@ -27,13 +27,12 @@ public class RotationTask implements Task{
     private String m_description;
     private String m_current_state;
 
-    public RotationTask(long id, int points, String time_limit, long assignee,
+    public RotationTask(long id, int points, String time_limit,
                 String title, String description, String state) {
         m_id = id;
         m_points = points;
         m_title = title;
         m_description = description;
-        m_assignee = assignee;
         m_time_limit = time_limit;
 
         m_pending_state = new PendingTaskState(this);
