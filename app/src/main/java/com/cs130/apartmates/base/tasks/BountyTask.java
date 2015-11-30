@@ -6,6 +6,7 @@ import com.cs130.apartmates.base.taskstates.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class BountyTask implements Task {
     //Getters
@@ -42,10 +43,10 @@ public class BountyTask implements Task {
     public long getCreator() { return m_creator; }
     public String getDeadline() {
         String deadline;
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
         try {
             Date date = format.parse(m_deadline);
-            SimpleDateFormat nf = new SimpleDateFormat("MM/dd");
+            SimpleDateFormat nf = new SimpleDateFormat("MM/dd", Locale.US);
             deadline = nf.format(date);
         } catch(Exception e) {
             deadline = null;

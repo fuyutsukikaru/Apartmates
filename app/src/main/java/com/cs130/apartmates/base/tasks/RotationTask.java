@@ -7,7 +7,11 @@ import com.cs130.apartmates.base.taskstates.PendingTaskState;
 import com.cs130.apartmates.base.taskstates.TaskState;
 import com.cs130.apartmates.base.users.User;
 
+import java.text.SimpleDateFormat;
+import java.util.AbstractMap;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class RotationTask implements Task{
     //Getters
@@ -16,6 +20,7 @@ public class RotationTask implements Task{
     private long m_assignee;
     private long m_time_started;
     private String m_time_limit;
+    private String m_deadline;
 
     private TaskState m_state;
     private PendingTaskState m_pending_state;
@@ -27,7 +32,7 @@ public class RotationTask implements Task{
     private String m_description;
     private String m_current_state;
 
-    public RotationTask(long id, int points, String time_limit, long assignee,
+    public RotationTask(long id, int points, String time_limit, String deadline, long assignee,
                 String title, String description, String state) {
         m_id = id;
         m_points = points;
@@ -35,6 +40,7 @@ public class RotationTask implements Task{
         m_description = description;
         m_assignee = assignee;
         m_time_limit = time_limit;
+        m_deadline = deadline;
 
         m_pending_state = new PendingTaskState(this);
         m_active_state = new ActiveTaskState(this);
@@ -62,10 +68,20 @@ public class RotationTask implements Task{
 
     //change to return the number of hours remaining before the task expires
     public long getDuration() {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
+        try {
+            Date deadline = format.parse(m_deadline);
+            Long time_limit = Long.parseLong(m_time_limit);
+            m_time_started = deadline.getTime() - time_limit * 24 * 60 * 60 * 1000;
+        } catch(Exception e) {
+            e.printStackTrace();
+            m_time_started = 0;
+        }
+
         if (m_time_started < 0) {
             throw new IllegalStateException("PendingTaskState: Time in current state was never set");
         }
-        return (new Date().getTime() - m_time_started);
+        return (Calendar.getInstance().getTimeInMillis() - m_time_started) / (1000 * 60 * 60);
     }
     public void setAssignee(long assignee) {
         m_assignee = assignee;

@@ -75,7 +75,7 @@ public class MyTasksFragment extends Fragment implements BaseFragment {
                     for (int i = 0; i != tasklist.length(); i++) {
                         JSONObject task = tasklist.getJSONObject(i);
 
-                        mAdapter.getManager().populateTask(task.getLong("id"), mId, task.getInt("value"),
+                        mAdapter.getManager().populateTask(task.getLong("id"), mId, task.getInt("value"), task.getString("time_limit"),
                                 task.getString("deadline"), task.getString("title"), task.getString("description"),
                                 task.getString("state"));
                     }
