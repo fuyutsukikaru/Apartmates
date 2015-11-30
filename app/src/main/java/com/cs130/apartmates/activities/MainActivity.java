@@ -191,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
         name.setText(pref.getString("userName", "Username"));
 
         TextView groupName = (TextView) header.findViewById(R.id.group_name);
-        if(pref.contains("groupName")) {
+        if (pref.contains("groupName")) {
             groupName.setText(pref.getString("groupName", "Group Name"));
         }
         else {
@@ -298,6 +298,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreateOptionsMenu(menu);
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_tasks, menu);
+
+        JSONObject resp = ApartmatesHttpClient.sendRequest("/user?userId=" + mId, null, null, "GET");
+        try {
+            if (resp != null && resp.has("points")) {
+                MenuItem points = menu.findItem(R.id.point_count);
+                points.setTitle(resp.getString("points"));
+            }
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
 
         return true;
     }

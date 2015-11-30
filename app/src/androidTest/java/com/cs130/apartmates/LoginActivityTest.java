@@ -1,6 +1,7 @@
 package com.cs130.apartmates;
 
 import android.test.ActivityInstrumentationTestCase2;
+
 import com.cs130.apartmates.activities.LoginActivity;
 
 /**

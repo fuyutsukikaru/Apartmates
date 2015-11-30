@@ -54,6 +54,8 @@ public class BountyFragment extends Fragment implements BaseFragment {
         mId = prefs.getLong("userId", 1);
 
         mAdapter = new BTAdapter(this, getContext(),  mId);
+        mRecyclerView.setAdapter(mAdapter);
+        refresh();
 
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -106,9 +108,6 @@ public class BountyFragment extends Fragment implements BaseFragment {
         super.onCreateOptionsMenu(menu, inflater);
 
         points = menu.findItem(R.id.point_count);
-
-        mRecyclerView.setAdapter(mAdapter);
-        refresh();
     }
 
     @Override

@@ -145,7 +145,7 @@ public class RotationTaskManager {
     }
 
     //Complete task will increment the points of the current users and set the task to complete state.
-    public boolean completeTask(int index, long uid) {
+    public int completeTask(int index, long uid) {
         try {
             HashMap<String, String> params = new HashMap<String, String>();
             params.put("userId", Long.toString(uid));
@@ -154,12 +154,12 @@ public class RotationTaskManager {
             System.err.println("Complete task RESP: " + resp);
             if (resp.has("points")) {
                 m_task_list.get(index).setState("pending");
-                return true;
+                return resp.getInt("points");
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return false;
+        return -9999;
     }
 
 

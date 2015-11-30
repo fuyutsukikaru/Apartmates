@@ -2,6 +2,7 @@ package com.cs130.apartmates.adapters;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -34,8 +35,10 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
     private RotationTaskManager rotationTaskManager;
     private Context context;
     private RotationFragment frag;
+    private SharedPreferences prefs;
 
     public RotTAdapter(Context context, RotationFragment f, long id) {
+        prefs = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
         rotationTaskManager = new RotationTaskManager();
         mId = id;
         this.context = context;
@@ -166,7 +169,8 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
                     taskViewHolder.action.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            rotationTaskManager.completeTask(pos, mId);
+                            int points = rotationTaskManager.completeTask(pos, mId);
+                            prefs.edit().putInt("userPoints", points).apply();
                             notifyItemChanged(pos);
                         }
                     });

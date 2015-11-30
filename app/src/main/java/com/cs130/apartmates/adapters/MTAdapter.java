@@ -16,10 +16,6 @@ import com.cs130.apartmates.base.ApartmatesHttpClient;
 import com.cs130.apartmates.base.BountyTaskManager;
 import com.cs130.apartmates.base.RotationTaskManager;
 import com.cs130.apartmates.base.tasks.RotationTask;
-import com.cs130.apartmates.base.taskstates.ActiveTaskState;
-import com.cs130.apartmates.base.taskstates.PenaltyTaskState;
-import com.cs130.apartmates.base.taskstates.PendingTaskState;
-import com.cs130.apartmates.base.taskstates.TaskState;
 import com.cs130.apartmates.fragments.MyTasksFragment;
 import com.squareup.picasso.Picasso;
 

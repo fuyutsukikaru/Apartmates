@@ -3,7 +3,6 @@ package com.cs130.apartmates;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.Button;
 import android.widget.EditText;
-import android.view.View;
 
 import com.cs130.apartmates.activities.AddRoTaskActivity;
 import com.robotium.solo.Solo;

@@ -1,6 +1,5 @@
 package com.cs130.apartmates;
 
-import android.app.ActionBar;
 import android.graphics.Point;
 import android.support.v7.widget.Toolbar;
 import android.test.ActivityInstrumentationTestCase2;

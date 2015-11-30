@@ -75,7 +75,7 @@ public class BountyTaskManager {
         }
     }
 
-    public boolean claimTask(long uid, int index) {
+    public int claimTask(long uid, int index) {
         try {
             HashMap<String, String> params = new HashMap<String, String>();
             params.put("userId", Long.toString(uid));
@@ -83,13 +83,13 @@ public class BountyTaskManager {
             JSONObject resp = ApartmatesHttpClient.sendRequest(completeTaskUrl, params, null, "POST");
             if (resp.has("points")) {
                 m_task_list.remove(index);
-                return true;
+                return resp.getInt("points");
             } else {
-                return false;
+                return -9999;
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return -9999;
         }
     }
 

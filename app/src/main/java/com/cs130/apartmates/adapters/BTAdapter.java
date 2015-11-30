@@ -1,6 +1,7 @@
 package com.cs130.apartmates.adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -29,9 +30,11 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
     private BountyTaskManager bountyTaskManager;
     private long mId;
     private BountyFragment mBf;
+    private SharedPreferences prefs;
     private Context context;
 
     public BTAdapter(BountyFragment bf, Context context, long id) {
+        prefs = context.getSharedPreferences("user_prefs", Context.MODE_PRIVATE);
         bountyTaskManager = new BountyTaskManager();
         mId = id;
         mBf = bf;
@@ -104,7 +107,10 @@ public class BTAdapter extends RecyclerView.Adapter<BTAdapter.TaskViewHolder> {
                 public void onClick(View v) {
                     //final int val = bountyTaskManager.getTask(fPos).getPoints();
                     //mBf.addPoints(val);
-                    bountyTaskManager.claimTask(mId, fPos);
+                    int points = bountyTaskManager.claimTask(mId, fPos);
+                    if (points != -9999) {
+                        prefs.edit().putInt("userPoints", points).apply();
+                    }
                     notifyItemRemoved(fPos);
                     notifyItemRangeChanged(fPos, bountyTaskManager.getSize());
                 }
