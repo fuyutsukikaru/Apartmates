@@ -89,7 +89,6 @@ public class RotationTask implements Task{
 
     //Activates the state and records the time started.
     public boolean activateTask() {
-        m_time_started = new Date().getTime();
         return true;
     }
 

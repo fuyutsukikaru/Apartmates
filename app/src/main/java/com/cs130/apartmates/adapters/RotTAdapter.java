@@ -133,6 +133,7 @@ public class RotTAdapter extends RecyclerView.Adapter<RotTAdapter.TaskViewHolder
                         public void onClick(View v) {
                             rotationTaskManager.completeTask(pos, mId);
                             notifyItemChanged(pos);
+                            frag.refresh();
                         }
                     });
                 }
